@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding= "UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ 
+<mapper namespace="egovframework.security.office.dao.SecurityOfficeDAO">
+ 
+  
+ 
+    <select id="selectDeptDao" resultType="egovframework.security.dto.DeptDTO">
+        SELECT DEPTNO, DEPTNAME FROM DEPT ORDER BY DEPTNO ASC
+    </select>
+ 
+    <insert id="insertDeptDao" parameterType="egovframework.security.dto.DeptDTO">
+        INSERT into DEPT (deptNo, deptName) values(#{deptNo}, #{deptName})
+    </insert>
+    
+</mapper>
