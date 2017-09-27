@@ -208,5 +208,7 @@ public class EgovSampleController {
 		status.setComplete();
 		return "forward:/egovSampleList.do";
 	}
+	
+
 
 }

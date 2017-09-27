@@ -5,18 +5,26 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+	
 	<security:http auto-config="true">
-		<security:form-login login-page="/loginForm.do"
-						authentication-failure-url="/loginForm.do?fail"/>
 		<security:intercept-url pattern="/login.do*" access="ROLE_USER"/>
+		<security:intercept-url pattern="/officeSecurityForm.do*" access="ROLE_USER"/>
+		<security:intercept-url pattern="/officeSecurityCheck.do*" access="ROLE_USER"/>
+		<security:intercept-url pattern="/updateDeptForm.do*" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/updateDeptCheck.do*" access="ROLE_ADMIN"/>
 		<security:intercept-url pattern="/manage.do*" access="ROLE_ADMIN"/>
+		<security:form-login login-page="/loginForm.do"
+						authentication-failure-url="/loginForm.do?fail"
+						username-parameter="j_username"
+						password-parameter="j_password"
+						/>
 	</security:http>
 	
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:user-service>
-				<security:user name="user" password="5198" authorities="ROLE_USER"/>
-				<security:user name="admin" password="5198" authorities="ROLE_ADMIN, ROLE_USER"/>
+				<security:user name="limjihun204@naver.com" password="5198" authorities="ROLE_USER"/>
+				<security:user name="limjihun205@naver.com" password="5198" authorities="ROLE_ADMIN, ROLE_USER"/>
 			</security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager>
