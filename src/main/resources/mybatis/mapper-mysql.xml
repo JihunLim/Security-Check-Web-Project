@@ -22,19 +22,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <!-- 사무실보안점검DB DAO_Mapper-->
     <select id="selectOfficeSecurityDao" resultType="egovframework.security.dto.OfficeSecurityDTO">
-        SELECT * FROM OfficeSecurity ORDER BY os_date ASC
+        SELECT * FROM officesecurity ORDER BY os_datetime DESC	
     </select>
  
     <insert id="insertOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
-        INSERT into OfficeSecurity values(default, #{os_empemail}, #{os_deptcode}, #{os_document}, #{os_clean}, #{os_lightout}, #{os_ventilation}, #{os_door}, #{os_etc}, default)
+        INSERT into officesecurity values(default, #{os_empemail}, #{os_deptcode}, #{os_document}, #{os_clean}, #{os_lightout}, #{os_ventilation}, #{os_door}, #{os_etc}, default)
     </insert>
     
     <update id="updateOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
-    	UPDATE OfficeSecurity set os_document=#{os_document},os_clean=#{os_clean},os_lightout=#{os_lightout},os_ventilation=#{os_ventilation},os_door=#{os_door},os_etc=#{os_etc},os_checktime=#{os_checktime} where os_date = #{os_date} and os_deptcode = #{os_deptcode}
+    	UPDATE officesecurity set os_document=#{os_document},os_clean=#{os_clean},os_lightout=#{os_lightout},os_ventilation=#{os_ventilation},os_door=#{os_door},os_etc=#{os_etc},os_checktime=#{os_checktime} where os_date = #{os_date} and os_deptcode = #{os_deptcode}
     </update>
     
     <delete id="deleteOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
-    	DELETE FROM OfficeSecurity WHERE os_date = #{os_date} and os_deptcode = #{os_deptcode}
+    	DELETE FROM officesecurity WHERE os_date = #{os_date} and os_deptcode = #{os_deptcode}
     </delete>    
     
     <select id="findDeptDao" parameterType="String" resultType="hashmap">

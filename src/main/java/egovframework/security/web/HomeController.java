@@ -71,32 +71,18 @@ public class HomeController {
 				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 				
 				 OfficeSecurityDTO officeDTO;
-				 System.out.print("1\n");
 				 //정보 가지고 오기
 				request.setCharacterEncoding("EUC-KR");
 			    //Date os_date = (Date) new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("os_date"));
-			    System.out.print("2\n");
 				String os_empemail = request.getParameter("os_empemail"); //직원번호
-				System.out.print("2.5\n");
 				int os_document = Integer.parseInt(request.getParameter("os_document"));
 				int os_clean = Integer.parseInt(request.getParameter("os_clean"));
 				int os_lightout = Integer.parseInt(request.getParameter("os_lightout"));
 				int os_ventilation = Integer.parseInt(request.getParameter("os_ventilation"));
 				int os_door = Integer.parseInt(request.getParameter("os_door"));
 				String os_etc = request.getParameter("os_etc");
-				System.out.print("3\n");
-				
-				System.out.println("메일주소 : "+os_empemail);
-//				EmployeeDTO empDto = (EmployeeDTO) dao.findDeptDao(os_empemail);
-				System.out.print("4\n");
-//				if (empDto.getEmp_deptcode() == 0){
-//					System.out.print("해당 이메일 정보를 찾을 수 없습니다.\n");
-//					return null;
-//				}
-				//int temp = dao.findDeptDao(os_empemail);//부서번호
 				System.out.println(dao.findDeptDao(os_empemail));
 				HashMap map = dao.findDeptDao(os_empemail);
-				//System.out.print("temp : "+temp);
 				int os_deptcode = (Integer) map.get("emp_deptcode");
 			    System.out.print("officeSecurityCheck가 실행됐습니다 : " + os_document);
 			    //정보를 가지고 와서 db에 입력
@@ -144,6 +130,29 @@ public class HomeController {
 		@RequestMapping("/mainmenu.do")
 		public String mainMenu(Model model) throws Exception {
 			return "menu/mainmenu";
+		}
+		
+		/**
+		 * 사무실 보안점검 - 최종퇴실자 또는 당직근무자 선택 
+		 */
+		@RequestMapping("/officeSecurityChoice.do")
+		public String menuChoice(Model model) throws Exception {
+			return "menu/officeSecurityChoice";
+		}
+		
+		/**
+		 * 사무실보안점검 리스트 조회 
+		 */
+		@RequestMapping("/listOfficeSecurity.do")
+		public String listOfficeSecurity(Model model) throws Exception {
+			try{
+				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+		        model.addAttribute("list", dao.selectOfficeSecurityDao());
+		        System.out.print("listOfficeSecurity");
+			}catch(Exception exp){
+				System.out.println(exp);
+			}
+				return "list/listOfficeSecurity";
 		}
 		
 		

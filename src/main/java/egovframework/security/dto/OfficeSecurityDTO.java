@@ -14,6 +14,11 @@ public class OfficeSecurityDTO {
 	private int os_door;
 	private String os_etc;
 	private Timestamp os_datetime;
+	
+	public OfficeSecurityDTO(){
+		
+	}
+	
 	/**
 	 * @param os_id
 	 * @param os_empemail
