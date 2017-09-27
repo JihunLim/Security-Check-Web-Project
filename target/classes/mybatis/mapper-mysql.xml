@@ -42,6 +42,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <!-- 당직근무일지DB DAO_Mapper-->
+    <select id="selectWatchKeepingDao" resultType="egovframework.security.dto.WatchKeepingDTO">
+        SELECT * FROM watchkeeping ORDER BY wk_datetime DESC	
+    </select>
+ 
+    <insert id="insertWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
+        INSERT into watchkeeping values(default, default, #{wk_empemail}, #{wk_indication}, #{wk_measure}, #{wk_na}, #{wk_nb}, #{wk_nc}, #{wk_nd}, #{wk_ne}, #{wk_nf}, #{wk_ng}, #{wk_nh}, #{wk_ni}, #{wk_specificity}, #{wk_report}, #{wk_delivery})
+    </insert>
+    
+    <update id="updateWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
+    	UPDATE watchkeeping set wk_empemail=#{wk_empemail},wk_measure=#{wk_measure},wk_na=#{wk_na},wk_nb=#{wk_nb},wk_nc=#{wk_nc},wk_nd=#{wk_nd},wk_ne=#{wk_ne},wk_nf=#{wk_nf},wk_ng=#{wk_ng},wk_nh=#{wk_nh},wk_ni=#{wk_ni},wk_specificity=#{wk_specificity},wk_report=#{wk_report},wk_delivery=#{wk_delivery} where wk_id = #{wk_id}
+    </update>
+    
+    <delete id="deleteWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
+    	DELETE FROM watchkeeping WHERE wk_id = #{wk_id} 
+    </delete>
+    
+    
     
     <!-- 관리자DB DAO_Mapper-->
     

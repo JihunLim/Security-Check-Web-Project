@@ -11,7 +11,7 @@
 	
 	<h2>일일 보안점검</h2>
 	<a href="officeSecurityChoice.do">사무실 보안점검 작성(당직자용 남음)</a><br /><br />
-	<a href="#">당직근무일지 작성 (미완성)</a><br /><br />
+	<a href="watchKeepingForm.do">당직근무일지 작성 (작성중...)</a><br /><br />
 	
 	<h2>보안 점검조회</h2>
 	<a href="listOfficeSecurity.do">보안점검 조회</a><br /><br />

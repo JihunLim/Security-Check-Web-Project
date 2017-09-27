@@ -5,6 +5,7 @@ import java.util.List;
 
 import egovframework.security.dto.DeptDTO;
 import egovframework.security.dto.OfficeSecurityDTO;
+import egovframework.security.dto.WatchKeepingDTO;
 
 public interface SecurityOfficeDAO {
 
@@ -31,9 +32,13 @@ public interface SecurityOfficeDAO {
     public void deleteOfficeSecurityDao(OfficeSecurityDTO data);
     //부서 찾아주기
     public HashMap findDeptDao(String data);
+    
     /*
      * 당직근무일지DB
      */
-    
+    public List<WatchKeepingDTO> selectWatchKeepingDao();
+    public void insertWatchKeepingDao(WatchKeepingDTO data);
+    public void updateWatchKeepingDao(WatchKeepingDTO data);
+    public void deleteWatchKeepingDao(WatchKeepingDTO data);
 
 }

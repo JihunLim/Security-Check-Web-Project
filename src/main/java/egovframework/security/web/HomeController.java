@@ -8,12 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import egovframework.security.dto.DeptDTO;
 import egovframework.security.dto.OfficeSecurityDTO;
+import egovframework.security.dto.WatchKeepingDTO;
 import egovframework.security.office.dao.SecurityOfficeDAO;
 
 @Controller
@@ -88,7 +90,6 @@ public class HomeController {
 			    //정보를 가지고 와서 db에 입력
 			    
 			    officeDTO = new OfficeSecurityDTO(os_empemail, os_deptcode, os_document, os_clean, os_lightout, os_ventilation, os_door, os_etc);
-			    System.out.print("5\n");
 			    dao.insertOfficeSecurityDao(officeDTO);
 			}catch(Exception exp){
 				System.out.println(exp.getMessage());
@@ -155,10 +156,56 @@ public class HomeController {
 				return "list/listOfficeSecurity";
 		}
 		
+		/**
+		 * 사무실보안점검 리스트 DB에 저장
+		 */
+		@RequestMapping("/watchKeepingForm.do")
+		public String watchKeepingForm(Model model) throws Exception {
+			return "security/watchKeepingForm";
+		}
 		
 		
-		
-		
+		/**
+		 * 사무실보안점검 리스트 DB에 저장
+		 */
+		@RequestMapping("/watchKeepingCheck.do")
+		public String watchKeepingCheck(HttpServletRequest request, Model model) throws Exception {
+			String resultPage = "forward:/";
+			try{
+				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+				
+				 WatchKeepingDTO wkDTO;
+				 //정보 가지고 오기
+				request.setCharacterEncoding("EUC-KR");
+			    //Date os_date = (Date) new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("os_date"));
+				String wk_empemail = request.getParameter("wk_empemail"); //직원번호
+				String wk_indication = request.getParameter("wk_indication"); //직원번호
+				String wk_measure = request.getParameter("wk_measure"); //직원번호
+				int wk_na = Integer.parseInt(request.getParameter("wk_na"));
+				int wk_nb = Integer.parseInt(request.getParameter("wk_nb"));
+				int wk_nc = Integer.parseInt(request.getParameter("wk_nc"));
+				int wk_nd = Integer.parseInt(request.getParameter("wk_nd"));
+				int wk_ne = Integer.parseInt(request.getParameter("wk_ne"));
+				int wk_nf = Integer.parseInt(request.getParameter("wk_nf"));
+				int wk_ng = Integer.parseInt(request.getParameter("wk_ng"));
+				int wk_nh = Integer.parseInt(request.getParameter("wk_nh"));
+				int wk_ni = Integer.parseInt(request.getParameter("wk_ni"));
+				String wk_specificity = request.getParameter("wk_specificity");
+				String wk_report = request.getParameter("wk_report");
+				String wk_delivery = request.getParameter("wk_delivery");
+			    System.out.print("watchKeepingForm이 실행됐습니다 : ");
+			    //정보를 가지고 와서 db에 입력
+			    
+			    wkDTO = new WatchKeepingDTO(wk_empemail, wk_indication, wk_measure, wk_na, wk_nb, wk_nc, wk_nd, wk_ne, wk_nf, wk_ng, wk_nh, wk_ni, wk_specificity, wk_report, wk_delivery);
+			    
+			    dao.insertWatchKeepingDao(wkDTO);
+			}catch(Exception exp){
+				System.out.println(exp.getMessage());
+				resultPage = "cmmn/dataAccessFailure";
+			}
+			return resultPage;
+		}
+	
 		
 		
 		
