@@ -8,15 +8,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!--  #안에 있는 건 jsp내 form 안에 name 태그 설정 값을 써주면 됨 -->
  	<!-- 부서DB DAO_Mapper-->
     <select id="selectDeptDao" resultType="egovframework.security.dto.DeptDTO">
-        SELECT DEPTNO, DEPTNAME FROM DEPT ORDER BY DEPTNO ASC
+        SELECT DEPTNO, DEPTNAME FROM dept ORDER BY DEPTNO ASC
     </select>
  
     <insert id="insertDeptDao" parameterType="egovframework.security.dto.DeptDTO">
-        INSERT into DEPT (deptName) values(#{deptName})
+        INSERT into dept (deptName) values(#{deptName})
     </insert>
     
     <delete id="deleteDeptDao" parameterType="egovframework.security.dto.DeptDTO">
-    	DELETE FROM DEPT WHERE DEPTNO = #{DEPTNO}
+    	DELETE FROM dept WHERE DEPTNO = #{DEPTNO}
     </delete>
     
     
