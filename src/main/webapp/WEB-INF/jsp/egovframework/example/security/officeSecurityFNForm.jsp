@@ -11,7 +11,7 @@
         //submit
         function checkForm() {
                //값에 대한 검사 : 브라우저 내부에서...
-               if(document.officeSecurityForm.name.value == ""){
+               if(document.officeSecurityFNForm.name.value == ""){
                        alert("부서이름이 없습니다.");
                        return false;          //onsubmit의 경우 return false를 줘야지 전달을 하지 않음!
                }       
@@ -21,19 +21,28 @@
 <body>
 
 	<h2>사무실 보안점검</h2>
-	<h4>(최종퇴실자 용)</h4>
-	
-	
+	<h4>(당직근무자 용)</h4>
 		<%String context = request.getContextPath();%>
-        <form name="officeSecurityForm" method="post" action="<%=context%>/officeSecurityCheck.do" onsubmit="return checkForm()">    
+        <form name="officeSecurityFNForm" method="post" action="<%=context%>/officeSecurityFNCheck.do" onsubmit="return checkForm()">    
 
         <!-- onsubmit : <input type="submit" /> 이 작동할때 검사-->
             
-                         <input type="hidden" name="os_empemail" value=<s:authentication property="name"/>><br /> 
-                        
+                       <input type="hidden" name="os_empemail" value=<s:authentication property="name"/>><br /> 
+                         부서번호 : <select name="os_deptcode">
+						  <option value="1">a 부서</option>
+						  <option value="2">b 부서</option>
+						  <option value="3">c 부서</option>
+						  <option value="4">d 부서</option>
+						  <option value="5">e 부서</option>
+						  <option value="6">f 부서</option>
+						  <option value="7">g 부서</option>
+						  <option value="8">h 부서</option>
+						  <option value="9">i 부서</option>
+					  </select><br /><br />  
+					  
                          서류보관상태 : 미흡<input type="radio" name="os_document" value="0">
- 		                           보통<input type="radio" name="os_document" value="1">
- 		                           양호<input type="radio" name="os_document" value="2"><br /><br />  
+ 		                              보통<input type="radio" name="os_document" value="1">
+ 		                              양호<input type="radio" name="os_document" value="2"><br /><br />   
  		                           
                          청소상태 :  미흡<input type="radio" name="os_clean" value="0">
  		                           보통<input type="radio" name="os_clean" value="1">
@@ -51,8 +60,8 @@
  		                           보통<input type="radio" name="os_door" value="1">
  		                           양호<input type="radio" name="os_door" value="2"><br /><br />    
  		                           
-                           비고  <br /> 
-               <textarea rows="5" cols="30" name="os_etc"></textarea><br /><br /> 
+                           비고 <br />
+                         <textarea rows="5" cols="30" name="os_etc"></textarea><br /><br /> 
                            
                <input type="submit" value="확인" />
                <input type="reset" value="취소" />

@@ -9,6 +9,6 @@
 <body>
 
 	<a href="officeSecurityForm.do"><img src="images/egovframework/security/btn1.png" alt="최종퇴실자용으로 이동"/></a>
-	<a href="officeSecurityForm.do"><img src="images/egovframework/security/btn2.png" alt="당직근무자용으로 이동"/></a>
+	<a href="officeSecurityFNForm.do"><img src="images/egovframework/security/btn2.png" alt="당직근무자용으로 이동"/></a>
 </body>
 </html>

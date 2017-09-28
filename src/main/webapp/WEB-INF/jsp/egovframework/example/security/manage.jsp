@@ -12,6 +12,7 @@
 	<tr>
 		<td>번호</td>
 		<td>부서이름</td>
+		<td>삭제</td>
 	<tr>
 	<c:forEach items="${list}" var="dto">
 	<tr>
@@ -21,6 +22,6 @@
 	<tr>
 	</c:forEach>
 </table>
-<p><a href="#">관리자 추가</a></p>
+
 </body>
 </html>

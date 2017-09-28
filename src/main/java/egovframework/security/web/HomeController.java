@@ -1,6 +1,7 @@
 package egovframework.security.web;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -8,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +55,7 @@ public class HomeController {
 	
 	 
 		/**
-		 * 사무실 보안점검 페이지
+		 * 사무실 보안점검 페이지(최종퇴실자 용)
 		 */
 		@RequestMapping("/officeSecurityForm.do")
 		public String officeSecurityForm(Model model) throws Exception {
@@ -64,39 +64,131 @@ public class HomeController {
 		}
 		
 		/**
-		 * 사무실 보안점검 데이터 db에 저장
+		 * 사무실 보안점검 데이터 db에 저장(최종퇴실자 용)
 		 */
 		@RequestMapping("/officeSecurityCheck.do")
 		public String officeSecurityCheck(HttpServletRequest request, Model model) throws Exception {
+			
 			String resultPage = "forward:/";
-			try{
-				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-				
-				 OfficeSecurityDTO officeDTO;
-				 //정보 가지고 오기
+			
+			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+			
+			 OfficeSecurityDTO officeDTO;
+			 try {
+			 	//정보 가지고 오기
 				request.setCharacterEncoding("EUC-KR");
-			    //Date os_date = (Date) new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("os_date"));
 				String os_empemail = request.getParameter("os_empemail"); //직원번호
 				int os_document = Integer.parseInt(request.getParameter("os_document"));
+				//int os_deptcode = Integer.parseInt(request.getParameter("os_deptcode"));
 				int os_clean = Integer.parseInt(request.getParameter("os_clean"));
 				int os_lightout = Integer.parseInt(request.getParameter("os_lightout"));
 				int os_ventilation = Integer.parseInt(request.getParameter("os_ventilation"));
 				int os_door = Integer.parseInt(request.getParameter("os_door"));
 				String os_etc = request.getParameter("os_etc");
-				System.out.println(dao.findDeptDao(os_empemail));
 				HashMap map = dao.findDeptDao(os_empemail);
 				int os_deptcode = (Integer) map.get("emp_deptcode");
-			    System.out.print("officeSecurityCheck가 실행됐습니다 : " + os_document);
-			    //정보를 가지고 와서 db에 입력
-			    
-			    officeDTO = new OfficeSecurityDTO(os_empemail, os_deptcode, os_document, os_clean, os_lightout, os_ventilation, os_door, os_etc);
-			    dao.insertOfficeSecurityDao(officeDTO);
-			}catch(Exception exp){
-				System.out.println(exp.getMessage());
-				resultPage = "cmmn/dataAccessFailure";
+				System.out.println("officeSecurityCheck가 실행됐습니다 : " + os_empemail);
+				officeDTO = new OfficeSecurityDTO(os_empemail, os_deptcode, os_document, os_clean, os_lightout, os_ventilation, os_door, os_etc);
+				
+				//실행하는 날짜의 데이터가 있는지 확인
+				 HashMap OSMap = (HashMap)dao.selectOfficeSecurityWithDateDao(os_deptcode);
+					//지금 실시하고자 하는 최종퇴실자의 부서번호와 이미 db에 입력되어있는 부서번호를 비교하여 -> 있으면 : update 및 alert() 발생 / 없으면 : insert
+					if (OSMap == null) {
+						// 데이터가 없을 시
+						System.out.println("기존 데이터가 없음");
+						dao.insertOfficeSecurityDao(officeDTO);
+					} else {
+						// 데이터가 있을 시
+						// 기존 입력한 유저가 당직근무자면 에러발생, 최종퇴실자면 정상진행(os_empemail은 수정금지)
+						System.out.println("기존 데이터가 있음");
+						//if 당직근무자 이메일과 여기 db의 이메일이 동일하면 에러발생, 그렇지 않으면 수정가능(단, os_empemail은 수정금지)
+						//당직근무자 이메일(fnUser)
+						String fnUser = dao.selectEmpFNDao().get(0);
+						System.out.println("오늘 당직자 : " + fnUser);
+						officeDTO = new OfficeSecurityDTO((Integer) OSMap.get("os_id"), os_empemail, os_deptcode, os_document, os_clean, os_lightout, os_ventilation, os_door, os_etc);
+						if (fnUser.equals((String)OSMap.get("os_empemail"))){
+							//당직근무자가 이미 사무실보안점검을 한 경우
+							dao.updateOfficeSecurityDao(officeDTO);
+						}
+						else {
+							//다른 최종퇴실자가 처리를 한 경우 
+							//그래도 수정하는지 alert 발생 처리
+							//~~~
+							dao.updateOfficeSecurityDao(officeDTO);
+						}
+					}
+				} catch (Exception exp) {
+					System.out.println("예외처리 메시지 : " + exp.getCause());
+					resultPage = "cmmn/dataAccessFailure";
+				}
+				return resultPage;
 			}
-			return resultPage;
+		
+		/**
+		 * 사무실 보안점검 페이지(당직자 용)
+		 */
+		@RequestMapping("/officeSecurityFNForm.do")
+		public String officeSecurityFNForm(Model model) throws Exception {
+		
+			return "security/officeSecurityFNForm";
 		}
+		
+		/**
+		 * 사무실 보안점검 데이터 db에 저장(당직자 용)
+		 */
+		@RequestMapping("/officeSecurityFNCheck.do")
+		public String officeSecurityFNCheck(HttpServletRequest request, Model model) throws Exception {
+			
+			String resultPage = "forward:/";
+			
+			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+			
+			 OfficeSecurityDTO officeDTO;
+			 try {
+				 	//정보 가지고 오기
+					request.setCharacterEncoding("EUC-KR");
+					String os_empemail = request.getParameter("os_empemail"); //직원번호
+					int os_document = Integer.parseInt(request.getParameter("os_document"));
+					int os_deptcode = Integer.parseInt(request.getParameter("os_deptcode"));
+					int os_clean = Integer.parseInt(request.getParameter("os_clean"));
+					int os_lightout = Integer.parseInt(request.getParameter("os_lightout"));
+					int os_ventilation = Integer.parseInt(request.getParameter("os_ventilation"));
+					int os_door = Integer.parseInt(request.getParameter("os_door"));
+					String os_etc = request.getParameter("os_etc");
+					System.out.println("officeSecurityCheck가 실행됐습니다 : " + os_empemail);
+					officeDTO = new OfficeSecurityDTO(os_empemail, os_deptcode, os_document, os_clean, os_lightout, os_ventilation, os_door, os_etc);
+					 
+					//실행하는 날짜의 데이터가 있는지 확인
+					 HashMap OSMap = (HashMap) dao.selectOfficeSecurityWithDateDao(os_deptcode);
+					if (OSMap == null) {
+						// 데이터가 없을 시
+						System.out.println("기존 데이터가 없음");
+						dao.insertOfficeSecurityDao(officeDTO);
+					} else {
+						// 데이터가 있을 시
+						// 기존 입력한 유저가 당직근무자면 에러발생, 최종퇴실자면 정상진행(os_empemail은 수정금지)
+						System.out.println("기존 데이터가 있음");
+						System.out.println(OSMap);
+						//if 당직근무자 이메일과 여기 db의 이메일이 동일하면 에러발생, 그렇지 않으면 수정가능(단, os_empemail은 수정금지)
+						//당직근무자 이메일(fnUser)
+						String fnUser = dao.selectEmpFNDao().get(0);
+						System.out.println("당직자 : "+fnUser);
+						if (fnUser.equals((String)OSMap.get("os_empemail"))){
+							//당직근무자가 이미 사무실보안점검을 한 경우
+							throw new Exception("당직근무자 중복실시 방지");
+						}
+						else {
+							//최종퇴실자가 이미 사무실보안점검을 한 경우
+							officeDTO = new OfficeSecurityDTO((Integer) OSMap.get("os_id"), (String)OSMap.get("os_empemail"), os_deptcode, os_document, os_clean, os_lightout, os_ventilation, os_door, os_etc);
+							dao.updateOfficeSecurityDao(officeDTO);
+						}
+					}
+				} catch (Exception exp) {
+					System.out.println("예외처리 메시지 : " + exp.getMessage());
+					resultPage = "cmmn/dataAccessFailure";
+				}
+				return resultPage;
+			}		
 		
 		/**
 		 * 부서항목 관리 페이지
@@ -138,7 +230,20 @@ public class HomeController {
 		 */
 		@RequestMapping("/officeSecurityChoice.do")
 		public String menuChoice(Model model) throws Exception {
+//			String resultPage = "/";
+//			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+//			// 당직자면 당직자페이지로, 아니면 최종퇴실자페이지로 이동
+//			String fnUser = dao.selectEmpFNDao().get(0);
+//			if (fnUser.equals(내 id)){
+//				//당직자면
+//				resultPage = "forward:/officeSecurityFNCheck.do";
+//			}else{
+//				resultPage = "forward:/officeSecurityCheck.do";
+//			}
+			
+			
 			return "menu/officeSecurityChoice";
+			//return resultPage;
 		}
 		
 		/**

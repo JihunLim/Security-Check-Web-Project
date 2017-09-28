@@ -4,6 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
  
 <mapper namespace="egovframework.security.office.dao.SecurityOfficeDAO">
+	<!-- 테이블 이름을 대문자로 변경시 오류발생! -->
  
     <!--  #안에 있는 건 jsp내 form 안에 name 태그 설정 값을 써주면 됨 -->
  	<!-- 부서DB DAO_Mapper-->
@@ -30,15 +31,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
     
     <update id="updateOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
-    	UPDATE officesecurity set os_document=#{os_document},os_clean=#{os_clean},os_lightout=#{os_lightout},os_ventilation=#{os_ventilation},os_door=#{os_door},os_etc=#{os_etc},os_checktime=#{os_checktime} where os_date = #{os_date} and os_deptcode = #{os_deptcode}
+    	UPDATE officesecurity set os_empemail=#{os_empemail},os_document=#{os_document},os_clean=#{os_clean},os_lightout=#{os_lightout},os_ventilation=#{os_ventilation},os_door=#{os_door},os_etc=#{os_etc},os_datetime=#{os_datetime} where os_id = #{os_id}
     </update>
     
     <delete id="deleteOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
-    	DELETE FROM officesecurity WHERE os_date = #{os_date} and os_deptcode = #{os_deptcode}
+    	DELETE FROM officesecurity WHERE os_id = #{os_id}
     </delete>    
     
     <select id="findDeptDao" parameterType="String" resultType="hashmap">
     	select emp_deptcode from employee where emp_email = #{param1}
+    </select>
+    
+    <select id="selectOfficeSecurityWithDateDao" parameterType="int" resultType="hashmap">
+    	select * from officesecurity where date(os_datetime) = date(now()) and os_deptcode = #{os_deptcode} 
     </select>
     
     <!-- 당직근무일지DB DAO_Mapper-->
@@ -59,7 +64,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
     
     
+    <!-- 회원DB DAO_Mapper-->
+    <select id="selectEmployeeDao" resultType="egovframework.security.dto.EmployeeDTO">
+    	select * from employee 
+    </select>
     
-    <!-- 관리자DB DAO_Mapper-->
+    <select id="selectEmpFNDao" resultType="String">
+    	select emp_email from employee where emp_watchkeeping = "y"
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
     
 </mapper>

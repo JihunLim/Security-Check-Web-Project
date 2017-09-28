@@ -20,6 +20,32 @@ public class OfficeSecurityDTO {
 	}
 	
 	/**
+	
+	 * @param os_empemail
+	 * @param os_deptcode
+	 * @param os_document
+	 * @param os_clean
+	 * @param os_lightout
+	 * @param os_ventilation
+	 * @param os_door
+	 * @param os_etc
+	 */
+	public OfficeSecurityDTO(String os_empemail, int os_deptcode,
+			int os_document, int os_clean, int os_lightout, int os_ventilation,
+			int os_door, String os_etc) {
+		super();
+		this.os_empemail = os_empemail;
+		this.os_deptcode = os_deptcode;
+		this.os_document = os_document;
+		this.os_clean = os_clean;
+		this.os_lightout = os_lightout;
+		this.os_ventilation = os_ventilation;
+		this.os_door = os_door;
+		this.os_etc = os_etc;
+	}
+	
+
+	/**
 	 * @param os_id
 	 * @param os_empemail
 	 * @param os_deptcode
@@ -29,9 +55,8 @@ public class OfficeSecurityDTO {
 	 * @param os_ventilation
 	 * @param os_door
 	 * @param os_etc
-	 * @param os_datetime
 	 */
-	public OfficeSecurityDTO(String os_empemail, int os_deptcode,
+	public OfficeSecurityDTO(int os_id, String os_empemail, int os_deptcode,
 			int os_document, int os_clean, int os_lightout, int os_ventilation,
 			int os_door, String os_etc) {
 		super();
@@ -44,8 +69,8 @@ public class OfficeSecurityDTO {
 		this.os_ventilation = os_ventilation;
 		this.os_door = os_door;
 		this.os_etc = os_etc;
-		this.os_datetime = os_datetime;
 	}
+
 	public int getOs_id() {
 		return os_id;
 	}

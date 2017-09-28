@@ -9,14 +9,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-		<s:authorize ifAnyGranted="ROLE_USER">
-		<p> is Log-in </p>
-	</s:authorize>
 	
-	<s:authorize ifNotGranted="ROLE_USER">
-		<p> is Log_Out</p>
-	</s:authorize>
-	
+	<!-- 로그인 정보 출력 -->
 	USER ID : <s:authentication property="name"/><br/>
 	<a href = "${pageContext.request.contextPath}/j_spring_security_logout">Log Out</a>
 	
@@ -31,7 +25,7 @@
 	<a href="listWatchKeeping.do">당직근무일지 조회 </a><br /><br />
 	<a href="#">S.M.A.R.T 보안솔루션 (미완성)</a><br /><br />
 	
-	<h2><a href="#">당직 근무표</a></h2><br /><br />
+	<h2><a href="#">당직 근무표(미완성)</a></h2><br /><br />
 	
 	<h1>관리자 메뉴</h1>
 	

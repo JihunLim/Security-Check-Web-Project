@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import egovframework.security.dto.DeptDTO;
+import egovframework.security.dto.EmployeeDTO;
 import egovframework.security.dto.OfficeSecurityDTO;
 import egovframework.security.dto.WatchKeepingDTO;
 
@@ -20,6 +21,17 @@ public interface SecurityOfficeDAO {
     public void deleteDeptDao(DeptDTO data);
     
     /*
+     * 회원DB
+     */
+    //회원정보 출력하기
+    public List<EmployeeDTO> selectEmployeeDao();
+    //회원중에 당직자 출력하기
+    public List<String> selectEmpFNDao();
+    //회원정보 수정하기
+    //public void updateEmployeeDao(EmployeeDTO data);
+    
+    
+    /*
      * 사무실보안점검DB
      */
     //사무실보안점검 출력하기
@@ -32,13 +44,19 @@ public interface SecurityOfficeDAO {
     public void deleteOfficeSecurityDao(OfficeSecurityDTO data);
     //부서 찾아주기
     public HashMap findDeptDao(String data);
+    //해당 날짜에 데이터가 있는지 확인
+    public HashMap selectOfficeSecurityWithDateDao(int data);
     
     /*
      * 당직근무일지DB
      */
+    //당직근무일지 출력하기
     public List<WatchKeepingDTO> selectWatchKeepingDao();
+    //당직근무일지 삽입하기
     public void insertWatchKeepingDao(WatchKeepingDTO data);
+    //당직근무일지 수정하기
     public void updateWatchKeepingDao(WatchKeepingDTO data);
+    //당직근무일지 삭제하기
     public void deleteWatchKeepingDao(WatchKeepingDTO data);
 
 }
