@@ -19,7 +19,6 @@
 		<td>환기</td>
 		<td>문단속</td>
 		<td>비고</td>
-		<td>삭제</td>
 		
 	<tr>
 	<c:forEach items="${list}" var="dto">
@@ -33,7 +32,7 @@
 		<td>${dto.os_ventilation}</td>
 		<td>${dto.os_door}</td>
 		<td>${dto.os_etc}</td>
-		<td><a href="delete?mId=${dto.os_id}">X</a></td>
+		
 	<tr>
 	</c:forEach>
 </table>

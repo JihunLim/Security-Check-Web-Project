@@ -206,7 +206,20 @@ public class HomeController {
 			return resultPage;
 		}
 	
-		
+		/**
+		 * 당직근무자 리스트 조회 
+		 */
+		@RequestMapping("/listWatchKeeping.do")
+		public String listWatchKeeping(Model model) throws Exception {
+			try{
+				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+		        model.addAttribute("list", dao.selectWatchKeepingDao());
+		        System.out.print("listWatchKeeping");
+			}catch(Exception exp){
+				System.out.println(exp.getMessage());
+			}
+				return "list/listWatchKeeping";
+		}
 		
 		
 		

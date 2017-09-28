@@ -21,9 +21,56 @@ public class WatchKeepingDTO {
 	private String wk_report;
 	private String wk_delivery;
 
-	public void WatchKeepingDTO(){
+	public WatchKeepingDTO(){
 		
 	}
+	
+
+	/**
+	 * @param wk_id
+	 * @param wk_datetime
+	 * @param wk_empemail
+	 * @param wk_indication
+	 * @param wk_measure
+	 * @param wk_na
+	 * @param wk_nb
+	 * @param wk_nc
+	 * @param wk_nd
+	 * @param wk_ne
+	 * @param wk_nf
+	 * @param wk_ng
+	 * @param wk_nh
+	 * @param wk_ni
+	 * @param wk_specificity
+	 * @param wk_report
+	 * @param wk_delivery
+	 */
+	public WatchKeepingDTO(int wk_id, Timestamp wk_datetime,
+			String wk_empemail, String wk_indication, String wk_measure,
+			int wk_na, int wk_nb, int wk_nc, int wk_nd, int wk_ne, int wk_nf,
+			int wk_ng, int wk_nh, int wk_ni, String wk_specificity,
+			String wk_report, String wk_delivery) {
+		super();
+		this.wk_id = wk_id;
+		this.wk_datetime = wk_datetime;
+		this.wk_empemail = wk_empemail;
+		this.wk_indication = wk_indication;
+		this.wk_measure = wk_measure;
+		this.wk_na = wk_na;
+		this.wk_nb = wk_nb;
+		this.wk_nc = wk_nc;
+		this.wk_nd = wk_nd;
+		this.wk_ne = wk_ne;
+		this.wk_nf = wk_nf;
+		this.wk_ng = wk_ng;
+		this.wk_nh = wk_nh;
+		this.wk_ni = wk_ni;
+		this.wk_specificity = wk_specificity;
+		this.wk_report = wk_report;
+		this.wk_delivery = wk_delivery;
+	}
+
+
 
 	/**
 	 * @param wk_id

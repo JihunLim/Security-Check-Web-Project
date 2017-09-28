@@ -7,13 +7,12 @@
 
 	
 	<security:http auto-config="true">
-		<security:intercept-url pattern="/login.do*" access="ROLE_USER"/>
-		<security:intercept-url pattern="/officeSecurityForm.do*" access="ROLE_USER"/>
-		<security:intercept-url pattern="/officeSecurityCheck.do*" access="ROLE_USER"/>
-		<security:intercept-url pattern="/watchKeepingForm.do*" access="ROLE_USER"/>
-		<security:intercept-url pattern="/watchKeepingCheck.do*" access="ROLE_USER"/>
+		<security:intercept-url pattern="/loginForm.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<security:intercept-url pattern="/updateDeptForm.do*" access="ROLE_ADMIN"/>
 		<security:intercept-url pattern="/updateDeptCheck.do*" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/**" access="ROLE_USER"/>
+		
+
 		<security:intercept-url pattern="/manage.do*" access="ROLE_ADMIN"/>
 		<security:form-login login-page="/loginForm.do"
 						authentication-failure-url="/loginForm.do?fail"
