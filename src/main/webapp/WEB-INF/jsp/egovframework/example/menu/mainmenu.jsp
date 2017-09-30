@@ -17,7 +17,7 @@
 	<h1>사용자 메뉴</h1>
 	
 	<h2>일일 보안점검</h2>
-	<a href="officeSecurityChoice.do">사무실 보안점검 작성(당직자용 남음)</a><br /><br />
+	<a href="officeSecurityChoice.do">사무실 보안점검 작성</a><br /><br />
 	<a href="watchKeepingForm.do">당직근무일지 작성 </a><br /><br />
 	
 	<h2>보안 점검조회</h2>
@@ -27,11 +27,15 @@
 	
 	<h2><a href="#">당직 근무표(미완성)</a></h2><br /><br />
 	
-	<h1>관리자 메뉴</h1>
+	<!-- 관리자의 경우에만 관리자 메뉴 출력 -->
+	<s:authorize access="hasAuthority('ROLE_ADMIN')">
+		<h1>관리자 메뉴</h1>
 	
-	<a href="updateDept.do">부서 업데이트</a><br /><br />
-	<a href="#">당직자 변경</a><br /><br />
-	<a href="#">보안담당자 변경</a><br /><br />
+		<a href="updateDept.do">부서 업데이트</a><br /><br />
+		<a href="#">당직자 변경</a><br /><br />
+		<a href="#">보안담당자 변경</a><br /><br />
+	</s:authorize>
+	
 	
 	
 </body>

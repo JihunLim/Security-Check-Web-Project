@@ -1,7 +1,6 @@
 package egovframework.security.web;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -9,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -230,20 +231,21 @@ public class HomeController {
 		 */
 		@RequestMapping("/officeSecurityChoice.do")
 		public String menuChoice(Model model) throws Exception {
-//			String resultPage = "/";
-//			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-//			// 당직자면 당직자페이지로, 아니면 최종퇴실자페이지로 이동
-//			String fnUser = dao.selectEmpFNDao().get(0);
-//			if (fnUser.equals(내 id)){
-//				//당직자면
-//				resultPage = "forward:/officeSecurityFNCheck.do";
-//			}else{
-//				resultPage = "forward:/officeSecurityCheck.do";
-//			}
-			
-			
-			return "menu/officeSecurityChoice";
-			//return resultPage;
+			String resultPage = "/";
+			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+			// 당직자면 당직자페이지로, 아니면 최종퇴실자페이지로 이동
+			String fnUser = dao.selectEmpFNDao().get(0); //fnUser : 오늘의 당직자 id 
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			System.out.println("로그인 정보 : " +auth.getDetails());
+			if (fnUser.equals(auth.getName())){
+				//당직자면
+				resultPage = "forward:/officeSecurityFNForm.do";
+			}else{
+				resultPage = "forward:/officeSecurityForm.do";
+			}
+
+			//return "menu/officeSecurityChoice";
+			return resultPage;
 		}
 		
 		/**

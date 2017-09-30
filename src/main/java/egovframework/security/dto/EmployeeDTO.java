@@ -19,6 +19,7 @@ public class EmployeeDTO {
 	private String emp_phone;
 	private String emp_watchkeeping;
 	private String emp_role;
+	private Boolean emp_enabled;
 	
 	public EmployeeDTO(){
 		
@@ -50,6 +51,34 @@ public class EmployeeDTO {
 		this.emp_phone = emp_phone;
 		this.emp_watchkeeping = emp_watchkeeping;
 		this.emp_role = emp_role;
+	}
+	
+	
+
+	/**
+	 * @param emp_email
+	 * @param emp_name
+	 * @param emp_pwd
+	 * @param emp_deptcode
+	 * @param emp_sex
+	 * @param emp_phone
+	 * @param emp_watchkeeping
+	 * @param emp_role
+	 * @param emp_enabled
+	 */
+	public EmployeeDTO(String emp_email, String emp_name, String emp_pwd,
+			int emp_deptcode, String emp_sex, String emp_phone,
+			String emp_watchkeeping, String emp_role, Boolean emp_enabled) {
+		super();
+		this.emp_email = emp_email;
+		this.emp_name = emp_name;
+		this.emp_pwd = emp_pwd;
+		this.emp_deptcode = emp_deptcode;
+		this.emp_sex = emp_sex;
+		this.emp_phone = emp_phone;
+		this.emp_watchkeeping = emp_watchkeeping;
+		this.emp_role = emp_role;
+		this.emp_enabled = emp_enabled;
 	}
 
 	public String getEmp_email() {
@@ -104,5 +133,14 @@ public class EmployeeDTO {
 	public void setEmp_role(String emp_role) {
 		this.emp_role = emp_role;
 	}
+
+	public Boolean getEmp_enabled() {
+		return emp_enabled;
+	}
+
+	public void setEmp_enabled(Boolean emp_enabled) {
+		this.emp_enabled = emp_enabled;
+	}
+	
 	
 }
