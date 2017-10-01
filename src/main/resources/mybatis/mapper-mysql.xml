@@ -74,7 +74,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <!-- 회원DB DAO_Mapper-->
     <select id="selectEmployeeDao" resultType="egovframework.security.dto.EmployeeDTO">
-    	select * from employee order by emp_watchkeeping DESC, emp_deptcode ASC
+    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_watchkeeping, deptName from employee, dept where dept.deptNo = employee.emp_deptcode order by emp_watchkeeping DESC, emp_deptcode ASC
+    </select>
+    
+    <select id="selectEmployeeNotManagerDao" resultType="egovframework.security.dto.EmployeeDTO">
+    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_watchkeeping, deptName from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role="ROLE_USER" order by emp_watchkeeping DESC, emp_deptcode ASC
     </select>
     
     <select id="selectEmpFNDao" resultType="String">
@@ -105,7 +109,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	select * from employee where emp_email = #{param1}
     </select>
     
+    <select id="selectAllManagerDao" resultType="egovframework.security.dto.EmployeeDTO">
+    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, deptName from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role = "ROLE_ADMIN"  ORDER BY emp_deptcode ASC
+    </select>
     
+    <update id="updateAuthEmpDao" parameterType="String">
+    	update employee set emp_role = "ROLE_USER" where emp_email = #{param1}
+    </update>
     
+    <update id="addManagerDao" parameterType="String">
+    	update employee set emp_role = "ROLE_ADMIN" where emp_email = #{param1}
+    </update>
     
+    <select id="countManagerDao" resultType="int">
+    	select count(*) from employee where emp_role = "ROLE_ADMIN"
+    </select>
 </mapper>

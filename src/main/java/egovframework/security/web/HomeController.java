@@ -3,6 +3,7 @@ package egovframework.security.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -443,6 +444,74 @@ public class HomeController {
 			}
 				return resultPage;
 		}
+		
+		/*
+		 * 보안담당자 관리updateManager.do
+		 */
+		@RequestMapping("/updateManager.do")
+		public String updateManager(HttpServletRequest request, Model model) throws Exception {
+			try{
+				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+				
+		        model.addAttribute("list", dao.selectAllManagerDao());
+			}catch(Exception exp){
+				System.out.println(exp.getMessage());
+			}
+				return "manage/updateManager";
+		}
+		
+		//관리자 권한 삭제
+		@RequestMapping("/deleteManagerCheck.do")
+		public String deleteManagerCheck(HttpServletRequest request, Model model) throws Exception {
+			String resultPage = "forward:/updateManager.do";
+
+			try{
+				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+				//정보 가지고 오기
+				String emp_email = request.getParameter("emp_email"); //부서이름
+				if (dao.countManagerDao() > 1){
+					dao.updateAuthEmpDao(emp_email);
+				} else{
+					//최소 관리자는 1명 이상이여야 하므로 경고 팝업 띄움
+					throw new Exception("관리자는 최소 1명 이상이여야 합니다.");
+				}
+				
+			}catch(Exception exp){
+				System.out.println(exp.getMessage());
+				resultPage = "cmmn/dataAccessFailure";
+			}
+				return resultPage;
+		}
+				
+		//관리자 권한 추가 addManagerForm.do	
+		@RequestMapping("/addManagerForm.do")
+	    public String addManagerForm(Locale locale, Model model) {
+			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+	        model.addAttribute("list", dao.selectEmployeeNotManagerDao());
+	        return "manage/addManagerForm";
+	     }
+		
+		@RequestMapping("/addManagerCheck.do")
+	    public String addManagerCheck(HttpServletRequest request, Model model) {
+	        //추가한 부서 insert 처리
+			String resultPage = "forward:/updateManager.do";
+			
+			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+			
+			 try {
+				 	//정보 가지고 오기
+					request.setCharacterEncoding("EUC-KR");
+					String[] emp_emailList = request.getParameterValues("emp_emails"); //추가시킬 이메일 리스트
+					for(String val : emp_emailList){
+						dao.addManagerDao((String)val);
+					}
+					
+				} catch (Exception exp) {
+					System.out.println("예외처리 메시지 : " + exp.getMessage());
+					resultPage = "cmmn/dataAccessFailure";
+				}
+				return resultPage;
+	     }
 		
 		
 

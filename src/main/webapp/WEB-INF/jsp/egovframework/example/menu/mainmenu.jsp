@@ -12,7 +12,7 @@
 	
 	<!-- 로그인 정보 출력 -->
 	<!-- USER ID : <s:authentication property="name"/><br/> -->
-	${deptName}  ${auth}  ${emp_name}님 안녕하세요. <br/>	
+	${deptName}  ${emp_name} (${auth})님 안녕하세요. <br/>	
 	<a href = "${pageContext.request.contextPath}/j_spring_security_logout">Log Out</a>
 	
 	<h1>사용자 메뉴</h1>

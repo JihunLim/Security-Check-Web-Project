@@ -20,6 +20,8 @@ public class EmployeeDTO {
 	private String emp_watchkeeping;
 	private String emp_role;
 	private Boolean emp_enabled;
+	//부서이름을 가져오기 위한 wrapper
+	private String deptName;
 	
 	public EmployeeDTO(){
 		
@@ -79,6 +81,37 @@ public class EmployeeDTO {
 		this.emp_watchkeeping = emp_watchkeeping;
 		this.emp_role = emp_role;
 		this.emp_enabled = emp_enabled;
+	}
+
+	
+
+	/**
+	 * @param emp_email
+	 * @param emp_name
+	 * @param emp_pwd
+	 * @param emp_deptcode
+	 * @param emp_sex
+	 * @param emp_phone
+	 * @param emp_watchkeeping
+	 * @param emp_role
+	 * @param emp_enabled
+	 * @param deptName
+	 */
+	public EmployeeDTO(String emp_email, String emp_name, String emp_pwd,
+			int emp_deptcode, String emp_sex, String emp_phone,
+			String emp_watchkeeping, String emp_role, Boolean emp_enabled,
+			String deptName) {
+		super();
+		this.emp_email = emp_email;
+		this.emp_name = emp_name;
+		this.emp_pwd = emp_pwd;
+		this.emp_deptcode = emp_deptcode;
+		this.emp_sex = emp_sex;
+		this.emp_phone = emp_phone;
+		this.emp_watchkeeping = emp_watchkeeping;
+		this.emp_role = emp_role;
+		this.emp_enabled = emp_enabled;
+		this.deptName = deptName;
 	}
 
 	public String getEmp_email() {
@@ -141,6 +174,13 @@ public class EmployeeDTO {
 	public void setEmp_enabled(Boolean emp_enabled) {
 		this.emp_enabled = emp_enabled;
 	}
-	
-	
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
 }

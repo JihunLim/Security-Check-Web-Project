@@ -8,21 +8,26 @@
 <title>Insert title here</title>
 </head>
 <body>
-ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹ
-	<table width="500" cellpadding="0" cellspacing="0" border="1">
+	<h1> 관리자 목록 페이지</h1>
+	<table  cellpadding="0" cellspacing="0" border="1">
 		<tr>
-			<td>번호</td>
-			<td>부서이름</td>
+			<td>이메일</td>
+			<td>이름</td>
+			<td>부서</td>
+			<td>전화번호</td>
+			<td>권한 삭제</td>
 		<tr>
 		<!-- c: 사용하려면 꼭 taglib 써줘야 함 -->
 		<c:forEach items="${list}" var="dto"> 
 		<tr>
-			<td>${dto.deptNo}</td>
+			<td>${dto.emp_email}</td>
+			<td>${dto.emp_name}</td>
 			<td>${dto.deptName}</td>
-			<td><a href="delete?mId=${dto.deptNo}">X</a></td>
+			<td>${dto.emp_phone}</td>
+			<td><a href="deleteManagerCheck.do?emp_email=${dto.emp_email}">X</a></td>
 		<tr>
 		</c:forEach>
 	</table>
-	<p><a href="#">관리자 추가</a></p>
+	<p><a href="addManagerForm.do">관리자 추가</a></p>
 </body>
 </html>

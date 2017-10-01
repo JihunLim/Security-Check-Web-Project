@@ -32,13 +32,20 @@ public interface SecurityOfficeDAO {
     public List<String> selectEmpFNDao();
     //관리자 이메일 출력하기
     public ArrayList<String> selectManagerDao();
+    //관리자 정보 출력하기
+    public List<EmployeeDTO> selectAllManagerDao();
     //회원이메일로 부서번호 출력
     public int selectDeptWithIdDao(String data);
     //회원이메일로 회원정보 출력
     public HashMap selectEmpWithIdDao(String data);
-    //회원정보 수정하기
-    //public void updateEmployeeDao(EmployeeDTO data);
-    
+    //회원 권한 삭제하기(수정)
+    public void updateAuthEmpDao(String data);
+    //회원 권한 추가하기(수정)
+    public void addManagerDao(String data);
+    //관리자 아닌 회원 출력하기
+    public List<EmployeeDTO> selectEmployeeNotManagerDao();
+    //관리자 수 출력
+    public int countManagerDao();
     
     /*
      * 사무실보안점검DB
