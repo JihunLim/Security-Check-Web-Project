@@ -29,15 +29,15 @@
             
                        <input type="hidden" name="os_empemail" value=<s:authentication property="name"/>><br /> 
                          부서번호 : <select name="os_deptcode">
-						  <option value="1">a 부서</option>
-						  <option value="2">b 부서</option>
-						  <option value="3">c 부서</option>
-						  <option value="4">d 부서</option>
-						  <option value="5">e 부서</option>
-						  <option value="6">f 부서</option>
-						  <option value="7">g 부서</option>
-						  <option value="8">h 부서</option>
-						  <option value="9">i 부서</option>
+						  <option value="1">경영기획본부</option>
+						  <option value="2">보건의료본부</option>
+						  <option value="3">고객지원본부</option>
+						  <option value="4">정보기술본부</option>
+						  <option value="5">희망복지중앙지원단</option>
+						  <option value="6">정보개발본부</option>
+						  <option value="7">복지정보본부</option>
+						  <option value="8">바우처관리본부</option>
+						  <option value="9">사회보장정보연구소</option>
 					  </select><br /><br />  
 					  
                          서류보관상태 : 미흡<input type="radio" name="os_document" value="0">

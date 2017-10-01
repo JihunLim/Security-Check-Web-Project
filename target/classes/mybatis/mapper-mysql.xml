@@ -9,7 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!--  #안에 있는 건 jsp내 form 안에 name 태그 설정 값을 써주면 됨 -->
  	<!-- 부서DB DAO_Mapper-->
     <select id="selectDeptDao" resultType="egovframework.security.dto.DeptDTO">
-        SELECT DEPTNO, DEPTNAME FROM dept ORDER BY DEPTNO ASC
+        SELECT DEPTNO, DEPTNAME FROM dept ORDER BY deptNo ASC
+    </select>
+ 
+ 	<select id="selectDeptNameDao" parameterType="int" resultType="String">
+        SELECT deptName FROM dept where deptNo = #{param1}
     </select>
  
     <insert id="insertDeptDao" parameterType="egovframework.security.dto.DeptDTO">
@@ -17,13 +21,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
     
     <delete id="deleteDeptDao" parameterType="egovframework.security.dto.DeptDTO">
-    	DELETE FROM dept WHERE DEPTNO = #{DEPTNO}
+    	DELETE FROM dept WHERE deptNo = #{deptNo}
     </delete>
     
     
     <!-- 사무실보안점검DB DAO_Mapper-->
     <select id="selectOfficeSecurityDao" resultType="egovframework.security.dto.OfficeSecurityDTO">
-        SELECT * FROM officesecurity ORDER BY os_datetime DESC	
+        SELECT * FROM officesecurity ORDER BY os_datetime DESC, os_deptcode ASC	
+    </select>
+    
+    <select id="selectOfficeSecurityWithDeptDao" parameterType="int" resultType="egovframework.security.dto.OfficeSecurityDTO">
+        SELECT * FROM officesecurity where os_deptcode = #{param1} ORDER BY os_datetime DESC
     </select>
  
     <insert id="insertOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
@@ -66,17 +74,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <!-- 회원DB DAO_Mapper-->
     <select id="selectEmployeeDao" resultType="egovframework.security.dto.EmployeeDTO">
-    	select * from employee 
+    	select * from employee order by emp_watchkeeping DESC, emp_deptcode ASC
     </select>
     
     <select id="selectEmpFNDao" resultType="String">
     	select emp_email from employee where emp_watchkeeping = "y"
     </select>
     
+    <update id="subWatchKeeperDao" parameterType="String">
+    	update employee set emp_watchkeeping = "n" where emp_email = #{param1}
+    </update>
+
+    <update id="addWatchKeeperDao" parameterType="String">
+    	update employee set emp_watchkeeping = "y" where emp_email = #{param1} 
+    </update>
     
+    <select id="countWatchKeeperDao" resultType="int">
+    	select count(*) from employee where emp_watchkeeping = "y"
+    </select>
     
+    <select id="selectManagerDao" resultType="String">
+    	select emp_email from employee where emp_role = "ROLE_ADMIN"
+   	</select>
     
+    <select id="selectDeptWithIdDao" parameterType="String" resultType="int">
+    	select emp_deptcode from employee where emp_email = #{param1}
+    </select>
     
+    <select id="selectEmpWithIdDao" parameterType="String" resultType="hashmap">
+    	select * from employee where emp_email = #{param1}
+    </select>
     
     
     

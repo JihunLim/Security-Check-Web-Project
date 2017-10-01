@@ -1,6 +1,7 @@
 package egovframework.security.web;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import egovframework.security.dto.DeptDTO;
+import egovframework.security.dto.EmployeeDTO;
 import egovframework.security.dto.OfficeSecurityDTO;
 import egovframework.security.dto.WatchKeepingDTO;
 import egovframework.security.office.dao.SecurityOfficeDAO;
@@ -47,13 +49,70 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/updateDept.do")
-    public String home(Locale locale, Model model) {
+    public String updateDept(Locale locale, Model model) {
         SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
         model.addAttribute("list", dao.selectDeptDao());
         System.out.print("updateManager");
         return "manage/updateDept";
      }
 	
+	@RequestMapping("/addDeptForm.do")
+    public String addDeptForm(Locale locale, Model model) {
+        
+        return "manage/addDeptForm";
+     }
+	
+	@RequestMapping("/addDeptCheck.do")
+    public String addDeptCheck(HttpServletRequest request, Model model) {
+        //추가한 부서 insert 처리
+		String resultPage = "forward:/updateDept.do";
+		
+		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+		
+		  DeptDTO deptDto;
+		 try {
+			 	//정보 가지고 오기
+				request.setCharacterEncoding("EUC-KR");
+				String deptName = request.getParameter("deptName"); //부서이름
+				deptDto = new DeptDTO(deptName);
+				dao.insertDeptDao(deptDto);
+			} catch (Exception exp) {
+				System.out.println("예외처리 메시지 : " + exp.getMessage());
+				resultPage = "cmmn/dataAccessFailure";
+			}
+			return resultPage;
+     }
+	
+	@RequestMapping("/deleteDeptCheck.do")
+    public String deleteDeptCheck(HttpServletRequest request, Model model) {
+        //추가한 부서 insert 처리
+		String resultPage = "forward:/updateDept.do";
+		
+		 SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+		
+		 DeptDTO deptDto;
+		 try {
+			 	//정보 가지고 오기
+				int deptId = Integer.parseInt(request.getParameter("deptId")); //부서이름
+				deptDto = new DeptDTO(deptId);
+				dao.deleteDeptDao(deptDto);
+			} catch (Exception exp) {
+				System.out.println("예외처리 메시지 : " + exp.getMessage());
+				resultPage = "cmmn/dataAccessFailure";
+			}
+			return resultPage;
+     }
+	
+	/**
+	 * 당직자 관리
+	 */
+	@RequestMapping("/updateWatchKeeper.do")
+	public String updateWatchKeeper(Model model) throws Exception {
+		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+        model.addAttribute("list", dao.selectEmployeeDao());
+        
+		return "manage/updateWatchKeeper";
+	}
 	 
 		/**
 		 * 사무실 보안점검 페이지(최종퇴실자 용)
@@ -223,6 +282,26 @@ public class HomeController {
 		 */
 		@RequestMapping("/mainmenu.do")
 		public String mainMenu(Model model) throws Exception {
+			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+			//회원 id를 통해서 회원 정보(이름, 부서)를 가져온다
+			
+			//model.addAttribute("list", dao.selectEmpWithIdDao());
+			
+			HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
+			String emp_name = (String) empMap.get("emp_name");
+			int os_deptcode = (Integer) empMap.get("emp_deptcode");
+			String deptName = (String) dao.selectDeptNameDao(os_deptcode);
+			String emp_role = (String) empMap.get("emp_role");
+			String auth = "";
+			if ("ROLE_USER".equals(emp_role))
+				auth = "일반사용자";
+			else 
+				auth = "관리자";
+			
+			model.addAttribute("emp_name", emp_name);
+			model.addAttribute("deptName", deptName);
+			model.addAttribute("auth", auth);
+
 			return "menu/mainmenu";
 		}
 		
@@ -238,13 +317,13 @@ public class HomeController {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			System.out.println("로그인 정보 : " +auth.getDetails());
 			if (fnUser.equals(auth.getName())){
-				//당직자면
+				//당직자인 경우
 				resultPage = "forward:/officeSecurityFNForm.do";
 			}else{
+				//최종퇴실자인 경우
 				resultPage = "forward:/officeSecurityForm.do";
 			}
 
-			//return "menu/officeSecurityChoice";
 			return resultPage;
 		}
 		
@@ -255,8 +334,21 @@ public class HomeController {
 		public String listOfficeSecurity(Model model) throws Exception {
 			try{
 				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		        model.addAttribute("list", dao.selectOfficeSecurityDao());
-		        System.out.print("listOfficeSecurity");
+				//현재 로그인 정보 가져오기
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				System.out.println("로그인 정보 : " +auth.getDetails());
+				//관리자 정보 가져오기
+				ArrayList managerList = dao.selectManagerDao();
+				//권한에 따라 다르게 출력
+				if (managerList.contains(auth.getName())){
+					//관리자일 경우 모두 출력
+					 model.addAttribute("list", dao.selectOfficeSecurityDao());
+				}else{
+					//일반유저일 경우 해당 부서만 출력
+					int userDept = dao.selectDeptWithIdDao(auth.getName());
+					model.addAttribute("list", dao.selectOfficeSecurityWithDeptDao(userDept));
+				}
+		
 			}catch(Exception exp){
 				System.out.println(exp);
 			}
@@ -328,6 +420,29 @@ public class HomeController {
 				return "list/listWatchKeeping";
 		}
 		
+		/**
+		 * 당직근무자 변경하기
+		 */
+		@RequestMapping("/changeWatchKeeperCheck.do")
+		public String changeWatchKeeper(HttpServletRequest request, Model model) throws Exception {
+			String resultPage = "forward:/";
+			try{
+				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+				EmployeeDTO empDto;
+				// 기존 당직자 y를 n으로 바꾸고, 새 당직자 n을 y로 변경한다. 
+				if (dao.countWatchKeeperDao() != 0){
+					String fnUser = dao.selectEmpFNDao().get(0); //기존 당직 직원 이메일
+					dao.subWatchKeeperDao(fnUser);
+				}
+				String emp_email = request.getParameter("emp_watchkeeping"); //새로운 당직 직원 이메일
+				dao.addWatchKeeperDao(emp_email);
+				
+			}catch(Exception exp){
+				System.out.println(exp.getMessage());
+				resultPage = "cmmn/dataAccessFailure";
+			}
+				return resultPage;
+		}
 		
 		
 

@@ -87,5 +87,6 @@
     <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
     <mvc:resources mapping="/images/**" location="/images/" />
     <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/bootstrap/**" location="/bootstrap"/>
    
 </beans>

@@ -11,7 +11,8 @@
 <body>
 	
 	<!-- 로그인 정보 출력 -->
-	USER ID : <s:authentication property="name"/><br/>
+	<!-- USER ID : <s:authentication property="name"/><br/> -->
+	${deptName}  ${auth}  ${emp_name}님 안녕하세요. <br/>	
 	<a href = "${pageContext.request.contextPath}/j_spring_security_logout">Log Out</a>
 	
 	<h1>사용자 메뉴</h1>
@@ -30,10 +31,9 @@
 	<!-- 관리자의 경우에만 관리자 메뉴 출력 -->
 	<s:authorize access="hasAuthority('ROLE_ADMIN')">
 		<h1>관리자 메뉴</h1>
-	
-		<a href="updateDept.do">부서 업데이트</a><br /><br />
-		<a href="#">당직자 변경</a><br /><br />
-		<a href="#">보안담당자 변경</a><br /><br />
+		<a href="updateDept.do">부서 관리</a><br /><br />
+		<a href="updateWatchKeeper.do">당직자 관리</a><br /><br />
+		<a href="updateManager.do">보안담당자 관리</a><br /><br />
 	</s:authorize>
 	
 	
