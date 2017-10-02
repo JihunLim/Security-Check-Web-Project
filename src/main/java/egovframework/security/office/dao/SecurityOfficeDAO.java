@@ -6,6 +6,7 @@ import java.util.List;
 
 import egovframework.security.dto.DeptDTO;
 import egovframework.security.dto.EmployeeDTO;
+import egovframework.security.dto.NightDutyDTO;
 import egovframework.security.dto.OfficeSecurityDTO;
 import egovframework.security.dto.WatchKeepingDTO;
 
@@ -18,6 +19,8 @@ public interface SecurityOfficeDAO {
 	public List<DeptDTO> selectDeptDao();
 	//부서이름 출력하기
 	public String selectDeptNameDao(int data);
+	//부서수 출력하기
+	public String selectDeptNumDao(int data);
 	//부서정보 삽입하기
     public void insertDeptDao(DeptDTO data);
     //부서정보 삭제하기
@@ -28,8 +31,6 @@ public interface SecurityOfficeDAO {
      */
     //회원정보 출력하기
     public List<EmployeeDTO> selectEmployeeDao();
-    //회원중에 당직자 출력하기
-    public List<String> selectEmpFNDao();
     //관리자 이메일 출력하기
     public ArrayList<String> selectManagerDao();
     //관리자 정보 출력하기
@@ -80,11 +81,54 @@ public interface SecurityOfficeDAO {
     /*
      * 당직근무자 관련 DB
      */
-    //기존 당직근무자 취소하기(수정)
-    public void subWatchKeeperDao(String data);
-    //새로운 당직근무자 추가하기(수정)
-    public void addWatchKeeperDao(String data);
-    //기존 당직근무자가 있는지 확인(출력)
-    public int countWatchKeeperDao();
+//    //기존 당직근무자 취소하기(수정)
+//    public void subWatchKeeperDao(String data);
+//    //새로운 당직근무자 추가하기(수정)
+//    public void addWatchKeeperDao(String data);
+//    //기존 당직근무자가 있는지 확인(출력)
+//    public int countWatchKeeperDao();
+    
+    /*
+     * 당직근무표 DB
+     */
+    //당직근무표 삽입
+    public void insertNightDutyDao(NightDutyDTO data);
+    //당직근무표 수정
+    public void updateNightDutyDao(NightDutyDTO data);
+    //당직근무표 전체출력
+    public List<NightDutyDTO> selectNightDutyDao();
+    //당직근무표 해당날짜출력
+    public NightDutyDTO selectNightDutyWithDateDao();
+    //당직근무표 회원이메일 출력하기
+    public List<String> selectEmailNightDutyWithDateDao();
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }

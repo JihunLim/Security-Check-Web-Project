@@ -26,22 +26,22 @@
 
         <!-- onsubmit : <input type="submit" /> 이 작동할때 검사-->
             
-                         사원번호 : 클라쪽에서 알아서 보냄 <input type="text" name="wk_empemail" value=<s:authentication property="name"/>><br /><br />
+                         <input type="hidden" name="wk_empemail" value=<s:authentication property="name"/>><br /><br />
                          지시사항 <br />
               <textarea rows="5" cols="30" name="wk_indication"></textarea><br /><br /> 
                          조치사항<br />
               <textarea rows="5" cols="30" name="wk_measure"></textarea><br /><br /> 
                          순찰 중 각 부서 근무자 현황<br />
-              a부서 : <input type="number" name="wk_na" value="" /><br /> 
-              b부서 : <input type="number" name="wk_nb" value="" /><br /> 
-              c부서 : <input type="number" name="wk_nc" value="" /><br /> 
-              d부서 : <input type="number" name="wk_nd" value="" /><br /> 
-              e부서 : <input type="number" name="wk_ne" value="" /><br /> 
-              f부서 : <input type="number" name="wk_nf" value="" /><br /> 
-              g부서 : <input type="number" name="wk_ng" value="" /><br /> 
-              h부서 : <input type="number" name="wk_nh" value="" /><br />
-              i부서 : <input type="number" name="wk_ni" value="" /><br /><br />
-               
+		           경영지원본부 : <input type="number" name="wk_mpd" value="" /><br /> 
+		           바우처본부 : <input type="number" name="wk_vmd" value="" /><br /> 
+		           보건의료본부 : <input type="number" name="wk_hmd" value="" /><br /> 
+		           고객지원본부 : <input type="number" name="wk_csd" value="" /><br /> 
+		           정보기술본부 : <input type="number" name="wk_itd" value="" /><br /> 
+	                  복지정보운영본부 : <input type="number" name="wk_wio" value="" /><br /> 
+	                  복지정보관리본부 : <input type="number" name="wk_wim" value="" /><br /> 
+		           희망복지본부 : <input type="number" name="wk_hwd" value="" /><br />
+		           사회보장정보연구소 : <input type="number" name="wk_sii" value="" /><br /><br />
+		               
  		          당직 중 특이사항<br />
  		      <textarea rows="5" cols="30" name="wk_specificity"></textarea><br /><br />
  		          보고사항<br />

@@ -15,15 +15,15 @@
 		<td>이메일</td>
 		<td>지시받은사항</td>
 		<td>조치사항</td>
-		<td>a부서 근무자 현황</td>
-		<td>b부서 근무자 현황</td>
-		<td>c부서 근무자 현황</td>
-		<td>d부서 근무자 현황</td>
-		<td>e부서 근무자 현황</td>
-		<td>f부서 근무자 현황</td>
-		<td>g부서 근무자 현황</td>
-		<td>h부서 근무자 현황</td>
-		<td>i부서 근무자 현황</td>
+		<td>경영기획본부 근무자 현황</td>
+		<td>바우처본부 근무자 현황</td>
+		<td>보건의료본부 근무자 현황</td>
+		<td>고객지원본부 근무자 현황</td>
+		<td>정보기술본부 근무자 현황</td>
+		<td>복지정보운영본부 근무자 현황</td>
+		<td>복지정보관리본부 근무자 현황</td>
+		<td>희망복지본부 근무자 현황</td>
+		<td>사회보장정보연구소 근무자 현황</td>
 		<td>당직중 특이사항</td>
 		<td>보고사항</td>
 		<td>인계사항</td>
@@ -36,15 +36,15 @@
 		<td>${dto.wk_empemail}</td>
 		<td>${dto.wk_indication}</td>
 		<td>${dto.wk_measure}</td>
-		<td>${dto.wk_na}</td>
-		<td>${dto.wk_nb}</td>
-		<td>${dto.wk_nc}</td>
-		<td>${dto.wk_nd}</td>
-		<td>${dto.wk_ne}</td>
-		<td>${dto.wk_nf}</td>
-		<td>${dto.wk_ng}</td>
-		<td>${dto.wk_nh}</td>
-		<td>${dto.wk_ni}</td>
+		<td>${dto.wk_mpd}</td>
+		<td>${dto.wk_vmd}</td>
+		<td>${dto.wk_hmd}</td>
+		<td>${dto.wk_csd}</td>
+		<td>${dto.wk_itd}</td>
+		<td>${dto.wk_wio}</td>
+		<td>${dto.wk_wim}</td>
+		<td>${dto.wk_hwd}</td>
+		<td>${dto.wk_sii}</td>
 		<td>${dto.wk_specificity}</td>
 		<td>${dto.wk_report}</td>
 		<td>${dto.wk_delivery}</td>

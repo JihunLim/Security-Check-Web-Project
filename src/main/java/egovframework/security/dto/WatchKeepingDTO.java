@@ -8,15 +8,15 @@ public class WatchKeepingDTO {
 	private String wk_empemail;
 	private String wk_indication;
 	private String wk_measure;
-	private int wk_na;
-	private int wk_nb;
-	private int wk_nc;
-	private int wk_nd;
-	private int wk_ne;
-	private int wk_nf;
-	private int wk_ng;
-	private int wk_nh;
-	private int wk_ni;
+	private int wk_mpd;
+	private int wk_vmd;
+	private int wk_hmd;
+	private int wk_csd;
+	private int wk_itd;
+	private int wk_wio;
+	private int wk_wim;
+	private int wk_hwd;
+	private int wk_sii;
 	private String wk_specificity;
 	private String wk_report;
 	private String wk_delivery;
@@ -26,7 +26,6 @@ public class WatchKeepingDTO {
 	public WatchKeepingDTO(){
 		
 	}
-	
 
 	/**
 	 * @param wk_id
@@ -34,104 +33,15 @@ public class WatchKeepingDTO {
 	 * @param wk_empemail
 	 * @param wk_indication
 	 * @param wk_measure
-	 * @param wk_na
-	 * @param wk_nb
-	 * @param wk_nc
-	 * @param wk_nd
-	 * @param wk_ne
-	 * @param wk_nf
-	 * @param wk_ng
-	 * @param wk_nh
-	 * @param wk_ni
-	 * @param wk_specificity
-	 * @param wk_report
-	 * @param wk_delivery
-	 */
-	public WatchKeepingDTO(int wk_id, Timestamp wk_datetime,
-			String wk_empemail, String wk_indication, String wk_measure,
-			int wk_na, int wk_nb, int wk_nc, int wk_nd, int wk_ne, int wk_nf,
-			int wk_ng, int wk_nh, int wk_ni, String wk_specificity,
-			String wk_report, String wk_delivery) {
-		super();
-		this.wk_id = wk_id;
-		this.wk_datetime = wk_datetime;
-		this.wk_empemail = wk_empemail;
-		this.wk_indication = wk_indication;
-		this.wk_measure = wk_measure;
-		this.wk_na = wk_na;
-		this.wk_nb = wk_nb;
-		this.wk_nc = wk_nc;
-		this.wk_nd = wk_nd;
-		this.wk_ne = wk_ne;
-		this.wk_nf = wk_nf;
-		this.wk_ng = wk_ng;
-		this.wk_nh = wk_nh;
-		this.wk_ni = wk_ni;
-		this.wk_specificity = wk_specificity;
-		this.wk_report = wk_report;
-		this.wk_delivery = wk_delivery;
-	}
-
-
-
-	/**
-	 * @param wk_id
-	 * @param wk_datetime
-	 * @param wk_empemail
-	 * @param wk_indication
-	 * @param wk_measure
-	 * @param wk_na
-	 * @param wk_nb
-	 * @param wk_nc
-	 * @param wk_nd
-	 * @param wk_ne
-	 * @param wk_nf
-	 * @param wk_ng
-	 * @param wk_nh
-	 * @param wk_ni
-	 * @param wk_specificity
-	 * @param wk_report
-	 * @param wk_delivery
-	 */
-	public WatchKeepingDTO(String wk_empemail, String wk_indication, String wk_measure,
-			int wk_na, int wk_nb, int wk_nc, int wk_nd, int wk_ne, int wk_nf,
-			int wk_ng, int wk_nh, int wk_ni, String wk_specificity,
-			String wk_report, String wk_delivery) {
-		super();
-		this.wk_empemail = wk_empemail;
-		this.wk_indication = wk_indication;
-		this.wk_measure = wk_measure;
-		this.wk_na = wk_na;
-		this.wk_nb = wk_nb;
-		this.wk_nc = wk_nc;
-		this.wk_nd = wk_nd;
-		this.wk_ne = wk_ne;
-		this.wk_nf = wk_nf;
-		this.wk_ng = wk_ng;
-		this.wk_nh = wk_nh;
-		this.wk_ni = wk_ni;
-		this.wk_specificity = wk_specificity;
-		this.wk_report = wk_report;
-		this.wk_delivery = wk_delivery;
-	}
-	
-	
-
-	/**
-	 * @param wk_id
-	 * @param wk_datetime
-	 * @param wk_empemail
-	 * @param wk_indication
-	 * @param wk_measure
-	 * @param wk_na
-	 * @param wk_nb
-	 * @param wk_nc
-	 * @param wk_nd
-	 * @param wk_ne
-	 * @param wk_nf
-	 * @param wk_ng
-	 * @param wk_nh
-	 * @param wk_ni
+	 * @param wk_mpd
+	 * @param wk_vmd
+	 * @param wk_hmd
+	 * @param wk_csd
+	 * @param wk_itd
+	 * @param wk_wio
+	 * @param wk_wim
+	 * @param wk_hwd
+	 * @param wk_sii
 	 * @param wk_specificity
 	 * @param wk_report
 	 * @param wk_delivery
@@ -139,30 +49,113 @@ public class WatchKeepingDTO {
 	 */
 	public WatchKeepingDTO(int wk_id, Timestamp wk_datetime,
 			String wk_empemail, String wk_indication, String wk_measure,
-			int wk_na, int wk_nb, int wk_nc, int wk_nd, int wk_ne, int wk_nf,
-			int wk_ng, int wk_nh, int wk_ni, String wk_specificity,
-			String wk_report, String wk_delivery, String deptName) {
+			int wk_mpd, int wk_vmd, int wk_hmd, int wk_csd, int wk_itd,
+			int wk_wio, int wk_wim, int wk_hwd, int wk_sii,
+			String wk_specificity, String wk_report, String wk_delivery,
+			String deptName) {
 		super();
 		this.wk_id = wk_id;
 		this.wk_datetime = wk_datetime;
 		this.wk_empemail = wk_empemail;
 		this.wk_indication = wk_indication;
 		this.wk_measure = wk_measure;
-		this.wk_na = wk_na;
-		this.wk_nb = wk_nb;
-		this.wk_nc = wk_nc;
-		this.wk_nd = wk_nd;
-		this.wk_ne = wk_ne;
-		this.wk_nf = wk_nf;
-		this.wk_ng = wk_ng;
-		this.wk_nh = wk_nh;
-		this.wk_ni = wk_ni;
+		this.wk_mpd = wk_mpd;
+		this.wk_vmd = wk_vmd;
+		this.wk_hmd = wk_hmd;
+		this.wk_csd = wk_csd;
+		this.wk_itd = wk_itd;
+		this.wk_wio = wk_wio;
+		this.wk_wim = wk_wim;
+		this.wk_hwd = wk_hwd;
+		this.wk_sii = wk_sii;
 		this.wk_specificity = wk_specificity;
 		this.wk_report = wk_report;
 		this.wk_delivery = wk_delivery;
 		this.deptName = deptName;
 	}
 
+	/**
+	 * @param wk_empemail
+	 * @param wk_indication
+	 * @param wk_measure
+	 * @param wk_mpd
+	 * @param wk_vmd
+	 * @param wk_hmd
+	 * @param wk_csd
+	 * @param wk_itd
+	 * @param wk_wio
+	 * @param wk_wim
+	 * @param wk_hwd
+	 * @param wk_sii
+	 * @param wk_specificity
+	 * @param wk_report
+	 * @param wk_delivery
+	 */
+	public WatchKeepingDTO(String wk_empemail, String wk_indication,
+			String wk_measure, int wk_mpd, int wk_vmd, int wk_hmd, int wk_csd,
+			int wk_itd, int wk_wio, int wk_wim, int wk_hwd, int wk_sii,
+			String wk_specificity, String wk_report, String wk_delivery) {
+		super();
+		this.wk_empemail = wk_empemail;
+		this.wk_indication = wk_indication;
+		this.wk_measure = wk_measure;
+		this.wk_mpd = wk_mpd;
+		this.wk_vmd = wk_vmd;
+		this.wk_hmd = wk_hmd;
+		this.wk_csd = wk_csd;
+		this.wk_itd = wk_itd;
+		this.wk_wio = wk_wio;
+		this.wk_wim = wk_wim;
+		this.wk_hwd = wk_hwd;
+		this.wk_sii = wk_sii;
+		this.wk_specificity = wk_specificity;
+		this.wk_report = wk_report;
+		this.wk_delivery = wk_delivery;
+	}
+
+	/**
+	 * @param wk_id
+	 * @param wk_datetime
+	 * @param wk_empemail
+	 * @param wk_indication
+	 * @param wk_measure
+	 * @param wk_mpd
+	 * @param wk_vmd
+	 * @param wk_hmd
+	 * @param wk_csd
+	 * @param wk_itd
+	 * @param wk_wio
+	 * @param wk_wim
+	 * @param wk_hwd
+	 * @param wk_sii
+	 * @param wk_specificity
+	 * @param wk_report
+	 * @param wk_delivery
+	 */
+	public WatchKeepingDTO(int wk_id, Timestamp wk_datetime,
+			String wk_empemail, String wk_indication, String wk_measure,
+			int wk_mpd, int wk_vmd, int wk_hmd, int wk_csd, int wk_itd,
+			int wk_wio, int wk_wim, int wk_hwd, int wk_sii,
+			String wk_specificity, String wk_report, String wk_delivery) {
+		super();
+		this.wk_id = wk_id;
+		this.wk_datetime = wk_datetime;
+		this.wk_empemail = wk_empemail;
+		this.wk_indication = wk_indication;
+		this.wk_measure = wk_measure;
+		this.wk_mpd = wk_mpd;
+		this.wk_vmd = wk_vmd;
+		this.wk_hmd = wk_hmd;
+		this.wk_csd = wk_csd;
+		this.wk_itd = wk_itd;
+		this.wk_wio = wk_wio;
+		this.wk_wim = wk_wim;
+		this.wk_hwd = wk_hwd;
+		this.wk_sii = wk_sii;
+		this.wk_specificity = wk_specificity;
+		this.wk_report = wk_report;
+		this.wk_delivery = wk_delivery;
+	}
 
 	public int getWk_id() {
 		return wk_id;
@@ -204,76 +197,76 @@ public class WatchKeepingDTO {
 		this.wk_measure = wk_measure;
 	}
 
-	public int getWk_na() {
-		return wk_na;
+	public int getWk_mpd() {
+		return wk_mpd;
 	}
 
-	public void setWk_na(int wk_na) {
-		this.wk_na = wk_na;
+	public void setWk_mpd(int wk_mpd) {
+		this.wk_mpd = wk_mpd;
 	}
 
-	public int getWk_nb() {
-		return wk_nb;
+	public int getWk_vmd() {
+		return wk_vmd;
 	}
 
-	public void setWk_nb(int wk_nb) {
-		this.wk_nb = wk_nb;
+	public void setWk_vmd(int wk_vmd) {
+		this.wk_vmd = wk_vmd;
 	}
 
-	public int getWk_nc() {
-		return wk_nc;
+	public int getWk_hmd() {
+		return wk_hmd;
 	}
 
-	public void setWk_nc(int wk_nc) {
-		this.wk_nc = wk_nc;
+	public void setWk_hmd(int wk_hmd) {
+		this.wk_hmd = wk_hmd;
 	}
 
-	public int getWk_nd() {
-		return wk_nd;
+	public int getWk_csd() {
+		return wk_csd;
 	}
 
-	public void setWk_nd(int wk_nd) {
-		this.wk_nd = wk_nd;
+	public void setWk_csd(int wk_csd) {
+		this.wk_csd = wk_csd;
 	}
 
-	public int getWk_ne() {
-		return wk_ne;
+	public int getWk_itd() {
+		return wk_itd;
 	}
 
-	public void setWk_ne(int wk_ne) {
-		this.wk_ne = wk_ne;
+	public void setWk_itd(int wk_itd) {
+		this.wk_itd = wk_itd;
 	}
 
-	public int getWk_nf() {
-		return wk_nf;
+	public int getWk_wio() {
+		return wk_wio;
 	}
 
-	public void setWk_nf(int wk_nf) {
-		this.wk_nf = wk_nf;
+	public void setWk_wio(int wk_wio) {
+		this.wk_wio = wk_wio;
 	}
 
-	public int getWk_ng() {
-		return wk_ng;
+	public int getWk_wim() {
+		return wk_wim;
 	}
 
-	public void setWk_ng(int wk_ng) {
-		this.wk_ng = wk_ng;
+	public void setWk_wim(int wk_wim) {
+		this.wk_wim = wk_wim;
 	}
 
-	public int getWk_nh() {
-		return wk_nh;
+	public int getWk_hwd() {
+		return wk_hwd;
 	}
 
-	public void setWk_nh(int wk_nh) {
-		this.wk_nh = wk_nh;
+	public void setWk_hwd(int wk_hwd) {
+		this.wk_hwd = wk_hwd;
 	}
 
-	public int getWk_ni() {
-		return wk_ni;
+	public int getWk_sii() {
+		return wk_sii;
 	}
 
-	public void setWk_ni(int wk_ni) {
-		this.wk_ni = wk_ni;
+	public void setWk_sii(int wk_sii) {
+		this.wk_sii = wk_sii;
 	}
 
 	public String getWk_specificity() {
@@ -300,14 +293,13 @@ public class WatchKeepingDTO {
 		this.wk_delivery = wk_delivery;
 	}
 
-
 	public String getDeptName() {
 		return deptName;
 	}
 
-
 	public void setDeptName(String deptName) {
 		this.deptName = deptName;
 	}
+
 	
 }

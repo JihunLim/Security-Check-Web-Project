@@ -7,13 +7,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 테이블 이름을 대문자로 변경시 오류발생! -->
  
     <!--  #안에 있는 건 jsp내 form 안에 name 태그 설정 값을 써주면 됨 -->
+    
  	<!-- 부서DB DAO_Mapper-->
     <select id="selectDeptDao" resultType="egovframework.security.dto.DeptDTO">
-        SELECT DEPTNO, DEPTNAME FROM dept ORDER BY deptNo ASC
+        SELECT * FROM dept ORDER BY deptNo ASC
     </select>
  
  	<select id="selectDeptNameDao" parameterType="int" resultType="String">
         SELECT deptName FROM dept where deptNo = #{param1}
+    </select>
+ 	
+ 	<select id="selectDeptNumDao" parameterType="int" resultType="int">
+        SELECT deptNum FROM dept where deptNo = #{param1}
     </select>
  
     <insert id="insertDeptDao" parameterType="egovframework.security.dto.DeptDTO">
@@ -60,11 +65,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
  
     <insert id="insertWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
-        INSERT into watchkeeping values(default, default, #{wk_empemail}, #{wk_indication}, #{wk_measure}, #{wk_na}, #{wk_nb}, #{wk_nc}, #{wk_nd}, #{wk_ne}, #{wk_nf}, #{wk_ng}, #{wk_nh}, #{wk_ni}, #{wk_specificity}, #{wk_report}, #{wk_delivery})
+        INSERT into watchkeeping values(default, default, #{wk_empemail}, #{wk_indication}, #{wk_measure}, #{wk_mpd}, #{wk_vmd}, #{wk_hmd}, #{wk_csd}, #{wk_itd}, #{wk_wio}, #{wk_wim}, #{wk_hwd}, #{wk_sii}, #{wk_specificity}, #{wk_report}, #{wk_delivery})
     </insert>
     
     <update id="updateWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
-    	UPDATE watchkeeping set wk_empemail=#{wk_empemail},wk_measure=#{wk_measure},wk_na=#{wk_na},wk_nb=#{wk_nb},wk_nc=#{wk_nc},wk_nd=#{wk_nd},wk_ne=#{wk_ne},wk_nf=#{wk_nf},wk_ng=#{wk_ng},wk_nh=#{wk_nh},wk_ni=#{wk_ni},wk_specificity=#{wk_specificity},wk_report=#{wk_report},wk_delivery=#{wk_delivery} where wk_id = #{wk_id}
+    	UPDATE watchkeeping set wk_empemail=#{wk_empemail},wk_measure=#{wk_measure},wk_mpd=#{wk_mpd},wk_vmd=#{wk_vmd},wk_hmd=#{wk_hmd},wk_csd=#{wk_csd},wk_itd=#{wk_itd},wk_wio=#{wk_wio},wk_wim=#{wk_wim},wk_hwd=#{wk_hwd},wk_sii=#{wk_sii},wk_specificity=#{wk_specificity},wk_report=#{wk_report},wk_delivery=#{wk_delivery} where wk_id = #{wk_id}
     </update>
     
     <delete id="deleteWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
@@ -74,27 +79,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <!-- 회원DB DAO_Mapper-->
     <select id="selectEmployeeDao" resultType="egovframework.security.dto.EmployeeDTO">
-    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_watchkeeping, deptName from employee, dept where dept.deptNo = employee.emp_deptcode order by emp_watchkeeping DESC, emp_deptcode ASC
+    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_rank, deptName from employee, dept where dept.deptNo = employee.emp_deptcode order by emp_deptcode ASC
     </select>
     
     <select id="selectEmployeeNotManagerDao" resultType="egovframework.security.dto.EmployeeDTO">
-    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_watchkeeping, deptName from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role="ROLE_USER" order by emp_watchkeeping DESC, emp_deptcode ASC
-    </select>
-    
-    <select id="selectEmpFNDao" resultType="String">
-    	select emp_email from employee where emp_watchkeeping = "y"
-    </select>
-    
-    <update id="subWatchKeeperDao" parameterType="String">
-    	update employee set emp_watchkeeping = "n" where emp_email = #{param1}
-    </update>
-
-    <update id="addWatchKeeperDao" parameterType="String">
-    	update employee set emp_watchkeeping = "y" where emp_email = #{param1} 
-    </update>
-    
-    <select id="countWatchKeeperDao" resultType="int">
-    	select count(*) from employee where emp_watchkeeping = "y"
+    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_rank, deptName from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role="ROLE_USER" order by emp_deptcode ASC
     </select>
     
     <select id="selectManagerDao" resultType="String">
@@ -110,7 +99,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectAllManagerDao" resultType="egovframework.security.dto.EmployeeDTO">
-    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, deptName from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role = "ROLE_ADMIN"  ORDER BY emp_deptcode ASC
+    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_rank, deptName from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role = "ROLE_ADMIN"  ORDER BY emp_deptcode ASC
     </select>
     
     <update id="updateAuthEmpDao" parameterType="String">
@@ -124,4 +113,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="countManagerDao" resultType="int">
     	select count(*) from employee where emp_role = "ROLE_ADMIN"
     </select>
+    
+    <!-- 당직표 DAO Mapper -->
+    
+    <insert id="insertNightDutyDao" parameterType="egovframework.security.dto.NightDutyDTO">
+    	insert into nightduty values(#{nd_date}, #{nd_empemail})
+    </insert>
+    
+    <update id="updateNightDutyDao" parameterType="egovframework.security.dto.NightDutyDTO">
+    	update nightduty set nd_date = #{nd_date}, nd_empemail = #{nd_empemail} where nd_date = #{nd_date}
+    </update>
+    
+    <select id="selectNightDutyDao" parameterType="egovframework.security.dto.NightDutyDTO">
+    	select * from nightduty order by nd_date DESC
+    </select>
+
+    <select id="selectNightDutyWithDateDao" resultType="egovframework.security.dto.NightDutyDTO" parameterType="String">
+    	select * from nightduty where nd_date = #{param1}
+    </select>
+    
+    <select id="selectEmailNightDutyWithDateDao" resultType="egovframework.security.dto.NightDutyDTO">
+    	select nd_empemail from nightduty where date(nd_date) = date(now())
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 </mapper>

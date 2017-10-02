@@ -17,9 +17,9 @@ public class EmployeeDTO {
 	private int emp_deptcode;
 	private String emp_sex; //M or F
 	private String emp_phone;
-	private String emp_watchkeeping;
 	private String emp_role;
 	private Boolean emp_enabled;
+	private String emp_rank;
 	//부서이름을 가져오기 위한 wrapper
 	private String deptName;
 	
@@ -30,7 +30,7 @@ public class EmployeeDTO {
 	public EmployeeDTO(String emp_email){
 		this.emp_email = emp_email;
 	}
-	
+
 	/**
 	 * @param emp_email
 	 * @param emp_name
@@ -38,12 +38,10 @@ public class EmployeeDTO {
 	 * @param emp_deptcode
 	 * @param emp_sex
 	 * @param emp_phone
-	 * @param emp_watchkeeping
-	 * @param emp_role
+	 * @param emp_rank
 	 */
 	public EmployeeDTO(String emp_email, String emp_name, String emp_pwd,
-			int emp_deptcode, String emp_sex, String emp_phone,
-			String emp_watchkeeping, String emp_role) {
+			int emp_deptcode, String emp_sex, String emp_phone, String emp_rank) {
 		super();
 		this.emp_email = emp_email;
 		this.emp_name = emp_name;
@@ -51,10 +49,9 @@ public class EmployeeDTO {
 		this.emp_deptcode = emp_deptcode;
 		this.emp_sex = emp_sex;
 		this.emp_phone = emp_phone;
-		this.emp_watchkeeping = emp_watchkeeping;
-		this.emp_role = emp_role;
+		this.emp_rank = emp_rank;
 	}
-	
+
 	
 
 	/**
@@ -64,13 +61,13 @@ public class EmployeeDTO {
 	 * @param emp_deptcode
 	 * @param emp_sex
 	 * @param emp_phone
-	 * @param emp_watchkeeping
 	 * @param emp_role
 	 * @param emp_enabled
+	 * @param emp_rank
 	 */
 	public EmployeeDTO(String emp_email, String emp_name, String emp_pwd,
 			int emp_deptcode, String emp_sex, String emp_phone,
-			String emp_watchkeeping, String emp_role, Boolean emp_enabled) {
+			String emp_role, Boolean emp_enabled, String emp_rank) {
 		super();
 		this.emp_email = emp_email;
 		this.emp_name = emp_name;
@@ -78,12 +75,10 @@ public class EmployeeDTO {
 		this.emp_deptcode = emp_deptcode;
 		this.emp_sex = emp_sex;
 		this.emp_phone = emp_phone;
-		this.emp_watchkeeping = emp_watchkeeping;
 		this.emp_role = emp_role;
 		this.emp_enabled = emp_enabled;
+		this.emp_rank = emp_rank;
 	}
-
-	
 
 	/**
 	 * @param emp_email
@@ -92,14 +87,14 @@ public class EmployeeDTO {
 	 * @param emp_deptcode
 	 * @param emp_sex
 	 * @param emp_phone
-	 * @param emp_watchkeeping
 	 * @param emp_role
 	 * @param emp_enabled
+	 * @param emp_rank
 	 * @param deptName
 	 */
 	public EmployeeDTO(String emp_email, String emp_name, String emp_pwd,
 			int emp_deptcode, String emp_sex, String emp_phone,
-			String emp_watchkeeping, String emp_role, Boolean emp_enabled,
+			String emp_role, Boolean emp_enabled, String emp_rank,
 			String deptName) {
 		super();
 		this.emp_email = emp_email;
@@ -108,9 +103,9 @@ public class EmployeeDTO {
 		this.emp_deptcode = emp_deptcode;
 		this.emp_sex = emp_sex;
 		this.emp_phone = emp_phone;
-		this.emp_watchkeeping = emp_watchkeeping;
 		this.emp_role = emp_role;
 		this.emp_enabled = emp_enabled;
+		this.emp_rank = emp_rank;
 		this.deptName = deptName;
 	}
 
@@ -151,14 +146,6 @@ public class EmployeeDTO {
 		this.emp_phone = emp_phone;
 	}
 
-	public String getEmp_watchkeeping() {
-		return emp_watchkeeping;
-	}
-
-	public void setEmp_watchkeeping(String emp_watchkeeping) {
-		this.emp_watchkeeping = emp_watchkeeping;
-	}
-
 	public String getEmp_role() {
 		return emp_role;
 	}
@@ -183,4 +170,12 @@ public class EmployeeDTO {
 		this.deptName = deptName;
 	}
 
+	public String getEmp_rank() {
+		return emp_rank;
+	}
+
+	public void setEmp_rank(String emp_rank) {
+		this.emp_rank = emp_rank;
+	}
+	
 }

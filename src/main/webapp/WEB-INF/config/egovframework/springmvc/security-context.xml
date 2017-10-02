@@ -11,6 +11,11 @@
     	<property name="username" value="user"/>
     	<property name="password" value="1234"/>
     </bean>
+    
+    <security:http pattern="/css/**" security="none"/>
+    <security:http pattern="/bootstrap/**" security="none"/>
+    <security:http pattern="/common/**" security="none"/>
+    <security:http pattern="/images/**" security="none"/>
 
 	<security:authentication-manager>
 		<security:authentication-provider>

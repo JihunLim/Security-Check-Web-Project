@@ -3,6 +3,7 @@ package egovframework.security.dto;
 public class DeptDTO {
 	private int deptNo;
 	private String deptName;
+	private int deptNum;
 	
 	public DeptDTO(){
 		
@@ -16,6 +17,11 @@ public class DeptDTO {
 		this.deptNo = deptNo;
 	}
 	
+	public DeptDTO(int deptNo, int deptNum){
+		this.deptNo = deptNo;
+		this.deptNum = deptNum;
+	}
+	
 	/**
 	 * @param deptNo
 	 * @param deptName
@@ -24,6 +30,18 @@ public class DeptDTO {
 		super();
 		this.deptNo = deptNo;
 		this.deptName = deptName;
+	}
+
+	/**
+	 * @param deptNo
+	 * @param deptName
+	 * @param deptNum
+	 */
+	public DeptDTO(int deptNo, String deptName, int deptNum) {
+		super();
+		this.deptNo = deptNo;
+		this.deptName = deptName;
+		this.deptNum = deptNum;
 	}
 
 	public int getDeptNo() {
@@ -42,9 +60,12 @@ public class DeptDTO {
 		this.deptName = deptName;
 	}
 
-	
-	
-	
-	
+	public int getDeptNum() {
+		return deptNum;
+	}
+
+	public void setDeptNum(int deptNum) {
+		this.deptNum = deptNum;
+	}
 	
 }

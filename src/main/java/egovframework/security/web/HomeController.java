@@ -103,17 +103,6 @@ public class HomeController {
 			}
 			return resultPage;
      }
-	
-	/**
-	 * 당직자 관리
-	 */
-	@RequestMapping("/updateWatchKeeper.do")
-	public String updateWatchKeeper(Model model) throws Exception {
-		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-        model.addAttribute("list", dao.selectEmployeeDao());
-        
-		return "manage/updateWatchKeeper";
-	}
 	 
 		/**
 		 * 사무실 보안점검 페이지(최종퇴실자 용)
@@ -164,7 +153,7 @@ public class HomeController {
 						System.out.println("기존 데이터가 있음");
 						//if 당직근무자 이메일과 여기 db의 이메일이 동일하면 에러발생, 그렇지 않으면 수정가능(단, os_empemail은 수정금지)
 						//당직근무자 이메일(fnUser)
-						String fnUser = dao.selectEmpFNDao().get(0);
+						String fnUser = dao.selectEmailNightDutyWithDateDao().get(0);
 						System.out.println("오늘 당직자 : " + fnUser);
 						officeDTO = new OfficeSecurityDTO((Integer) OSMap.get("os_id"), os_empemail, os_deptcode, os_document, os_clean, os_lightout, os_ventilation, os_door, os_etc);
 						if (fnUser.equals((String)OSMap.get("os_empemail"))){
@@ -232,7 +221,7 @@ public class HomeController {
 						System.out.println(OSMap);
 						//if 당직근무자 이메일과 여기 db의 이메일이 동일하면 에러발생, 그렇지 않으면 수정가능(단, os_empemail은 수정금지)
 						//당직근무자 이메일(fnUser)
-						String fnUser = dao.selectEmpFNDao().get(0);
+						String fnUser = dao.selectEmailNightDutyWithDateDao().get(0);
 						System.out.println("당직자 : "+fnUser);
 						if (fnUser.equals((String)OSMap.get("os_empemail"))){
 							//당직근무자가 이미 사무실보안점검을 한 경우
@@ -314,7 +303,7 @@ public class HomeController {
 			String resultPage = "/";
 			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 			// 당직자면 당직자페이지로, 아니면 최종퇴실자페이지로 이동
-			String fnUser = dao.selectEmpFNDao().get(0); //fnUser : 오늘의 당직자 id 
+			String fnUser = dao.selectEmailNightDutyWithDateDao().get(0); //fnUser : 오늘의 당직자 id 
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			System.out.println("로그인 정보 : " +auth.getDetails());
 			if (fnUser.equals(auth.getName())){
@@ -381,22 +370,22 @@ public class HomeController {
 				String wk_empemail = request.getParameter("wk_empemail"); //직원번호
 				String wk_indication = request.getParameter("wk_indication"); //직원번호
 				String wk_measure = request.getParameter("wk_measure"); //직원번호
-				int wk_na = Integer.parseInt(request.getParameter("wk_na"));
-				int wk_nb = Integer.parseInt(request.getParameter("wk_nb"));
-				int wk_nc = Integer.parseInt(request.getParameter("wk_nc"));
-				int wk_nd = Integer.parseInt(request.getParameter("wk_nd"));
-				int wk_ne = Integer.parseInt(request.getParameter("wk_ne"));
-				int wk_nf = Integer.parseInt(request.getParameter("wk_nf"));
-				int wk_ng = Integer.parseInt(request.getParameter("wk_ng"));
-				int wk_nh = Integer.parseInt(request.getParameter("wk_nh"));
-				int wk_ni = Integer.parseInt(request.getParameter("wk_ni"));
+				int wk_mpd = Integer.parseInt(request.getParameter("wk_mpd"));
+				int wk_vmd = Integer.parseInt(request.getParameter("wk_vmd"));
+				int wk_hmd = Integer.parseInt(request.getParameter("wk_hmd"));
+				int wk_csd = Integer.parseInt(request.getParameter("wk_csd"));
+				int wk_itd = Integer.parseInt(request.getParameter("wk_itd"));
+				int wk_wio = Integer.parseInt(request.getParameter("wk_wio"));
+				int wk_wim = Integer.parseInt(request.getParameter("wk_wim"));
+				int wk_hwd = Integer.parseInt(request.getParameter("wk_hwd"));
+				int wk_sii = Integer.parseInt(request.getParameter("wk_sii"));
 				String wk_specificity = request.getParameter("wk_specificity");
 				String wk_report = request.getParameter("wk_report");
 				String wk_delivery = request.getParameter("wk_delivery");
 			    System.out.print("watchKeepingForm이 실행됐습니다 : ");
 			    //정보를 가지고 와서 db에 입력
 			    
-			    wkDTO = new WatchKeepingDTO(wk_empemail, wk_indication, wk_measure, wk_na, wk_nb, wk_nc, wk_nd, wk_ne, wk_nf, wk_ng, wk_nh, wk_ni, wk_specificity, wk_report, wk_delivery);
+			    wkDTO = new WatchKeepingDTO(wk_empemail, wk_indication, wk_measure, wk_mpd, wk_vmd, wk_hmd, wk_csd, wk_itd, wk_wio, wk_wim, wk_hwd, wk_sii, wk_specificity, wk_report, wk_delivery);
 			    
 			    dao.insertWatchKeepingDao(wkDTO);
 			}catch(Exception exp){
@@ -407,7 +396,7 @@ public class HomeController {
 		}
 	
 		/**
-		 * 당직근무자 리스트 조회 
+		 * 당직근무일지 리스트 조회 
 		 */
 		@RequestMapping("/listWatchKeeping.do")
 		public String listWatchKeeping(Model model) throws Exception {
@@ -422,32 +411,44 @@ public class HomeController {
 		}
 		
 		/**
-		 * 당직근무자 변경하기
+		 * 당직자 관리---------------------------------------------------------------------------------
+		 */
+		@RequestMapping("/updateWatchKeeper.do")
+		public String updateWatchKeeper(Model model) throws Exception {
+			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+	        //model.addAttribute("list", dao.selectNightDutyDao());
+	        
+			return "manage/updateWatchKeeper";
+		}
+		
+		/**
+		 * 당직근무자 변경하기 ------------------------------------------------------------------
 		 */
 		@RequestMapping("/changeWatchKeeperCheck.do")
 		public String changeWatchKeeper(HttpServletRequest request, Model model) throws Exception {
 			String resultPage = "forward:/";
-			try{
-				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-				EmployeeDTO empDto;
-				// 기존 당직자 y를 n으로 바꾸고, 새 당직자 n을 y로 변경한다. 
-				if (dao.countWatchKeeperDao() != 0){
-					String fnUser = dao.selectEmpFNDao().get(0); //기존 당직 직원 이메일
-					dao.subWatchKeeperDao(fnUser);
-				}
-				String emp_email = request.getParameter("emp_watchkeeping"); //새로운 당직 직원 이메일
-				dao.addWatchKeeperDao(emp_email);
-				
-			}catch(Exception exp){
-				System.out.println(exp.getMessage());
-				resultPage = "cmmn/dataAccessFailure";
-			}
+//			try{
+//				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+//				EmployeeDTO empDto;
+//				// 기존 당직자 y를 n으로 바꾸고, 새 당직자 n을 y로 변경한다. 
+//				if (dao.countWatchKeeperDao() != 0){
+//					String fnUser = dao.selectEmpFNDao().get(0); //기존 당직 직원 이메일
+//					dao.subWatchKeeperDao(fnUser);
+//				}
+//				String emp_email = request.getParameter("emp_watchkeeping"); //새로운 당직 직원 이메일
+//				dao.addWatchKeeperDao(emp_email);
+//				
+//			}catch(Exception exp){
+//				System.out.println(exp.getMessage());
+//				resultPage = "cmmn/dataAccessFailure";
+//			}
 				return resultPage;
 		}
 		
 		/*
 		 * 보안담당자 관리updateManager.do
 		 */
+		//관리자 리스트 출력
 		@RequestMapping("/updateManager.do")
 		public String updateManager(HttpServletRequest request, Model model) throws Exception {
 			try{
@@ -483,7 +484,7 @@ public class HomeController {
 				return resultPage;
 		}
 				
-		//관리자 권한 추가 addManagerForm.do	
+		//관리자 권한 추가 양식
 		@RequestMapping("/addManagerForm.do")
 	    public String addManagerForm(Locale locale, Model model) {
 			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
@@ -491,6 +492,7 @@ public class HomeController {
 	        return "manage/addManagerForm";
 	     }
 		
+		//관리자 권한 추가
 		@RequestMapping("/addManagerCheck.do")
 	    public String addManagerCheck(HttpServletRequest request, Model model) {
 	        //추가한 부서 insert 처리
@@ -513,6 +515,13 @@ public class HomeController {
 				return resultPage;
 	     }
 		
+		//스마트 보안솔루션
+		@RequestMapping("/smartSecuritySolution.do")
+	    public String smartSecuritySolution(HttpServletRequest request, Model model) {
+			String resultPage = "security/smartSecuritySolution";
+			
+			return resultPage;
+		}
 		
 
 
