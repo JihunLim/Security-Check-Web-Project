@@ -39,10 +39,6 @@ public class HomeController {
 		return "security/login";
 	}
 
-	@RequestMapping("/manage.do")
-	public String manage( Model model){
-		return "security/manage";
-	}
 	
 	@RequestMapping("/loginForm.do")
 	public String loginForm( Model model){

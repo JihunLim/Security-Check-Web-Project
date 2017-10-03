@@ -8,5 +8,13 @@
 </head>
 <body>
 <h1> S.M.A.R.T 보안 솔루션</h1>
+
+여기다가 하면 됩니다.
+mysql은 혹시 까셨습니까?
+깔긴햇는데
+혹시모르니 설정좀해줘..
+mysql workbench좀 열어줘
+어난 여기서
+코드씀
 </body>
 </html>
