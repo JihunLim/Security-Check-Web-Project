@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<h1> 안쓰는 페이지 - 추후에 삭제</h1>
 	<%
 		String context = request.getContextPath();
 	%>

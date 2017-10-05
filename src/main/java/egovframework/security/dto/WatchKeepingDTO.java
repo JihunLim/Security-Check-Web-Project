@@ -20,7 +20,7 @@ public class WatchKeepingDTO {
 	private String wk_specificity;
 	private String wk_report;
 	private String wk_delivery;
-	//부서이름을 가져오기 위한 wrapper
+	//부서이름을 가져오기 위한 추가속성
 	private String deptName;
 
 	public WatchKeepingDTO(){

@@ -100,7 +100,7 @@ public interface SecurityOfficeDAO {
     //당직근무표 해당날짜출력
     public NightDutyDTO selectNightDutyWithDateDao();
     //당직근무표 회원이메일 출력하기
-    public List<String> selectEmailNightDutyWithDateDao();
+    public String selectEmailNightDutyWithDateDao();
     
     
     

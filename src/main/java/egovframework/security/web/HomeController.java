@@ -153,7 +153,7 @@ public class HomeController {
 						System.out.println("기존 데이터가 있음");
 						//if 당직근무자 이메일과 여기 db의 이메일이 동일하면 에러발생, 그렇지 않으면 수정가능(단, os_empemail은 수정금지)
 						//당직근무자 이메일(fnUser)
-						String fnUser = dao.selectEmailNightDutyWithDateDao().get(0);
+						String fnUser = dao.selectEmailNightDutyWithDateDao();
 						System.out.println("오늘 당직자 : " + fnUser);
 						officeDTO = new OfficeSecurityDTO((Integer) OSMap.get("os_id"), os_empemail, os_deptcode, os_document, os_clean, os_lightout, os_ventilation, os_door, os_etc);
 						if (fnUser.equals((String)OSMap.get("os_empemail"))){
@@ -221,7 +221,7 @@ public class HomeController {
 						System.out.println(OSMap);
 						//if 당직근무자 이메일과 여기 db의 이메일이 동일하면 에러발생, 그렇지 않으면 수정가능(단, os_empemail은 수정금지)
 						//당직근무자 이메일(fnUser)
-						String fnUser = dao.selectEmailNightDutyWithDateDao().get(0);
+						String fnUser = dao.selectEmailNightDutyWithDateDao();
 						System.out.println("당직자 : "+fnUser);
 						if (fnUser.equals((String)OSMap.get("os_empemail"))){
 							//당직근무자가 이미 사무실보안점검을 한 경우
@@ -303,7 +303,7 @@ public class HomeController {
 			String resultPage = "/";
 			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 			// 당직자면 당직자페이지로, 아니면 최종퇴실자페이지로 이동
-			String fnUser = dao.selectEmailNightDutyWithDateDao().get(0); //fnUser : 오늘의 당직자 id 
+			String fnUser = dao.selectEmailNightDutyWithDateDao(); //fnUser : 오늘의 당직자 id 
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			System.out.println("로그인 정보 : " +auth.getDetails());
 			if (fnUser.equals(auth.getName())){
@@ -411,17 +411,6 @@ public class HomeController {
 		}
 		
 		/**
-		 * 당직자 관리---------------------------------------------------------------------------------
-		 */
-		@RequestMapping("/updateWatchKeeper.do")
-		public String updateWatchKeeper(Model model) throws Exception {
-			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-	        //model.addAttribute("list", dao.selectNightDutyDao());
-	        
-			return "manage/updateWatchKeeper";
-		}
-		
-		/**
 		 * 당직근무자 변경하기 ------------------------------------------------------------------
 		 */
 		@RequestMapping("/changeWatchKeeperCheck.do")
@@ -520,6 +509,19 @@ public class HomeController {
 	    public String smartSecuritySolution(HttpServletRequest request, Model model) {
 			String resultPage = "security/smartSecuritySolution";
 			
+			return resultPage;
+		}
+		
+		//당직테이블 
+		@RequestMapping("/nightDutyTable.do")
+	    public String nightDutyTable(HttpServletRequest request, Model model) {
+			String resultPage = "security/nightDutyTable";
+			try{
+				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+		        model.addAttribute("list", dao.selectNightDutyDao());
+			}catch(Exception exp){
+				System.out.println(exp.getMessage());
+			}
 			return resultPage;
 		}
 		

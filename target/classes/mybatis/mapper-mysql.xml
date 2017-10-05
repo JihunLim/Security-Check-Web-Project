@@ -124,25 +124,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	update nightduty set nd_date = #{nd_date}, nd_empemail = #{nd_empemail} where nd_date = #{nd_date}
     </update>
     
-    <select id="selectNightDutyDao" parameterType="egovframework.security.dto.NightDutyDTO">
-    	select * from nightduty order by nd_date DESC
+    <select id="selectNightDutyDao" resultType="egovframework.security.dto.NightDutyDTO">
+    	select nd_date,nd_empemail,deptName,emp_rank,emp_name from nightduty,employee,dept where emp_email=nd_empemail and emp_deptcode=deptNo order by nd_date DESC
     </select>
 
     <select id="selectNightDutyWithDateDao" resultType="egovframework.security.dto.NightDutyDTO" parameterType="String">
     	select * from nightduty where nd_date = #{param1}
     </select>
     
-    <select id="selectEmailNightDutyWithDateDao" resultType="egovframework.security.dto.NightDutyDTO">
+    <select id="selectEmailNightDutyWithDateDao" resultType="String">
     	select nd_empemail from nightduty where date(nd_date) = date(now())
     </select>
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
