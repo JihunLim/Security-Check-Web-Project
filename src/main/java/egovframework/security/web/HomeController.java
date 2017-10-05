@@ -1,12 +1,14 @@
 package egovframework.security.web;
 
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import egovframework.security.dto.DeptDTO;
-import egovframework.security.dto.EmployeeDTO;
 import egovframework.security.dto.OfficeSecurityDTO;
 import egovframework.security.dto.WatchKeepingDTO;
 import egovframework.security.office.dao.SecurityOfficeDAO;
@@ -39,11 +40,6 @@ public class HomeController {
 		return "security/login";
 	}
 
-	@RequestMapping("/manage.do")
-	public String manage( Model model){
-		return "security/manage";
-	}
-	
 	@RequestMapping("/loginForm.do")
 	public String loginForm( Model model){
 		return "security/loginForm";
@@ -61,6 +57,13 @@ public class HomeController {
     public String addDeptForm(Locale locale, Model model) {
         
         return "manage/addDeptForm";
+     }
+
+	//access_denied.do
+	@RequestMapping("/access_denied.do")
+    public String access_denied(HttpServletResponse response, Model model) throws IOException {
+		
+        return "cmmn/access_denied";
      }
 	
 	@RequestMapping("/addDeptCheck.do")
@@ -346,11 +349,40 @@ public class HomeController {
 		}
 		
 		/**
-		 * 사무실보안점검 리스트 DB에 저장
+		 * 당직점검 DB에 저장
 		 */
 		@RequestMapping("/watchKeepingForm.do")
-		public String watchKeepingForm(Model model) throws Exception {
-			return "security/watchKeepingForm";
+		public String watchKeepingForm(Model model, HttpServletResponse response) {
+			//당직자인지 확인해서 아니면 경고표시 후 back 시킴
+			String resultPage ="cmmn/dataAccessFailure";
+			try{
+			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+			//당직자 정보 가져오기
+			String fnUser = dao.selectEmailNightDutyWithDateDao(); 
+			//현재 로그인 정보 가져오기
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			
+			if (fnUser.equals((String)auth.getName())){
+				//당직근무자와 접속자가 같은 경우 허용
+				resultPage = "security/watchKeepingForm";
+			}
+			else {
+				//당직근무자와 접속자가 다른 경우 경고 후 뒤로 돌아가기
+				 response.setCharacterEncoding("EUC-KR");
+			     PrintWriter writer = response.getWriter();
+			     writer.println("<script type='text/javascript'>");
+			     writer.println("alert('당직자가 아닙니다.');");
+			     writer.println("history.back();");
+			     writer.println("</script>");
+			     writer.flush();
+			     return null;
+			}
+			
+			}catch(Exception exp){
+				System.out.println(exp.getMessage());
+				resultPage = "cmmn/dataAccessFailure";
+			}
+			return resultPage;
 		}
 		
 		
@@ -525,6 +557,5 @@ public class HomeController {
 			return resultPage;
 		}
 		
-
 
 }
