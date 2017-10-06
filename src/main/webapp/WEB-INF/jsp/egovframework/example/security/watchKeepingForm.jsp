@@ -2,10 +2,15 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="s" %>
+<%String cp= request.getContextPath(); %>   
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="<%=cp%>/bootstrap/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="<%=cp %>/bootstrap/js/bootstrap.js"></script>
+
 <title>Insert title here</title>
 	<script type="text/javascript">
         //submit
@@ -17,9 +22,28 @@
                }       
         }
 	</script>
+	
 </head>
 <body>
-
+	<!-- 상단 메뉴 바 -->
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+  		<div class="container-fluid" role="form">
+  		
+    		<div class="col-md-3">
+     	 		<a class="navbar-brand" href="#">Office Security Management System</a>
+    		</div>
+    		<div class="col-md-6">
+    		<ul class="nav navbar-nav">
+      		<li><a color:#FFFFF> ${deptName}  ${emp_name} (${auth})님 안녕하세요. <br/></li>
+    		</ul>
+    		</div>
+    		<ul class="nav navbar-nav navbar-right">
+      		<li><a href="${pageContext.request.contextPath}/j_spring_security_logout"><span class="glyphicon glyphicon-log-in"></span>Log Out</a></li>
+    		</ul>
+  		</div>
+	</nav>
+	
+	
 	<h2>당직점검일지</h2>
 		<%String context = request.getContextPath();%>
         <form name="watchKeepingForm" method="post" action="<%=context%>/watchKeepingCheck.do" onsubmit="return checkForm()">    
