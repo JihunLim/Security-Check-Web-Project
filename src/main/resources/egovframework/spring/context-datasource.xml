@@ -4,9 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         http://www.springframework.org/schema/jdbc  http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd">
 	
+	<!--
 	<jdbc:embedded-database id="dataSource" type="HSQL">
 		<jdbc:script location= "classpath:/db/sampledb.sql"/>
 	</jdbc:embedded-database>
+    --> 
     
     <!-- hsql
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -14,7 +16,7 @@
         <property name="url" value="jdbc:log4jdbc:hsqldb:hsql://localhost/sampledb"/>
         <property name="username" value="sa"/>
     </bean>
-    -->  
+     --> 
     
     <!-- Mysql  
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">

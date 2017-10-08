@@ -10,6 +10,14 @@
 		<config>src/main/webapp/WEB-INF/config/egovframework/springmvc/security-context.xml</config>
 	</configs>
 	<autoconfigs>
+		<config>src/main/resources/egovframework/spring/context-properties.xml</config>
+		<config>src/main/webapp/WEB-INF/config/egovframework/springmvc/dispatcher-servlet.xml</config>
+		<config>src/main/resources/egovframework/spring/context-common.xml</config>
+		<config>src/main/resources/egovframework/spring/context-aspect.xml</config>
+		<config>src/main/resources/egovframework/spring/context-idgen.xml</config>
+		<config>src/main/resources/egovframework/spring/context-validator.xml</config>
+		<config>src/main/resources/egovframework/spring/context-datasource.xml</config>
+		<config>src/main/resources/egovframework/spring/context-transaction.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>
