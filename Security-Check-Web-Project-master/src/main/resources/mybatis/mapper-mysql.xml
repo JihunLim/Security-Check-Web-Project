@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding= "UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ 
+<mapper namespace="egovframework.security.office.dao.SecurityOfficeDAO">
+	<!-- 테이블 이름을 대문자로 변경시 오류발생! -->
+ 
+    <!--  #안에 있는 건 jsp내 form 안에 name 태그 설정 값을 써주면 됨 -->
+    
+ 	<!-- 부서DB DAO_Mapper-->
+    <select id="selectDeptDao" resultType="egovframework.security.dto.DeptDTO">
+        SELECT * FROM dept ORDER BY deptNo ASC
+    </select>
+ 
+ 	<select id="selectDeptNameDao" parameterType="int" resultType="String">
+        SELECT deptName FROM dept where deptNo = #{param1}
+    </select>
+ 	
+ 	<select id="selectDeptNumDao" parameterType="int" resultType="int">
+        SELECT deptNum FROM dept where deptNo = #{param1}
+    </select>
+ 
+    <insert id="insertDeptDao" parameterType="egovframework.security.dto.DeptDTO">
+        INSERT into dept (deptName) values(#{deptName})
+    </insert>
+    
+    <delete id="deleteDeptDao" parameterType="egovframework.security.dto.DeptDTO">
+    	DELETE FROM dept WHERE deptNo = #{deptNo}
+    </delete>
+    
+    
+    <!-- 사무실보안점검DB DAO_Mapper-->
+    <select id="selectOfficeSecurityDao" resultType="egovframework.security.dto.OfficeSecurityDTO">
+        SELECT * FROM officesecurity ORDER BY os_datetime DESC, os_deptcode ASC	
+    </select>
+    
+    <select id="selectOfficeSecurityWithDeptDao" parameterType="int" resultType="egovframework.security.dto.OfficeSecurityDTO">
+        SELECT * FROM officesecurity where os_deptcode = #{param1} ORDER BY os_datetime DESC
+    </select>
+ 
+    <insert id="insertOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
+        INSERT into officesecurity values(default, #{os_empemail}, #{os_deptcode}, #{os_document}, #{os_clean}, #{os_lightout}, #{os_ventilation}, #{os_door}, #{os_etc}, default)
+    </insert>
+    
+    <update id="updateOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
+    	UPDATE officesecurity set os_empemail=#{os_empemail},os_document=#{os_document},os_clean=#{os_clean},os_lightout=#{os_lightout},os_ventilation=#{os_ventilation},os_door=#{os_door},os_etc=#{os_etc},os_datetime=#{os_datetime} where os_id = #{os_id}
+    </update>
+    
+    <delete id="deleteOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
+    	DELETE FROM officesecurity WHERE os_id = #{os_id}
+    </delete>    
+    
+    <select id="findDeptDao" parameterType="String" resultType="hashmap">
+    	select emp_deptcode from employee where emp_email = #{param1}
+    </select>
+    
+    <select id="selectOfficeSecurityWithDateDao" parameterType="int" resultType="hashmap">
+    	select * from officesecurity where date(os_datetime) = date(now()) and os_deptcode = #{os_deptcode} 
+    </select>
+    
+    <!-- 당직근무일지DB DAO_Mapper-->
+    <select id="selectWatchKeepingDao" resultType="egovframework.security.dto.WatchKeepingDTO">
+        SELECT * FROM watchkeeping ORDER BY wk_datetime DESC	
+    </select>
+ 
+    <insert id="insertWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
+        INSERT into watchkeeping values(default, default, #{wk_empemail}, #{wk_indication}, #{wk_measure}, #{wk_mpd}, #{wk_vmd}, #{wk_hmd}, #{wk_csd}, #{wk_itd}, #{wk_wio}, #{wk_wim}, #{wk_hwd}, #{wk_sii}, #{wk_specificity}, #{wk_report}, #{wk_delivery})
+    </insert>
+    
+    <update id="updateWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
+    	UPDATE watchkeeping set wk_empemail=#{wk_empemail},wk_measure=#{wk_measure},wk_mpd=#{wk_mpd},wk_vmd=#{wk_vmd},wk_hmd=#{wk_hmd},wk_csd=#{wk_csd},wk_itd=#{wk_itd},wk_wio=#{wk_wio},wk_wim=#{wk_wim},wk_hwd=#{wk_hwd},wk_sii=#{wk_sii},wk_specificity=#{wk_specificity},wk_report=#{wk_report},wk_delivery=#{wk_delivery} where wk_id = #{wk_id}
+    </update>
+    
+    <delete id="deleteWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
+    	DELETE FROM watchkeeping WHERE wk_id = #{wk_id} 
+    </delete>
+    
+    
+    <!-- 회원DB DAO_Mapper-->
+    <select id="selectEmployeeDao" resultType="egovframework.security.dto.EmployeeDTO">
+    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_rank, deptName from employee, dept where dept.deptNo = employee.emp_deptcode order by emp_deptcode ASC
+    </select>
+    
+    <select id="selectEmployeeNotManagerDao" resultType="egovframework.security.dto.EmployeeDTO">
+    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_rank, deptName from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role="ROLE_USER" order by emp_deptcode ASC
+    </select>
+    
+    <select id="selectManagerDao" resultType="String">
+    	select emp_email from employee where emp_role = "ROLE_ADMIN"
+   	</select>
+    
+    <select id="selectDeptWithIdDao" parameterType="String" resultType="int">
+    	select emp_deptcode from employee where emp_email = #{param1}
+    </select>
+    
+    <select id="selectEmpWithIdDao" parameterType="String" resultType="hashmap">
+    	select * from employee where emp_email = #{param1}
+    </select>
+    
+    <select id="selectAllManagerDao" resultType="egovframework.security.dto.EmployeeDTO">
+    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_rank, deptName from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role = "ROLE_ADMIN"  ORDER BY emp_deptcode ASC
+    </select>
+    
+    <update id="updateAuthEmpDao" parameterType="String">
+    	update employee set emp_role = "ROLE_USER" where emp_email = #{param1}
+    </update>
+    
+    <update id="addManagerDao" parameterType="String">
+    	update employee set emp_role = "ROLE_ADMIN" where emp_email = #{param1}
+    </update>
+    
+    <select id="countManagerDao" resultType="int">
+    	select count(*) from employee where emp_role = "ROLE_ADMIN"
+    </select>
+    
+    <!-- 당직표 DAO Mapper -->
+    
+    <insert id="insertNightDutyDao" parameterType="egovframework.security.dto.NightDutyDTO">
+    	insert into nightduty values(#{nd_date}, #{nd_empemail})
+    </insert>
+    
+    <update id="updateNightDutyDao" parameterType="egovframework.security.dto.NightDutyDTO">
+    	update nightduty set nd_date = #{nd_date}, nd_empemail = #{nd_empemail} where nd_date = #{nd_date}
+    </update>
+    
+    <select id="selectNightDutyDao" resultType="egovframework.security.dto.NightDutyDTO">
+    	select nd_date,nd_empemail,deptName,emp_rank,emp_name from nightduty,employee,dept where emp_email=nd_empemail and emp_deptcode=deptNo order by nd_date DESC
+    </select>
+
+    <select id="selectNightDutyWithDateDao" resultType="egovframework.security.dto.NightDutyDTO" parameterType="String">
+    	select * from nightduty where nd_date = #{param1}
+    </select>
+    
+    <select id="selectEmailNightDutyWithDateDao" resultType="String">
+    	select nd_empemail from nightduty where date(nd_date) = date(now())
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+    	<property name="url" value="jdbc:mysql://mlm.lgnas.com:3306/sejongdb"/>
+    	<property name="username" value="user"/>
+    	<property name="password" value="1234"/>
+    </bean>
+    
+    <security:http pattern="/css/**" security="none"/>
+    <security:http pattern="/bootstrap/**" security="none"/>
+    <security:http pattern="/common/**" security="none"/>
+    <security:http pattern="/images/**" security="none"/>
+
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:jdbc-user-service 
+				data-source-ref="dataSource"
+				users-by-username-query="select emp_email,emp_pwd,emp_enabled from employee where emp_email=?;" 
+				authorities-by-username-query="select emp_email, emp_role from employee where emp_email=?;"
+				/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	
+	<security:http auto-config="true" use-expressions="true" >
+		<security:access-denied-handler error-page="/access_denied.do"/>
+		<security:intercept-url pattern="/loginForm.do" access="permitAll"/>
+		<security:intercept-url pattern="/updateDept.do**" access="hasAuthority('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/updateDeptForm.do**" access="hasAuthority('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/updateDeptCheck.do**" access="hasAuthority('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/updateManager.do**" access="hasAuthority('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/addManagerForm.do**" access="hasAuthority('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/addManagerCheck.do**" access="hasAuthority('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/**" access="hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')"/>
+		
+		<security:form-login login-page="/loginForm.do"
+						authentication-failure-url="/loginForm.do?fail"
+						username-parameter="j_username"
+						password-parameter="j_password"
+						/>
+	</security:http>
+	
+	
+
+</beans>
