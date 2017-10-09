@@ -9,17 +9,12 @@
 				id="sidebar">
 				<div class="list-group">
 					<ul class="list-group">
-						<a href="officeSecurityChoice.do" class="list-group-item">사무실
-							보안점검 작성(당직자용 남음)</a>
-						<a href="watchKeepingForm.do" class="list-group-item">당직 근무일지
-							작성</a>
-						<a href="listOfficeSecurity.do" class="list-group-item">보안 점검
-							조회</a>
-						<a href="listWatchKeeping.do" class="list-group-item">당직 근무일지
-							조회</a>
-						<a href="smartSecuritySolution.do" class="list-group-item">SMART
-							보안 솔루션(미완성)</a>
-						<a href="#" class="list-group-item"><span class="badge"></span>당직근무표(미완성)</a>
+						<a href="officeSecurityChoice.do" class="list-group-item">사무실 보안점검 작성(당직자용 남음)</a>
+						<a href="watchKeepingForm.do" class="list-group-item">당직 근무일지 작성</a>
+						<a href="listOfficeSecurity.do" class="list-group-item">보안 점검 조회</a>
+						<a href="listWatchKeeping.do" class="list-group-item">당직 근무일지 조회</a>
+						<a href="smartSecuritySolution.do" class="list-group-item">S.M.A.R.T 보안 솔루션(...)</a>
+						<a href="nightDutyTable.do" class="list-group-item"><span class="badge"></span>당직근무표(...)</a>
 						<s:authorize access="hasAuthority('ROLE_ADMIN')">
 							<a href="updateDept.do" class="list-group-item">부서 업데이트</a>
 							<a href="updateManager.do" class="list-group-item">보안 담당자 변경</a>

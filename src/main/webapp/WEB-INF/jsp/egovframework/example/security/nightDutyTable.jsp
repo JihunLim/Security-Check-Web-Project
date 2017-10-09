@@ -2,6 +2,10 @@
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/topMenu.jsp" %>
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/leftMenuStart.jsp" %>
 	<!-- 시작 -->
+	<fieldset>
+			<legend>
+				<h2>당직근무자 테이블</h2>
+			</legend>
 	<h1>당직테이블 - 이것을 달력으로 바꿔주지 않을래?</h1>
 				<h2>달력에다가 아래 필요한 항목만 가져다가 쓰면 되고, 일시가 키값이야.</h2>
 				<table width="800" cellpadding="0" cellspacing="0" border="1">
@@ -41,6 +45,6 @@
 		<input type="submit" value="당직 추가하기" />
 	</form>
 				
-				
+	</fieldset>			
 	<!-- 끝 -->
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/leftMenuEnd.jsp" %>

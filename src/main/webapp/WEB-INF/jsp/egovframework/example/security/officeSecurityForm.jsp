@@ -4,8 +4,10 @@
 	<!-- 시작 -->
 	<%String context = request.getContextPath();%>
 		<div class="container">
-			<h2>사무실 보안점검</h2>
-			<h4>(최종퇴실자 용)</h4>
+			<fieldset>
+			<legend>
+				<h2>사무실 보안점검(최종퇴실자 용)</h2>
+			</legend>
 			<form class="form-horizontal" name="officeSecurityForm"
 				method="post" action="<%=context%>/officeSecurityCheck.do"
 				onsubmit="return checkForm()">
@@ -64,6 +66,7 @@
 					<label class="control-label col-sm-2" ><button type="제출" class="btn-default">Submit</button></label>
 				</div>
 			</form>
+			</fieldset>
 		</div>
 				
 				

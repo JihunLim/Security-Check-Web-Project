@@ -2,11 +2,35 @@
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/topMenu.jsp" %>
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/leftMenuStart.jsp" %>
 	<!-- 시작 -->
-	<h2>당직 근무일지 조회</h2>
+	<fieldset>
+			<legend>
+				<h2>당직근무일지 조회</h2>
+			</legend>
 				<p>추후에 employee 테이블과 watchkeeping 테이블과 dept 테이블 조인시켜서 이메일 대신
 					회원부서와 이름 가져오기</p>
 
 				<div class="container">
+				<div class="table-toolbar">
+                                     
+                                      <!-- search data 검색 기능 추가 -->
+                                      <div class="col-sm-3 col-md-3">
+                                      <div class="input-group">
+                                       <input type="text" class="form-control" placeholder="부서명/사원이름/내용">
+                                       <span class="input-group-btn">
+                                       		<button class="btn btn-secondary" type="button">search</button>
+                                       </span>
+                                      </div>
+                                      </div>
+                                      <div class="btn-group pull-right">
+                                         <button data-toggle="dropdown" class="btn dropdown-toggle">Tools <span class="caret"></span></button>
+                                         <ul class="dropdown-menu">
+                                            <li><a href="#">Print</a></li>
+                                            <li><a href="#">Save as PDF</a></li>
+                                            <li><a href="#">Export to Excel</a></li>
+                                         </ul>
+                                      </div>
+                 </div>
+                                    
 					<table class="table table-hover">
 						<thead>
 							<tr>
@@ -67,6 +91,9 @@
   		</ul>
 	</div>
 				
-				
+	</fieldset>			
 	<!-- 끝 -->
+	
+	
+	
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/leftMenuEnd.jsp" %>

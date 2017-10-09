@@ -2,8 +2,12 @@
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/topMenu.jsp" %>
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/leftMenuStart.jsp" %>
 	<!-- 시작 -->
-	<h1>관리자 목록 페이지</h1>
-	<table cellpadding="0" cellspacing="0" border="1">
+	<div class="container">
+	<fieldset>
+	<legend>
+		<h2>보안 담당자 관리</h2>
+	</legend>
+	<table class="table table-hover">
 		<tr>
 			<td>이메일</td>
 			<td>이름</td>
@@ -26,7 +30,8 @@
 	<p>
 		<a href="addManagerForm.do">관리자 추가</a>
 	</p>
-				
+	</fieldset>
+   </div>
 				
 	<!-- 끝 -->
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/leftMenuEnd.jsp" %>

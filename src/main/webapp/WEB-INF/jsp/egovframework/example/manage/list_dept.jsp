@@ -2,7 +2,10 @@
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/topMenu.jsp" %>
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/leftMenuStart.jsp" %>
 	<!-- 시작 -->
-	<h2>개인 정보 입력</h2>
+	<fieldset>
+			<legend>
+				<h2>개인정보 입력</h2>
+			</legend>
 		<%String context = request.getContextPath();%>
 		<form name="updateDeptForm" method="post"
 			action="<%=context%>/updateDeptCheck.do"
@@ -13,7 +16,7 @@
 				type="submit" value="확인(submit)" /> <input type="reset"
 				value="취소" />
 		</form>
-				
+		</fieldset>		
 				
 	<!-- 끝 -->
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/leftMenuEnd.jsp" %>

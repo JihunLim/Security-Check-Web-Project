@@ -3,7 +3,10 @@
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/leftMenuStart.jsp" %>
 	<!-- 시작 -->
 	<div class="container">
-		<h2>당직점검일지</h2>
+		<fieldset>
+			<legend>
+				<h2>당직점검일지</h2>
+			</legend>
 		<%String context = request.getContextPath();%>
 		<form name="watchKeepingForm" method="post"
 			action="<%=context%>/watchKeepingCheck.do"
@@ -36,6 +39,7 @@
 				type="submit" value="확인(submit)" /> <input type="reset"
 				value="취소" />
 		</form>
+		</fieldset>
 	</div>
 				
 				

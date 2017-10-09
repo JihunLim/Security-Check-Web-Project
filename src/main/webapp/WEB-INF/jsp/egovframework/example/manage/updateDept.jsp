@@ -2,7 +2,12 @@
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/topMenu.jsp" %>
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/leftMenuStart.jsp" %>
 	<!-- 시작 -->
-	<table width="500" cellpadding="0" cellspacing="0" border="1">
+	<div class="container">
+	<fieldset>
+	<legend>
+		<h2>부서 업데이트</h2>
+	</legend>
+	<table class="table table-hover">
 		<tr>
 			<td>부서이름</td>
 			<td>삭제</td>
@@ -15,10 +20,12 @@
 				<tr>
 			</c:forEach>
 	</table>
+	
 	<p>
 		<a href="addDeptForm.do">부서 추가</a>
 	</p>
-				
+	</fieldset>
+	</div>		
 				
 	<!-- 끝 -->
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/leftMenuEnd.jsp" %>

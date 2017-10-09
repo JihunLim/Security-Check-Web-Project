@@ -4,7 +4,30 @@
 	<!-- 시작 -->
 	<!-- 테이블 출력  -->
 	<div class="container">
-		<h2>보안 점검 조회</h2>
+	<fieldset>
+			<legend>
+				<h2>사무실 보안점검 조회</h2>
+			</legend>
+	<div class="table-toolbar">
+                                     
+                                      <!-- search data 검색 기능 추가 -->
+                                      <div class="col-sm-3 col-md-3">
+                                      <div class="input-group">
+                                       <input type="text" class="form-control" placeholder="부서명/사원이름/내용">
+                                       <span class="input-group-btn">
+                                       		<button class="btn btn-secondary" type="button">search</button>
+                                       </span>
+                                      </div>
+                                      </div>
+                                      <div class="btn-group pull-right">
+                                         <button data-toggle="dropdown" class="btn dropdown-toggle">Tools <span class="caret"></span></button>
+                                         <ul class="dropdown-menu">
+                                            <li><a href="#">Print</a></li>
+                                            <li><a href="#">Save as PDF</a></li>
+                                            <li><a href="#">Export to Excel</a></li>
+                                         </ul>
+                                      </div>
+                 </div>
 		<table class="table table-hover">
 			<thead>
 				<tr>
@@ -35,6 +58,7 @@
 				</tbody>
 			</c:forEach>
 		</table>
+		</fieldset>
 	</div>
 
 	<!-- 페이지 설정 -->
