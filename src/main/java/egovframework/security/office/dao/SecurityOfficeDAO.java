@@ -3,6 +3,7 @@ package egovframework.security.office.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import egovframework.security.dto.DeptDTO;
 import egovframework.security.dto.EmployeeDTO;
@@ -52,9 +53,9 @@ public interface SecurityOfficeDAO {
      * 사무실보안점검DB
      */
     //사무실보안점검 출력하기
-    public List<OfficeSecurityDTO> selectOfficeSecurityDao();
+    public List<OfficeSecurityDTO> selectOfficeSecurityDao(long data);
     //사무실보안점검 해당부서만 출력하기
-    public List<OfficeSecurityDTO> selectOfficeSecurityWithDeptDao(int data);
+    public List<OfficeSecurityDTO> selectOfficeSecurityWithDeptDao(Map data);
     //사무실보안점검 삽입하기
     public void insertOfficeSecurityDao(OfficeSecurityDTO data);
     //사무실보안점검 수정하기
@@ -70,7 +71,7 @@ public interface SecurityOfficeDAO {
      * 당직근무일지DB
      */
     //당직근무일지 출력하기
-    public List<WatchKeepingDTO> selectWatchKeepingDao();
+    public List<WatchKeepingDTO> selectWatchKeepingDao(long data);
     //당직근무일지 삽입하기
     public void insertWatchKeepingDao(WatchKeepingDTO data);
     //당직근무일지 수정하기
@@ -98,11 +99,21 @@ public interface SecurityOfficeDAO {
     //당직근무표 전체출력
     public List<NightDutyDTO> selectNightDutyDao();
     //당직근무표 해당날짜출력
-    public NightDutyDTO selectNightDutyWithDateDao();
+    public NightDutyDTO selectNightDutyWithDateDao(String data);
     //당직근무표 회원이메일 출력하기
     public String selectEmailNightDutyWithDateDao();
+    //오늘 당직근무표에 인원이 할당되어있는지 숫자 리턴
+    public int selectNumNightDutyWithDateDao();
     
-    
+    /*
+     * 페이지 DB 
+     */
+    //사무실 보안점검 리스트 - 관리자용
+    public long selectNumTotalListOfOfficeDao();
+    //사무실 보안점검 리스트 - 일반사용자용
+    public long selectNumTotalListOfOfficeWithDeptDao(int data);
+    //당직점검일지 리스트 - 관리자용
+    public long selectNumTotalListOfNightDutyDao();
     
     
     

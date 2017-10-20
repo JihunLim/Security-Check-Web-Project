@@ -78,17 +78,26 @@
 		</table>
 	</div>
 	
-	<!-- 페이지 설정 -->
+	<!-- 페이지 번호 구현  -->
 	<div class="container">
 		<ul class="pagination">
-			<li class="disabled"><a href="#">&laquo;</a></li>
-    		<li class="active"><a href="#">1</a></li> <!-- 초기 페이지 설정 -->
-    		<li><a href="#">2</a></li>
-    		<li><a href="#">3</a></li>
-    		<li><a href="#">4</a></li>
-    		<li><a href="#">5</a></li>
-    		<li><a href="#">&raquo;</a></li>
-  		</ul>
+			<c:if test = "${paging.pageGroup > 1}">
+				<li><a href="javascript:fnGoPaging(<c:out value='${paging.prePage}'/>)"> &laquo;</a></li>
+			</c:if>
+			<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage > paging.totalPage ? paging.totalPage : paging.endPage}" varStatus="status">
+				<c:choose>
+					<c:when test="${paging.page eq i}">
+						<li class="active"><a href="javascript:fnGoPaging(${i});">${i}</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="javascript:fnGoPaging(${i});">${i}</a></li>			
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<c:if test = "${paging.nextPage <= paging.totalPage}">
+				<li><a href="javascript:fnGoPaging(<c:out value='${paging.nextPage}'/>)">&raquo;</a>
+			</c:if>
+		</ul>
 	</div>
 				
 	</fieldset>			

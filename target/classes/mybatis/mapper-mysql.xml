@@ -31,12 +31,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     
     <!-- 사무실보안점검DB DAO_Mapper-->
-    <select id="selectOfficeSecurityDao" resultType="egovframework.security.dto.OfficeSecurityDTO">
-        SELECT * FROM officesecurity ORDER BY os_datetime DESC, os_deptcode ASC	
+    <select id="selectOfficeSecurityDao" parameterType="long" resultType="egovframework.security.dto.OfficeSecurityDTO">
+        SELECT * FROM officesecurity ORDER BY os_datetime DESC, os_deptcode ASC	limit 15 offset #{param1}
     </select>
     
-    <select id="selectOfficeSecurityWithDeptDao" parameterType="int" resultType="egovframework.security.dto.OfficeSecurityDTO">
-        SELECT * FROM officesecurity where os_deptcode = #{param1} ORDER BY os_datetime DESC
+    <select id="selectOfficeSecurityWithDeptDao" parameterType="hashmap" resultType="egovframework.security.dto.OfficeSecurityDTO">
+        SELECT * FROM officesecurity where os_deptcode = #{userDept} ORDER BY os_datetime DESC limit 15 offset #{page}
     </select>
  
     <insert id="insertOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
@@ -60,8 +60,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <!-- 당직근무일지DB DAO_Mapper-->
-    <select id="selectWatchKeepingDao" resultType="egovframework.security.dto.WatchKeepingDTO">
-        SELECT * FROM watchkeeping ORDER BY wk_datetime DESC	
+    <select id="selectWatchKeepingDao" parameterType="long" resultType="egovframework.security.dto.WatchKeepingDTO">
+        SELECT * FROM watchkeeping ORDER BY wk_datetime DESC limit 15 offset #{param1}	
     </select>
  
     <insert id="insertWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
@@ -136,12 +136,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	select nd_empemail from nightduty where date(nd_date) = date(now())
     </select>
     
+    <select id="selectNumNightDutyWithDateDao" resultType="int">
+    	select count(*) from nightduty where date(nd_date) = date(now())
+    </select>
     
+    <!-- 페이징 처리 DB -->
+    <select id="selectNumTotalListOfOfficeDao" resultType="long">
+    	select count(*) from officesecurity
+    </select>
     
+    <select id="selectNumTotalListOfOfficeWithDeptDao" resultType="long">
+    	select count(*) from officesecurity where os_deptcode = #{param1}
+    </select>
     
-    
-    
-    
+    <select id="selectNumTotalListOfNightDutyDao" resultType="long">
+    	select count(*) from watchkeeping
+    </select>
     
     
     

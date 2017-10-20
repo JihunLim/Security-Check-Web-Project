@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import egovframework.security.dto.DeptDTO;
 import egovframework.security.dto.OfficeSecurityDTO;
+import egovframework.security.dto.PagingDTO;
 import egovframework.security.dto.WatchKeepingDTO;
 import egovframework.security.office.dao.SecurityOfficeDAO;
 
@@ -444,8 +446,9 @@ public class HomeController {
 		 * 사무실 보안점검 - 최종퇴실자 또는 당직근무자 선택 
 		 */
 		@RequestMapping("/officeSecurityChoice.do")
-		public String menuChoice(Model model) throws Exception {
+		public String menuChoice(Model model, HttpServletResponse response) throws Exception {
 			String resultPage = "/";
+			String fnUser = "";
 			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 			HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
 			String _emp_name = (String) empMap.get("emp_name");
@@ -461,8 +464,22 @@ public class HomeController {
 			model.addAttribute("emp_name", _emp_name);
 			model.addAttribute("deptName", _deptName);
 			model.addAttribute("auth", _auth);
+			
 			// 당직자면 당직자페이지로, 아니면 최종퇴실자페이지로 이동
-			String fnUser = dao.selectEmailNightDutyWithDateDao(); //fnUser : 오늘의 당직자 id 
+			if(dao.selectNumNightDutyWithDateDao() >0 ) // 오늘 당직자가 있으면
+				fnUser = dao.selectEmailNightDutyWithDateDao(); //fnUser : 오늘의 당직자 id
+			else{
+				//db에 오늘 당직자가 설정 안되어 있는 경우
+				response.setCharacterEncoding("EUC-KR");
+			     PrintWriter writer = response.getWriter();
+			     writer.println("<script type='text/javascript'>");
+			     writer.println("alert('당직자가 아닙니다.');");
+			     writer.println("history.back();");
+			     writer.println("</script>");
+			     writer.flush();
+			     return null;
+			}
+			
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			System.out.println("로그인 정보 : " +auth.getDetails());
 			if (fnUser.equals(auth.getName())){
@@ -480,9 +497,10 @@ public class HomeController {
 		 * 사무실보안점검 리스트 조회 
 		 */
 		@RequestMapping("/listOfficeSecurity.do")
-		public String listOfficeSecurity(Model model) throws Exception {
+		public String listOfficeSecurity(HttpServletRequest request, Model model) throws Exception {
 			try{
 				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+				PagingDTO pageInfo;
 				HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
 				String _emp_name = (String) empMap.get("emp_name");
 				int _os_deptcode = (Integer) empMap.get("emp_deptcode");
@@ -493,23 +511,42 @@ public class HomeController {
 					_auth = "일반사용자";
 				else 
 					_auth = "관리자";
-				
 				model.addAttribute("emp_name", _emp_name);
 				model.addAttribute("deptName", _deptName);
 				model.addAttribute("auth", _auth);
 				//현재 로그인 정보 가져오기
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				System.out.println("로그인 정보 : " +auth.getDetails());
+				//페이지 번호 가져옴
+				long pageNum = (long)Integer.parseInt(request.getParameter("page")); 
+				if(pageNum <= 0)
+					pageNum = 1;
+				
 				//관리자 정보 가져오기
 				ArrayList managerList = dao.selectManagerDao();
 				//권한에 따라 다르게 출력
 				if (managerList.contains(auth.getName())){
 					//관리자일 경우 모두 출력
-					 model.addAttribute("list", dao.selectOfficeSecurityDao());
+					//페이지에 대한 정보 입력 및 전달
+					//파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
+					pageInfo = new PagingDTO(dao.selectNumTotalListOfOfficeDao(), pageNum);
+					model.addAttribute("paging", pageInfo);
+					//파라미터 -> (클릭한 페이지 넘버 -1) * rows
+				    model.addAttribute("list", dao.selectOfficeSecurityDao((long)((pageNum - 1) * pageInfo.getRows())));
 				}else{
 					//일반유저일 경우 해당 부서만 출력
+					//사용자의 부서정보 가져옴
 					int userDept = dao.selectDeptWithIdDao(auth.getName());
-					model.addAttribute("list", dao.selectOfficeSecurityWithDeptDao(userDept));
+					//페이지에 대한 정보 입력 및 전달
+					//파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
+					pageInfo = new PagingDTO(dao.selectNumTotalListOfOfficeWithDeptDao(userDept), pageNum); 
+					model.addAttribute("paging", pageInfo);
+					
+					Map map = new HashMap();
+					map.put("userDept", (int)userDept);
+					map.put("page", (long)((pageNum - 1) * pageInfo.getRows()));
+					
+					model.addAttribute("list", dao.selectOfficeSecurityWithDeptDao(map));
 				}
 		
 			}catch(Exception exp){
@@ -628,9 +665,12 @@ public class HomeController {
 		 * 당직근무일지 리스트 조회 
 		 */
 		@RequestMapping("/listWatchKeeping.do")
-		public String listWatchKeeping(Model model) throws Exception {
+		public String listWatchKeeping(HttpServletRequest request, Model model) throws Exception {
 			try{
 				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+				PagingDTO pageInfo;
+				
+				/* 밑에 코드 수정해야 함 */
 				HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
 				String _emp_name = (String) empMap.get("emp_name");
 				int _os_deptcode = (Integer) empMap.get("emp_deptcode");
@@ -641,11 +681,19 @@ public class HomeController {
 					_auth = "일반사용자";
 				else 
 					_auth = "관리자";
-				
 				model.addAttribute("emp_name", _emp_name);
 				model.addAttribute("deptName", _deptName);
 				model.addAttribute("auth", _auth);
-		        model.addAttribute("list", dao.selectWatchKeepingDao());
+				
+				//페이지 번호 가져옴
+				long pageNum = (long)Integer.parseInt(request.getParameter("page")); 
+				if(pageNum <= 0)
+					pageNum = 1;
+				//페이지에 대한 정보 입력 및 전달
+				//파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
+				pageInfo = new PagingDTO(dao.selectNumTotalListOfNightDutyDao(), pageNum);
+				model.addAttribute("paging", pageInfo);
+		        model.addAttribute("list", dao.selectWatchKeepingDao((long)((pageNum - 1) * pageInfo.getRows())));
 		        System.out.print("listWatchKeeping");
 			}catch(Exception exp){
 				System.out.println(exp.getMessage());
