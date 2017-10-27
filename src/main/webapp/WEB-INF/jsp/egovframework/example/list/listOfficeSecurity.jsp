@@ -5,7 +5,6 @@
 	//원하는 페이지로 이동시 검색조건
 	function fnGoPaging(page){
     	location.href="<%=cp%>/listOfficeSecurity.do?page="+page
-    	
 	}
 </script>
 

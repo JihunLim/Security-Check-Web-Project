@@ -20,8 +20,14 @@ public interface SecurityOfficeDAO {
 	public List<DeptDTO> selectDeptDao();
 	//부서이름 출력하기
 	public String selectDeptNameDao(int data);
-	//부서수 출력하기
-	public String selectDeptNumDao(int data);
+	//부서 인원수 출력하기
+	public int selectDeptNumDao(int data);
+	//부서 개수 출력하기
+	public int selectNDeptDao();
+	//부서 장 이메일 출력하기
+	public String selectDeptBossEmailDao(int data);
+	//부서 이름 출력하기
+	public String selectTotalDeptDao(int data);
 	//부서정보 삽입하기
     public void insertDeptDao(DeptDTO data);
     //부서정보 삭제하기
@@ -48,7 +54,10 @@ public interface SecurityOfficeDAO {
     public List<EmployeeDTO> selectEmployeeNotManagerDao();
     //관리자 수 출력
     public int countManagerDao();
-    
+    //이메일 수신 동의자 수 출력
+    public int selectManagerCheckEmailNumDao();
+    //이메일 수신 이메일 출력
+    public List<HashMap> selectManagerCheckEmailDao();
     /*
      * 사무실보안점검DB
      */
@@ -72,6 +81,8 @@ public interface SecurityOfficeDAO {
      */
     //당직근무일지 출력하기
     public List<WatchKeepingDTO> selectWatchKeepingDao(long data);
+    //당직근무일지 작성 확인
+    public int selectNumWatchKeepingDao();
     //당직근무일지 삽입하기
     public void insertWatchKeepingDao(WatchKeepingDTO data);
     //당직근무일지 수정하기
@@ -115,11 +126,21 @@ public interface SecurityOfficeDAO {
     //당직점검일지 리스트 - 관리자용
     public long selectNumTotalListOfNightDutyDao();
     
-    
-    
-    
-    
-    
+    /*
+     * smart 보안점검 처리 DB
+     */
+    //스마트 보안점검 - 부서별 사무실보안점검 실시 수
+    public int selectNumImplementDao(int data);
+    //스마트 보안점검 - 월 별 부서별 보안점수
+    public int selectScoreDeptOfficeDao(int data);
+    //스마트 보안점검 - 해당 부서 데이터 확인
+    public int selectCheckScoreDeptOfficeDao(int data);
+    //스마트 보안점검 - 모든 부서의 각 보안항목 점수
+    public int selectScoreDocumentDao();
+    public int selectScoreCleanDao();
+    public int selectScoreLightoutDao();
+    public int selectScoreVentilationDao();
+    public int selectScoreDoorDao();
     
     
     

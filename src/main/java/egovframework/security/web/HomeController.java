@@ -3,16 +3,21 @@ package egovframework.security.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -30,6 +35,9 @@ public class HomeController {
 	
 	@Autowired
 	public SqlSession sqlSession;
+	
+	  @Autowired
+	  private JavaMailSender mailSender;
 
 	@RequestMapping("/loginForm.do")
 	public String loginForm( Model model){
@@ -195,8 +203,8 @@ public class HomeController {
 		@RequestMapping("/officeSecurityCheck.do")
 		public String officeSecurityCheck(HttpServletRequest request, Model model) throws Exception {
 			
-			String resultPage = "forward:/";
-			
+			String resultPage = "cmmn/saveDataSuccess";
+			boolean SendEmail = false;
 			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 			HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
 			String _emp_name = (String) empMap.get("emp_name");
@@ -226,36 +234,60 @@ public class HomeController {
 				String os_etc = request.getParameter("os_etc");
 				HashMap map = dao.findDeptDao(os_empemail);
 				int os_deptcode = (Integer) map.get("emp_deptcode");
-				System.out.println("officeSecurityCheck가 실행됐습니다 : " + os_empemail);
 				officeDTO = new OfficeSecurityDTO(os_empemail, os_deptcode, os_document, os_clean, os_lightout, os_ventilation, os_door, os_etc);
-				
+				//당직자 이메일 구하기
+				String fnUser = dao.selectEmailNightDutyWithDateDao();
 				//실행하는 날짜의 데이터가 있는지 확인
 				 HashMap OSMap = (HashMap)dao.selectOfficeSecurityWithDateDao(os_deptcode);
 					//지금 실시하고자 하는 최종퇴실자의 부서번호와 이미 db에 입력되어있는 부서번호를 비교하여 -> 있으면 : update 및 alert() 발생 / 없으면 : insert
 					if (OSMap == null) {
 						// 데이터가 없을 시
-						System.out.println("기존 데이터가 없음");
 						dao.insertOfficeSecurityDao(officeDTO);
+						if(!fnUser.equals((String)os_empemail)){
+							//당직자가 아닐 경우
+							SendEmail = true;
+						}
 					} else {
 						// 데이터가 있을 시
 						// 기존 입력한 유저가 당직근무자면 에러발생, 최종퇴실자면 정상진행(os_empemail은 수정금지)
-						System.out.println("기존 데이터가 있음");
 						//if 당직근무자 이메일과 여기 db의 이메일이 동일하면 에러발생, 그렇지 않으면 수정가능(단, os_empemail은 수정금지)
 						//당직근무자 이메일(fnUser)
-						String fnUser = dao.selectEmailNightDutyWithDateDao();
-						System.out.println("오늘 당직자 : " + fnUser);
+						
 						officeDTO = new OfficeSecurityDTO((Integer) OSMap.get("os_id"), os_empemail, os_deptcode, os_document, os_clean, os_lightout, os_ventilation, os_door, os_etc);
 						if (fnUser.equals((String)OSMap.get("os_empemail"))){
 							//당직근무자가 이미 사무실보안점검을 한 경우
 							dao.updateOfficeSecurityDao(officeDTO);
+							SendEmail = true;
 						}
 						else {
 							//다른 최종퇴실자가 처리를 한 경우 
 							//그래도 수정하는지 alert 발생 처리
-							//~~~
 							dao.updateOfficeSecurityDao(officeDTO);
 						}
 					}
+					if(SendEmail){
+						//성공할 시 메일 보내기
+						Date dt = new Date();
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd, a hh:mm:ss"); 
+						String os_date = sdf.format(dt).toString(); 
+					    String setfrom = "limjihun204@gmail.com"; // 보내는 사람 이메일
+					    String title   = "["+ os_date.toString()+"] "+"사회보장정보원 사무실보안점검"+"("+_deptName+")"+"을 완료했습니다."; // 제목
+					    String content = "["+ os_date.toString()+"]경으로 "+_emp_name+"("+_deptName+")"+"님께서 사회보장정보원 사무실보안점검"+"("+_deptName+")"+"을 완료했습니다.\n자세한 내용은 홈페이지에서 확인바랍니다."; // 내용
+					    String tomail  = (String) dao.selectDeptBossEmailDao(os_deptcode);// 받는 사람 이메일 
+					    try {
+					      MimeMessage message = mailSender.createMimeMessage();
+					      MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+					      messageHelper.setFrom(setfrom);  // 보내는사람 
+					      messageHelper.setTo(tomail);     // 받는사람 이메일
+					      messageHelper.setSubject(title); // 메일제목
+					      messageHelper.setText(content);  // 메일 내용
+					      mailSender.send(message);
+					    } catch(Exception e){
+					      System.out.println(e);
+					    }
+					    
+					}
+					
 				} catch (Exception exp) {
 					System.out.println("예외처리 메시지 : " + exp.getCause());
 					resultPage = "cmmn/dataAccessFailure";
@@ -292,7 +324,7 @@ public class HomeController {
 		@RequestMapping("/officeSecurityFNCheck.do")
 		public String officeSecurityFNCheck(HttpServletRequest request, Model model) throws Exception {
 			
-			String resultPage = "forward:/";
+			String resultPage = "cmmn/saveDataSuccess";
 			
 			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 			HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -470,14 +502,7 @@ public class HomeController {
 				fnUser = dao.selectEmailNightDutyWithDateDao(); //fnUser : 오늘의 당직자 id
 			else{
 				//db에 오늘 당직자가 설정 안되어 있는 경우
-				response.setCharacterEncoding("EUC-KR");
-			     PrintWriter writer = response.getWriter();
-			     writer.println("<script type='text/javascript'>");
-			     writer.println("alert('당직자가 아닙니다.');");
-			     writer.println("history.back();");
-			     writer.println("</script>");
-			     writer.flush();
-			     return null;
+			     return "cmmn/dataAccessFailure";
 			}
 			
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -584,8 +609,13 @@ public class HomeController {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			
 			if (fnUser.equals((String)auth.getName())){
-				//당직근무자와 접속자가 같은 경우 허용
-				resultPage = "security/watchKeepingForm";
+				//당직근무자와 접속자가 같은 경우와 이미 실행된 적이 없으면 실행
+				if (dao.selectNumWatchKeepingDao() < 1){
+					resultPage = "security/watchKeepingForm";
+				}else{
+					//이미 실행된 경우
+					resultPage = "cmmn/dataHasAlready";
+				}
 			}
 			else {
 				//당직근무자와 접속자가 다른 경우 경고 후 뒤로 돌아가기
@@ -605,14 +635,13 @@ public class HomeController {
 			}
 			return resultPage;
 		}
-		
-		
+
 		/**
 		 * 사무실보안점검 리스트 DB에 저장
 		 */
 		@RequestMapping("/watchKeepingCheck.do")
-		public String watchKeepingCheck(HttpServletRequest request, Model model) throws Exception {
-			String resultPage = "forward:/";
+		public String watchKeepingCheck(HttpServletRequest request, HttpServletResponse response ,Model model) throws Exception {
+			String resultPage = "cmmn/saveDataSuccess";
 			try{
 				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 				HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -632,10 +661,9 @@ public class HomeController {
 				 WatchKeepingDTO wkDTO;
 				 //정보 가지고 오기
 				request.setCharacterEncoding("EUC-KR");
-			    //Date os_date = (Date) new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("os_date"));
-				String wk_empemail = request.getParameter("wk_empemail"); //직원번호
-				String wk_indication = request.getParameter("wk_indication"); //직원번호
-				String wk_measure = request.getParameter("wk_measure"); //직원번호
+				String wk_empemail = request.getParameter("wk_empemail"); //
+				String wk_indication = request.getParameter("wk_indication"); //
+				String wk_measure = request.getParameter("wk_measure"); //
 				int wk_mpd = Integer.parseInt(request.getParameter("wk_mpd"));
 				int wk_vmd = Integer.parseInt(request.getParameter("wk_vmd"));
 				int wk_hmd = Integer.parseInt(request.getParameter("wk_hmd"));
@@ -648,16 +676,38 @@ public class HomeController {
 				String wk_specificity = request.getParameter("wk_specificity");
 				String wk_report = request.getParameter("wk_report");
 				String wk_delivery = request.getParameter("wk_delivery");
-			    System.out.print("watchKeepingForm이 실행됐습니다 : ");
 			    //정보를 가지고 와서 db에 입력
-			    
 			    wkDTO = new WatchKeepingDTO(wk_empemail, wk_indication, wk_measure, wk_mpd, wk_vmd, wk_hmd, wk_csd, wk_itd, wk_wio, wk_wim, wk_hwd, wk_sii, wk_specificity, wk_report, wk_delivery);
-			    
 			    dao.insertWatchKeepingDao(wkDTO);
+			    
+			    //성공할 시 메일 보내기
+			    Date dt = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd, a hh:mm:ss"); 
+				String os_date = sdf.format(dt).toString(); 
+			    String setfrom = "limjihun204@gmail.com"; // 보내는 사람 이메일
+			    String title   = "["+ os_date.toString()+"] "+"사회보장정보원 당직점검을 완료했습니다."; // 제목
+			    String content = "["+ os_date.toString()+"]경으로 "+_emp_name+"("+_deptName+")"+"님께서 사회보장정보원 당직점검을 완료했습니다.\n자세한 내용은 홈페이지에서 확인바랍니다."; // 내용
+			    int count = dao.selectManagerCheckEmailNumDao(); // 보내는 사람이 몇명인지 확인
+			    while(count-- > 0){
+				    String tomail  = (String) dao.selectManagerCheckEmailDao().get(count).get("emp_email");// 받는 사람 이메일 
+				    try {
+				      MimeMessage message = mailSender.createMimeMessage();
+				      MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+				      messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+				      messageHelper.setTo(tomail);     // 받는사람 이메일
+				      messageHelper.setSubject(title); // 메일제목
+				      messageHelper.setText(content);  // 메일 내용
+				      mailSender.send(message);
+				    } catch(Exception e){
+				      System.out.println(e);
+				    }
+			    }
 			}catch(Exception exp){
 				System.out.println(exp.getMessage());
 				resultPage = "cmmn/dataAccessFailure";
 			}
+			//성공적으로 데이터가 저장된 경우
+			System.out.println(resultPage);
 			return resultPage;
 		}
 	
@@ -706,7 +756,7 @@ public class HomeController {
 		 */
 		@RequestMapping("/changeWatchKeeperCheck.do")
 		public String changeWatchKeeper(HttpServletRequest request, Model model) throws Exception {
-			String resultPage = "forward:/";
+			String resultPage = "cmmn/saveDataSuccess";
 			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 			HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
 			String _emp_name = (String) empMap.get("emp_name");
@@ -852,23 +902,110 @@ public class HomeController {
 		//스마트 보안솔루션
 		@RequestMapping("/smartSecuritySolution.do")
 	    public String smartSecuritySolution(HttpServletRequest request, Model model) {
+			
 			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 			String resultPage = "security/smartSecuritySolution";
-			HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
-			String _emp_name = (String) empMap.get("emp_name");
-			int _os_deptcode = (Integer) empMap.get("emp_deptcode");
-			String _deptName = (String) dao.selectDeptNameDao(_os_deptcode);
-			String _emp_role = (String) empMap.get("emp_role");
-			String _auth = "";
-			if ("ROLE_USER".equals(_emp_role))
-				_auth = "일반사용자";
-			else 
-				_auth = "관리자";
-			
-			model.addAttribute("emp_name", _emp_name);
-			model.addAttribute("deptName", _deptName);
-			model.addAttribute("auth", _auth);
+			//부서 총 수
+			int deptTotalNum = dao.selectNDeptDao();
+			//부서 이름
+			String[] strDeptName = new String[deptTotalNum];
+			//부서 별 미실시 횟수
+			int[] numNonImplement = new int[deptTotalNum];
+			//부서 별 보안점수 (월 단위)
+			int[] scoreDeptList = new int[deptTotalNum];
+			//항목 별 보안점수 (db 전체)
+			int[] scoreEachList = new int[5];
+			try{
+				HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
+				String _emp_name = (String) empMap.get("emp_name");
+				int _os_deptcode = (Integer) empMap.get("emp_deptcode");
+				String _deptName = (String) dao.selectDeptNameDao(_os_deptcode);
+				String _emp_role = (String) empMap.get("emp_role");
+				String _auth = "";
+				if ("ROLE_USER".equals(_emp_role))
+					_auth = "일반사용자";
+				else 
+					_auth = "관리자";
+				
+				model.addAttribute("emp_name", _emp_name);
+				model.addAttribute("deptName", _deptName);
+				model.addAttribute("auth", _auth);
+				
+				
+				///
+				Date dt = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat sdf2 = new SimpleDateFormat("MM"); 
+				String now_date = sdf.format(dt).toString();
+				String month_date = sdf2.format(dt).toString();
+				
+				String startDate = "2017-10-23"; //시작 날짜
+				String endDate = now_date; // 오늘 날짜
+				long diffDateAsDay = 0;
+			 // String Type을 Date Type으로 캐스팅하면서 생기는 예외로 인해 여기서 예외처리 해주지 않으면 컴파일러에서 에러가 발생해서 컴파일을 할 수 없다.
+			        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+			        // date1, date2 두 날짜를 parse()를 통해 Date형으로 변환.
+			        Date FirstDate = format.parse(startDate);
+			        Date SecondDate = format.parse(endDate);
+			        long calDate = FirstDate.getTime() - SecondDate.getTime(); 
+			        
+			        // Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다. 
+			        // 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
+			        diffDateAsDay = calDate / ( 24*60*60*1000); 
+			 
+			        diffDateAsDay = Math.abs(diffDateAsDay);
+			        
+			        System.out.println("두 날짜의 날짜 차이: "+diffDateAsDay);
+			        
+			        
+				int temp = 0;
+				int max = 0;
+				for(int i=1;i<=deptTotalNum;i++){
+					temp = i-1;
+					strDeptName[temp] = dao.selectTotalDeptDao(i); //부서 이름 넣기
+					if(dao.selectCheckScoreDeptOfficeDao(i) != 0)
+						scoreDeptList[temp] = dao.selectScoreDeptOfficeDao(i); //부서 별 보안점수 넣기(당월 데이터만 해당)
+					else
+						scoreDeptList[temp] = 0; //부서 별 보안점수 넣기(당월 데이터만 해당)
+					numNonImplement[temp] = ((int)diffDateAsDay - dao.selectNumImplementDao(i));//전체일 수 - 실시일 수
+					if (numNonImplement[temp] > max)
+						max = numNonImplement[temp];
+				}
+				int maxNum = (max/10)+10;
+	//			ArrayList<Integer> tempArray = dao.selectScoreListOfficeDao();
+	//			System.out.println("aaab : "+ tempArray.size());
+	//			for(int i=0; i<5; i++){
+	//				scoreEachList[i] = tempArray.get(i).intValue();
+	//				System.out.println("aaa : "+i +":"+ scoreEachList[i]);
+	//			}
+				
+				System.out.println("aaa1 : " + dao.selectScoreDocumentDao());
+				System.out.println("aaa2 : " + dao.selectScoreCleanDao());
+				System.out.println("aaa3 : " + dao.selectScoreLightoutDao());
+				System.out.println("aaa4 : " + dao.selectScoreVentilationDao());
+				System.out.println("aaa5 : " + dao.selectScoreDoorDao());
+				
+				scoreEachList[0] =  dao.selectScoreDocumentDao();
+				scoreEachList[1] =  dao.selectScoreCleanDao();
+				scoreEachList[2] =  dao.selectScoreLightoutDao();
+				scoreEachList[3] =  dao.selectScoreVentilationDao();
+				scoreEachList[4] =  dao.selectScoreDoorDao();
+				
+				model.addAttribute("month_date", month_date);
+				model.addAttribute("maxNumBar", maxNum);
+				model.addAttribute("nameDept", strDeptName);
+				model.addAttribute("numNonImplement", numNonImplement);
+				model.addAttribute("scoreDeptList", scoreDeptList);
+				model.addAttribute("scoreEachList", scoreEachList);
+				//2번째 그래프
+			} catch (Exception exp) {
+				System.out.println("예외처리 메시지 : " + exp.getMessage());
+				System.out.println("예외처리 메시지 : " + exp.getCause());
+				exp.printStackTrace();
+				resultPage = "cmmn/dataAccessFailure";
+			}
 			return resultPage;
+			
 		}
 		
 		//당직테이블 

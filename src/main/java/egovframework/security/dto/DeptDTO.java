@@ -4,6 +4,7 @@ public class DeptDTO {
 	private int deptNo;
 	private String deptName;
 	private int deptNum;
+	private String deptBoss;
 	
 	public DeptDTO(){
 		
@@ -16,32 +17,19 @@ public class DeptDTO {
 	public DeptDTO(int deptNo){
 		this.deptNo = deptNo;
 	}
-	
-	public DeptDTO(int deptNo, int deptNum){
-		this.deptNo = deptNo;
-		this.deptNum = deptNum;
-	}
-	
-	/**
-	 * @param deptNo
-	 * @param deptName
-	 */
-	public DeptDTO(int deptNo, String deptName) {
-		super();
-		this.deptNo = deptNo;
-		this.deptName = deptName;
-	}
 
 	/**
 	 * @param deptNo
 	 * @param deptName
 	 * @param deptNum
+	 * @param deptBoss
 	 */
-	public DeptDTO(int deptNo, String deptName, int deptNum) {
+	public DeptDTO(int deptNo, String deptName, int deptNum, String deptBoss) {
 		super();
 		this.deptNo = deptNo;
 		this.deptName = deptName;
 		this.deptNum = deptNum;
+		this.deptBoss = deptBoss;
 	}
 
 	public int getDeptNo() {
@@ -66,6 +54,14 @@ public class DeptDTO {
 
 	public void setDeptNum(int deptNum) {
 		this.deptNum = deptNum;
+	}
+
+	public String getDeptBoss() {
+		return deptBoss;
+	}
+
+	public void setDeptBoss(String deptBoss) {
+		this.deptBoss = deptBoss;
 	}
 	
 }

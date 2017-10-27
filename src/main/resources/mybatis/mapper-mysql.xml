@@ -21,6 +21,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT deptNum FROM dept where deptNo = #{param1}
     </select>
  
+ 	<select id="selectNDeptDao" resultType="int">
+        SELECT count(*) FROM dept
+    </select>
+ 
+ 	<select id="selectDeptBossEmailDao" parameterType="string" resultType="int">
+        SELECT deptBoss FROM dept where deptNo = #{param1}
+    </select>
+    
+    <select id="selectTotalDeptDao" parameterType="int" resultType="string">
+        SELECT deptName FROM dept where deptNo = #{param1}
+    </select>
+ 
     <insert id="insertDeptDao" parameterType="egovframework.security.dto.DeptDTO">
         INSERT into dept (deptName) values(#{deptName})
     </insert>
@@ -51,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	DELETE FROM officesecurity WHERE os_id = #{os_id}
     </delete>    
     
-    <select id="findDeptDao" parameterType="String" resultType="hashmap">
+    <select id="findDeptDao" parameterType="string" resultType="hashmap">
     	select emp_deptcode from employee where emp_email = #{param1}
     </select>
     
@@ -62,6 +74,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 당직근무일지DB DAO_Mapper-->
     <select id="selectWatchKeepingDao" parameterType="long" resultType="egovframework.security.dto.WatchKeepingDTO">
         SELECT * FROM watchkeeping ORDER BY wk_datetime DESC limit 15 offset #{param1}	
+    </select>
+    
+    <select id="selectNumWatchKeepingDao" resultType="int">
+        SELECT count(*) FROM watchkeeping where date(wk_datetime) = date(now())	
     </select>
  
     <insert id="insertWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
@@ -100,6 +116,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectAllManagerDao" resultType="egovframework.security.dto.EmployeeDTO">
     	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_rank, deptName from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role = "ROLE_ADMIN"  ORDER BY emp_deptcode ASC
+    </select>
+    
+    <select id="selectManagerCheckEmailDao" resultType="hashmap">
+    	select emp_email from employee where emp_checkemail = 'Y'  
+    </select>
+    
+    <select id="selectManagerCheckEmailNumDao" resultType="int">
+    	select count(*) from employee where emp_checkemail = 'Y'  
     </select>
     
     <update id="updateAuthEmpDao" parameterType="String">
@@ -153,11 +177,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	select count(*) from watchkeeping
     </select>
     
+    <!-- S.M.A.R.T 보안점검 처리 DB -->
+    <select id="selectNumImplementDao" parameterType="int" resultType="int">
+    	select count(*) from officesecurity where os_deptcode = #{param1}
+    </select>
     
+    <select id="selectCheckScoreDeptOfficeDao" parameterType="int" resultType="int">
+    	select count(*) from officesecurity where os_deptcode = #{param1} and date(os_datetime) between adddate(curdate(), 1-dayofmonth(curdate())) and last_day(curdate())
+    </select>
     
+    <select id="selectScoreDeptOfficeDao" parameterType="int" resultType="int">
+    	select sum(os_document+os_clean+os_lightout+os_ventilation+os_door) from officesecurity where date(os_datetime) between adddate(curdate(), 1-dayofmonth(curdate())) and last_day(curdate()) and os_deptcode = #{param1} group by os_deptcode
+    </select>
     
-    
-    
+    <select id="selectScoreDocumentDao" resultType="int">
+    	SELECT sum(os_document) FROM sejongdb.officesecurity;
+    </select>
+    <select id="selectScoreCleanDao" resultType="int">
+    	SELECT sum(os_clean) FROM sejongdb.officesecurity;
+    </select>
+    <select id="selectScoreLightoutDao" resultType="int">
+    	SELECT sum(os_lightout) FROM sejongdb.officesecurity;
+    </select>
+    <select id="selectScoreVentilationDao" resultType="int">
+    	SELECT sum(os_ventilation) FROM sejongdb.officesecurity;
+    </select>
+    <select id="selectScoreDoorDao" resultType="int">
+    	SELECT sum(os_door) FROM sejongdb.officesecurity;
+    </select>
     
     
 </mapper>

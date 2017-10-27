@@ -83,6 +83,25 @@
             </map>
         </property>
     </bean>
+    
+    <!-- 메일보내기(https://www.google.com/settings/security/lesssecureapps) 에서 수준을 낮춰야 함 -->
+
+   <bean id="mailSender" class = "org.springframework.mail.javamail.JavaMailSenderImpl">
+      <property name="host" value="smtp.gmail.com" />
+      <property name="port" value="587" />
+      <property name="defaultEncoding" value="utf-8" />
+      <property name="username" value="jihunlim204@gmail.com" />
+      <property name="password" value="wlgns795135!!@" />
+      <property name="javaMailProperties">
+         <props>
+               <prop key="mail.transport.protocol">smtp</prop>
+               <prop key="mail.smtp.auth">true</prop>
+               <prop key="mail.smtp.starttls.enable">true</prop>
+               <prop key="mail.debug">true</prop>
+         </props>
+      </property>
+   </bean>
+    
 	<!-- /For Pagination Tag -->
     <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
     <mvc:resources mapping="/images/**" location="/images/" />
