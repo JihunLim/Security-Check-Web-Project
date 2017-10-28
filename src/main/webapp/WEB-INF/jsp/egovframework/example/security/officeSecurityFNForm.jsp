@@ -1,30 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/jsp/egovframework/example/menu/topMenu.jsp"%>
-<%@ include
-	file="/WEB-INF/jsp/egovframework/example/menu/leftMenuStart.jsp"%>
-<!-- 시작 -->
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/egovframework/example/menu/topMenu.jsp" %>
+<%String context = request.getContextPath();%>
 
-<div class="container">
+		<!-- Main -->
+			<div id="main">
+				<!-- Intro -->
+					<section class="white">
+						<div class="container">
 
-	<%String context = request.getContextPath();%>
-
-
-	<!-- onsubmit : <input type="submit" /> 이 작동할때 검사-->
-
-	<div class="row-fluid">
-		<!-- block -->
-		<div class="block">
-
-			<div class="block-content collapse in">
-				<div class="span12">
-					<form name="officeSecurityFNForm" method="post"
+							<header>
+								<h2>사무실 보안점검일지 작성(당직자 용)</h2>
+							</header>
+							<form name="officeSecurityFNForm" method="post"
 						action="<%=context%>/officeSecurityFNCheck.do"
 						onsubmit="return checkForm()">
-						<fieldset>
-							<legend>
-								<h2>사무실 보안점검일지 작성(당직자 용)</h2>
-							</legend>
+					
 							<div class="control-group">
 								<label class="control-label" for="select01">부서번호:</label> 
 								<input type="hidden" name="os_empemail"
@@ -120,17 +110,19 @@
 								<button type="reset" class="btn">취소</button>
 
 							</div>
-						</fieldset>
+					
 					</form>
 
-				</div>
+
+							
+
+						</div>
+					</section>
 			</div>
-		</div>
-		<!-- /block -->
-	</div>
-</div>
+			
+			
+
 
 
 <!-- 끝 -->
-<%@ include
-	file="/WEB-INF/jsp/egovframework/example/menu/leftMenuEnd.jsp"%>
+<%@ include file="/WEB-INF/jsp/egovframework/example/menu/bottomMenu.jsp"%>

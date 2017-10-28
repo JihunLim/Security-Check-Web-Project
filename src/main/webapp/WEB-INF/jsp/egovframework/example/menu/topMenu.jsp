@@ -3,14 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="s"%>
 <%String cp= request.getContextPath(); %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
+
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width" ,initial-scale="1">
-<link rel="stylesheet" href="<%=cp%>/bootstrap/css/bootstrap.min.css" />
-<title>사회보장정보원 보안시스템</title>
-<script type="text/javascript">
+	<head>
+		<title>사회보장정보원 보안시스템</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="<%=cp%>/bootstrap/css/main.css" />
+		
+		<script type="text/javascript">
         //submit
         function checkForm() {
                //값에 대한 검사 : 브라우저 내부에서...
@@ -20,28 +22,50 @@
                }       
         }
 	</script>
+	
+	</head>
+	<body>
+		
+		<!-- Header -->
+			<div id="header">
 
-<!-- 시작 : 윗 부분 상단 바 -->
-<nav class="navbar navbar-fixed-top navbar-inverse">
-<div class="container-fluid">
-	<div class="navbar-header">
-		<a class="navbar-brand" href="mainmenu.do">O.S.M.S</a>
-	</div>
+				<div class="top">
 
-	<div id="navbar" class="collapse navbar-collapse">
-		<ul class="nav navbar-nav navbar-right">
+					<!-- Logo -->
+						<div id="logo">
+							<span class="image avatar48"><img src="images/avatar.jpg" alt="avarta" /></span>
+							<h1 id="title">${emp_name}</h1>
+							<p>${deptName} (${auth})</p>
+						</div>
 
-			<li><p class="navbar-text">
-					<span class="glyphicon glyphicon-user"></span>${deptName} ${emp_name} (${auth})님 안녕하세요.
-				</p></li>
-			<li><a
-				href="${pageContext.request.contextPath}/j_spring_security_logout">
-					<span class="glyphicon-log-out"></span>Log Out
-			</a></li>
-		</ul>
-	</div>
-	<!-- /.nav-collapse -->
-</div>
-</nav>
-<!-- 끝 : 윗 부분 상단 바 -->
-</head>
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="mainmenu.do" class="skel-layers-ignoreHref"><span class="icon fa-home">Home</span></a></li>
+								<li><a href="officeSecurityChoice.do" class="skel-layers-ignoreHref"><span class="icon fa-pencil-square-o">사무실 보안점검 작성</span></a></li>
+								<li><a href="watchKeepingForm.do" class="skel-layers-ignoreHref"><span class="icon fa-pencil-square">당직 근무일지 작성</span></a></li>
+								
+								<li><a href="listOfficeSecurity.do?page=1" class="skel-layers-ignoreHref"><span class="icon fa-list">보안 점검 조회</span></a></li>
+								<li><a href="listWatchKeeping.do?page=1" class="skel-layers-ignoreHref"><span class="icon fa-list">당직 근무일지 조회</span></a></li>
+								<li><a href="smartSecuritySolution.do" class="skel-layers-ignoreHref"><span class="icon fa-pie-chart">S.M.A.R.T 보안 솔루션</span></a></li>
+								
+								<li><a href="nightDutyTable.do" class="skel-layers-ignoreHref"><span class="icon fa-calendar-check-o">당직근무표</span></a></li>
+								
+								<s:authorize access="hasAuthority('ROLE_ADMIN')">
+									<li><a href="updateDept.do" class="skel-layers-ignoreHref"><span class="icon fa-cog">부서 업데이트</span></a></li>
+									<li><a href="updateManager.do" class="skel-layers-ignoreHref"><span class="icon fa-th">보안 담당자 변경</span></a></li>
+								</s:authorize>
+							</ul>
+						</nav>
+
+				</div>
+
+				<div class="bottom">
+
+					<!-- Social Icons -->
+					<div class="icons">
+						<a href="${pageContext.request.contextPath}/j_spring_security_logout"> <span class="icon fa-sign-out"></span>Log Out</a>
+					</div> 
+				</div>
+
+			</div>
