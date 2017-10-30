@@ -6,13 +6,16 @@
 <!-- Main -->
 <div id="main">
 	<!-- Intro -->
-	<section class="white">
+	<section id="top" class="one dark cover">
 		<div class="container">
 
 			<header>
 				<h2>보안 담당자 관리</h2>
 			</header>
-
+		</div>
+	</section>
+	<section class="white">
+		<div class="container">
 			<table class="table">
 				<tr>
 					<td>이메일</td>
@@ -33,9 +36,12 @@
 						<tr>
 					</c:forEach>
 			</table>
-			<p>
-				<a href="addManagerForm.do">관리자 추가</a>
-			</p>
+
+			<footer>
+				<a href="addManagerForm.do" class="button scrolly">관리자 추가</a>
+			</footer>
+
+
 		</div>
 	</section>
 </div>

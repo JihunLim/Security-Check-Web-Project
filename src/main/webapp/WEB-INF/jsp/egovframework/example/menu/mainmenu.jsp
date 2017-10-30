@@ -9,14 +9,12 @@
 						<div class="container">
 
 							<header>
-								<h2 class="alt">Hi! I'm <strong>Prologue</strong>, a <a href="http://html5up.net/license">free</a> responsive<br />
-								site template designed by <a href="http://html5up.net">HTML5 UP</a>.</h2>
-								<p>Ligula scelerisque justo sem accumsan diam quis<br />
-								vitae natoque dictum sollicitudin elementum.</p>
+								<h2 class="alt"><strong>사회보장정보원 보안점검시스템</strong> <br /></h2>
+								<p> 사회보장정보원 & 세종대학교 <strong>Collaboration!</strong></p>
 							</header>
 
 							<footer>
-								<a href="#portfolio" class="button scrolly">Magna Aliquam</a>
+								<a href="officeSecurityChoice.do" class="button scrolly">사무실 보안점검 바로가기</a>
 							</footer>
 
 						</div>

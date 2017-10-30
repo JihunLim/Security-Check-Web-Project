@@ -2167,7 +2167,7 @@
 			padding: 4em 0;
 			box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05), inset 0 0.1em 0.1em 0 rgba(0, 0, 0, 0.025);
 			text-align: center;
-			background-image: url("images/overlay.png");
+			
 		}
 
 			#main > section.dark {
@@ -2197,6 +2197,11 @@
 				padding: 6em 0;
 				background-size: cover;
 				background-position: center center;
+			}
+			
+			#main > section.mainscreen {
+				background-color: #81918E;
+				background:url('../../images/avartar.jpg') no-repeat;
 			}
 
 			#main > section.one {

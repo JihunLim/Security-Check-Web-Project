@@ -1,18 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/topMenu.jsp"%>
-<%String context = request.getContextPath();%>
+<%
+	String context = request.getContextPath();
+%>
 
 <!-- Main -->
 <div id="main">
 	<!-- Intro -->
-	<section class="white">
+	<section id="top" class="one dark cover">
 		<div class="container">
 
 			<header>
 				<h2>개인정보 입력</h2>
 			</header>
-
+		</div>
+	</section>
+	<section class="white">
+		<div class="container">
 			<form name="updateDeptForm" method="post"
 				action="<%=context%>/updateDeptCheck.do"
 				onsubmit="return checkForm()">

@@ -5,15 +5,16 @@
 <!-- Main -->
 <div id="main">
 	<!-- Intro -->
-	<section class="white">
+	<section id="top" class="one dark cover">
 		<div class="container">
-
 			<header>
 				<h2>당직근무일지 조회</h2>
 			</header>
-			<p>추후에 employee 테이블과 watchkeeping 테이블과 dept 테이블 조인시켜서 이메일 대신
-				회원부서와 이름 가져오기</p>
-
+		</div>
+		</section>
+		
+		<section class="white">
+			<div class="container">
 			<table class="table">
 				<thead>
 					<tr>
@@ -107,33 +108,6 @@
 	</section>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-
-
-
-
-</fieldset>
-</div>
 <!-- 끝 -->
 <%@ include
 	file="/WEB-INF/jsp/egovframework/example/menu/bottomMenu.jsp"%>

@@ -5,7 +5,7 @@
 		<!-- Main -->
 			<div id="main">
 				<!-- Intro -->
-					<section class="one">
+					<section class="white">
 						<div class="container">
 
 							<header>

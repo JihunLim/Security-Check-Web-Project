@@ -5,20 +5,24 @@
 <script>
 	//원하는 페이지로 이동시 검색조건
 	function fnGoPaging(page){
-    	location.href="<%=cp%>/listOfficeSecurity.do?page=" + page
+    	location.href="<%=cp%>
+	/listOfficeSecurity.do?page=" + page
 	}
 </script>
 
 <!-- Main -->
 <div id="main">
 	<!-- Intro -->
-	<section class="white">
+	<section id="top" class="one dark cover">
 		<div class="container">
 			<header>
 				<h2>사무실 보안점검 조회</h2>
 			</header>
-			<p>간단한 설명</p>
+		</div>
+	</section>
 
+	<section class="white">
+		<div class="container">
 			<table>
 				<thead>
 					<tr>
@@ -51,7 +55,7 @@
 			</table>
 
 			<!-- 페이지 번호 구현  -->
-				<div class="row">
+			<div class="row">
 				<div class="12u$ 12u$(mobile)">
 					<ul class="pagination">
 						<c:if test="${paging.pageGroup > 1}">
@@ -76,7 +80,7 @@
 								href="javascript:fnGoPaging(<c:out value='${paging.nextPage}'/>)">&raquo;</a>
 						</c:if>
 					</ul>
-					</div>
+				</div>
 				<div class="12u$ 12u$(mobile)">
 					<div class="table-toolbar">
 						<!-- search data 검색 기능 추가 -->
@@ -87,33 +91,11 @@
 							</span>
 						</div>
 					</div>
-					</div>
-					
-					
-					
 				</div>
-				
-				
-				
-				
+			</div>
 		</div>
 	</section>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!-- 끝 -->
 <%@ include

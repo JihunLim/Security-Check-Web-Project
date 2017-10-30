@@ -6,12 +6,17 @@
 <!-- Main -->
 <div id="main">
 	<!-- Intro -->
-	<section class="white">
+	<section id="top" class="one dark cover">
 		<div class="container">
-
 			<header>
 				<h2>S.M.A.R.T 보안 솔루션</h2>
 			</header>
+		</div>
+	</section>
+		
+		
+		<section class="two">
+		<div class="container">
 			<!-- 월별 부서 보안점수 (꺽은선그래프) -->
 			<label for="myChart3"><h3>
 					□<c:out value="${month_date}"/>월 부서 보안점수
@@ -70,7 +75,11 @@
 					});
 				</script>
 			</div>
-			<br /><hr /><br />
+			</div>
+			</section>
+			
+			<section class="three">
+		<div class="container">
 			<!-- 사무실 점검항목 보안점수 (레이다그래프) -->
 			<label for="myChart1"><h3>□ 사무실 점검항목 보안점수</h3>
 				<br /></label>
@@ -114,8 +123,13 @@
 							});
 				</script>
 			</div>
-			<br /><hr /><br />
+			</div>
+			</section>
+			
+			
 			<!-- 부서 별 미실시 수 그래프 (막대그래프) -->
+			<section class="four">
+		<div class="container">
 			<label for="myChart2"><h3>□ 부서 별 미실시 수</h3>
 				<br /></label>
 
@@ -188,7 +202,6 @@
 		</div>
 	</section>
 </div>
-
 <!-- 끝 -->
 <%@ include
 	file="/WEB-INF/jsp/egovframework/example/menu/bottomMenu.jsp"%>

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width",initial-scale="1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="<%=cp%>/bootstrap/css/bootstrap.css"/>
 <title>Insert title here</title>
 </head>
@@ -15,11 +15,10 @@
 	
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
-			</button>
 			<a class="navbar-brand" href="main.jsp">Office Security Management System</a>
 		</div>
-		
 	</nav>
+	
 	<div class="container">
 			<div class="col-lg-4"></div>
 			<div class="col-lg-4">
@@ -48,7 +47,8 @@
 				</div>
 			<div class="col-lg-4"></div>
 		</div>
-	
+		</div>
+		
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="<%=cp %>/bootstrap/js/bootstrap.js"></script>
 </body>
