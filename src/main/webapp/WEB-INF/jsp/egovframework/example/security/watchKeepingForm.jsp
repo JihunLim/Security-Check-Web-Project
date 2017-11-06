@@ -8,42 +8,92 @@
 <!-- Main -->
 <div id="main">
 	<!-- Intro -->
-	<section id="top" class="one dark cover">
+	<section class="white">
 		<div class="container">
+
 			<header>
 				<h2>당직점검일지</h2>
 			</header>
-		</div>
-	</section>
-
-	<section class="white">
-		<div class="container">
 			<form name="watchKeepingForm" method="post"
 				action="<%=context%>/watchKeepingCheck.do"
 				onsubmit="return checkForm()">
 
-				<!-- onsubmit : <input type="submit" /> 이 작동할때 검사-->
-
+			
 				<input type="hidden" name="wk_empemail"
-					value=<s:authentication property="name"/>><br /> <br />
-				지시사항 <br />
-				<textarea rows="5" cols="30" name="wk_indication"></textarea>
-				<br /> <br /> 조치사항<br />
-				<textarea rows="5" cols="30" name="wk_measure"></textarea>
-				<br /> <br /> 순찰 중 각 부서 근무자 현황<br /> 
-				경영지원본부 : <input type="number" name="wk_mpd" value="" /><br /> 
-				바우처본부 : <input type="number" name="wk_vmd" value="" /><br /> 
-				보건의료본부 : <input type="number" name="wk_hmd" value="" /><br /> 
-				고객지원본부 : <input type="number" name="wk_csd" value="" /><br /> 
-				정보기술본부 : <input type="number" name="wk_itd" value="" /><br /> 
-				복지정보운영본부 : <input type="number" name="wk_wio" value="" /><br /> 
-				복지정보관리본부 : <input type="number" name="wk_wim" value="" /><br /> 
-				희망복지본부 : <input type="number" name="wk_hwd" value="" /><br /> 
-				사회보장정보연구소 : <input type="number" name="wk_sii" value="" /><br /> <br /> 
-				당직 중 특이사항<br /> <textarea rows="5" cols="30" name="wk_specificity"></textarea><br /> <br /> 
-				보고사항<br /> <textarea rows="5" cols="30" name="wk_report"></textarea> <br /> <br /> 
-				인계사항<br /> <textarea rows="5" cols="30" name="wk_delivery"></textarea> <br /> <br /> 
-				<input type="submit" value="확인(submit)" /> 
+					value=<s:authentication property="name"/>><br />
+
+				<div class="controls">
+					<textarea placeholder="지시사항을 적어주세요.(최대 200자)" name="wk_indication" cols="40" rows="3"></textarea>
+				</div>
+
+				<br />
+
+				<div class="controls">
+					<textarea 
+						placeholder="조치 사항을 적어주세요.(최대 200자)" name="wk_measure"
+						cols="40" rows="3"></textarea>
+				</div>
+
+				<br /> <br />
+				<div class="row">
+
+					<div class="6u$ 12u$(mobile)">
+						<input type="text" name="wk_mpd" placeholder="경영지원본부 근무자 현황 수" />
+					</div>
+					<div class="6u$ 12u$(mobile)">
+						<input type="text" name="wk_vmd" placeholder="바우처 본부 근무자 현황 수" />
+					</div>
+					<div class="6u$ 12u$(mobile)">
+						<input type="text" name="wk_hmd" placeholder="보건의료본부 근무자 현황 수" />
+					</div>
+					<div class="6u$ 12u$(mobile)">
+						<input type="text" name="wk_csd" placeholder="고객지원본부 근무자 현황 수" />
+					</div>
+					<div class="6u$ 12u$(mobile)">
+						<input type="text" name="wk_itd" placeholder="정보기술본부 근무자 현황 수" />
+					</div>
+					<div class="6u$ 12u$(mobile)">
+						<input type="text" name="wk_wio" placeholder="복지정보운영본부 근무자 현황 수" />
+					</div>
+					<div class="6u$ 12u$(mobile)">
+						<input type="text" name="wk_wim" placeholder="복지정보관리본부 근무자 현황 수" />
+					</div>
+					<div class="6u$ 12u$(mobile)">
+						<input type="text" name="wk_hwd" placeholder="희망복지본부 근무자 현황 수" />
+					</div>
+					<div class="6u$ 12u$(mobile)">
+						<input type="text" name="wk_sii" placeholder="사회보장정보연구소 근무자 현황 수" />
+					</div>
+
+				</div><br /> 
+				
+				<div class="controls">
+				<div class="row">
+				<div class="5u$ 11u$(mobile)">
+					<span class="icon fa-camera"> 사진 첨부(파일선택을 눌러 사진을 찍어주세요)</span><br /></div>
+					<div class="2u 5u(mobile)">
+					<input type="file" accept="image/*" capture="camera" name=""> </div>
+					<div class="4u$ 5u$(mobile)">
+					<img id="pic" style="width: 100px; height: 100px" /> </div>
+					
+				</div>
+				
+				</div>
+
+				<div class="controls">
+					<textarea
+						placeholder="보고사항을 적어주세요(최대200자)" name="wk_specificity"
+						 cols="40" rows="3"></textarea>
+				</div>
+
+				<br />
+
+
+
+				<textarea placeholder="인계사항을 적어주세요(최대200자)"
+					 cols="40" rows="3" name="wk_report"></textarea>
+				<br /> <br /> <br /> <br /> <input type="submit"
+					value="확인(submit)" />
 			</form>
 		</div>
 	</section>

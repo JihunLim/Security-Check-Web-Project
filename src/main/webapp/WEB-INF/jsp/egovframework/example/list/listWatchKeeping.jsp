@@ -15,6 +15,8 @@
 		
 		<section class="white">
 			<div class="container">
+			<div class="block-content collapse in">	
+											
 			<table class="table">
 				<thead>
 					<tr>
@@ -59,7 +61,7 @@
 					</tbody>
 				</c:forEach>
 			</table>
-
+			</div>
 			<!-- 페이지 번호 구현  -->
 			<div class="row">
 				<div class="12u$ 12u$(mobile)">

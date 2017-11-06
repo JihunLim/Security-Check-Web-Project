@@ -21,7 +21,7 @@
                        return false;          //onsubmit의 경우 return false를 줘야지 전달을 하지 않음!
                }       
         }
-	</script>
+		</script>
 	</head>
 	<body>
 		

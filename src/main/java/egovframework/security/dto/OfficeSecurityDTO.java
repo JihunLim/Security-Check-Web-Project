@@ -1,7 +1,9 @@
 package egovframework.security.dto;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class OfficeSecurityDTO {
 	private int os_id;
@@ -14,6 +16,7 @@ public class OfficeSecurityDTO {
 	private int os_door;
 	private String os_etc;
 	private Timestamp os_datetime;
+	private byte[] imgFile;
 	
 	public OfficeSecurityDTO(){
 		
@@ -69,6 +72,65 @@ public class OfficeSecurityDTO {
 		this.os_ventilation = os_ventilation;
 		this.os_door = os_door;
 		this.os_etc = os_etc;
+	}
+	
+
+	/**
+	 * @param os_id
+	 * @param os_empemail
+	 * @param os_deptcode
+	 * @param os_document
+	 * @param os_clean
+	 * @param os_lightout
+	 * @param os_ventilation
+	 * @param os_door
+	 * @param os_etc
+	 * @param os_datetime
+	 * @param imgFile
+	 */
+	public OfficeSecurityDTO(String os_empemail, int os_deptcode,
+			int os_document, int os_clean, int os_lightout, int os_ventilation,
+			int os_door, String os_etc,
+			byte[] imgFile) {
+		super();
+		this.os_empemail = os_empemail;
+		this.os_deptcode = os_deptcode;
+		this.os_document = os_document;
+		this.os_clean = os_clean;
+		this.os_lightout = os_lightout;
+		this.os_ventilation = os_ventilation;
+		this.os_door = os_door;
+		this.os_etc = os_etc;
+		this.imgFile = imgFile;
+	}
+
+
+	/**
+	 * @param os_id
+	 * @param os_empemail
+	 * @param os_deptcode
+	 * @param os_document
+	 * @param os_clean
+	 * @param os_lightout
+	 * @param os_ventilation
+	 * @param os_door
+	 * @param os_etc
+	 * @param imgFile
+	 */
+	public OfficeSecurityDTO(int os_id, String os_empemail, int os_deptcode,
+			int os_document, int os_clean, int os_lightout, int os_ventilation,
+			int os_door, String os_etc, byte[] imgFile) {
+		super();
+		this.os_id = os_id;
+		this.os_empemail = os_empemail;
+		this.os_deptcode = os_deptcode;
+		this.os_document = os_document;
+		this.os_clean = os_clean;
+		this.os_lightout = os_lightout;
+		this.os_ventilation = os_ventilation;
+		this.os_door = os_door;
+		this.os_etc = os_etc;
+		this.imgFile = imgFile;
 	}
 
 	public int getOs_id() {
@@ -130,6 +192,14 @@ public class OfficeSecurityDTO {
 	}
 	public void setOs_datetime(Timestamp os_datetime) {
 		this.os_datetime = os_datetime;
+	}
+
+	public byte[] getImgFile() {
+		return imgFile;
+	}
+
+	public void setImgFile(byte[] imgFile) {
+		this.imgFile = imgFile;
 	}
 	
 	
