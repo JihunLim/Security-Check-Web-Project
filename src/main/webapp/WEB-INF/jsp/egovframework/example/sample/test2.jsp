@@ -56,83 +56,18 @@
     </script>
 </head>
 <body>
-	<div class="demo">
-        <div class="item">            
-            <div class="clearfix" style="max-width:474px;">
-                <ul id="image-gallery" class="gallery list-unstyled cS-hidden">
-                    <li data-thumb="images/thumb/cS-1.jpg"> 
-                        <img src="images/cS-1.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-2.jpg"> 
-                        <img src="images/cS-2.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-3.jpg"> 
-                        <img src="images/cS-3.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-4.jpg"> 
-                        <img src="images/cS-4.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-5.jpg"> 
-                        <img src="images/cS-5.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-6.jpg"> 
-                        <img src="images/cS-6.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-7.jpg"> 
-                        <img src="images/cS-7.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-8.jpg"> 
-                        <img src="images/cS-8.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-9.jpg"> 
-                        <img src="images/cS-9.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-10.jpg"> 
-                        <img src="images/cS-10.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-11.jpg"> 
-                        <img src="images/cS-11.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-12.jpg"> 
-                        <img src="images/cS-12.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-13.jpg"> 
-                        <img src="images/cS-13.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-14.jpg"> 
-                        <img src="images/cS-14.jpg" />
-                         </li>
-                    <li data-thumb="images/thumb/cS-15.jpg"> 
-                        <img src="images/cS-15.jpg" />
-                         </li>
-                </ul>
-            </div>
-        </div>
-        <div class="item">
-            <ul id="content-slider" class="content-slider">
-                <li>
-                    <h3>1</h3>
-                </li>
-                <li>
-                    <h3>2</h3>
-                </li>
-                <li>
-                    <h3>3</h3>
-                </li>
-                <li>
-                    <h3>4</h3>
-                </li>
-                <li>
-                    <h3>5</h3>
-                </li>
-                <li>
-                    <h3>6</h3>
-                </li>
-            </ul>
+  1515151
+  558
+        
+        <!-- db에 있는 사진 꺼내기 -->
+        <div>
+        <li><a href="ShowImageFunc.do?imgIdx=50" class="skel-layers-ignoreHref"><span class="icon fa-home">사진</span></a></li>
+        
+        <img src="<%=cp%>/ShowImageFunc.do?imgIdx=50" alt="이미지가 없습니다." width="200" height="200"/>
+        
         </div>
 
-    </div>	
+ 
 </body>
 
 <!-- 끝 -->
-<%@ include file="/WEB-INF/jsp/egovframework/example/menu/bottomMenu.jsp"%>

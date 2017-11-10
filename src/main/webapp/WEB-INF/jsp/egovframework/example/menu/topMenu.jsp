@@ -14,13 +14,93 @@
 		
 		<script type="text/javascript">
         //submit
-        function checkForm() {
+        function checkNightForm() {
                //값에 대한 검사 : 브라우저 내부에서...
-               if(document.watchKeepingForm.name.value == ""){
-                       alert("부서이름이 없습니다.");
-                       return false;          //onsubmit의 경우 return false를 줘야지 전달을 하지 않음!
-               }       
+               if(document.watchKeepingForm.wk_mpd.value == ""){
+                    alert("근무자 현황 수를 입력해주세요.");
+                    return false;        
+               }
+               if(document.watchKeepingForm.wk_vmd.value == ""){
+                   alert("근무자 현황 수를 입력해주세요.");
+                   return false;        
+              }     
+               if(document.watchKeepingForm.wk_hmd.value == ""){
+                   alert("근무자 현황 수를 입력해주세요.");
+                   return false;        
+              }     
+               if(document.watchKeepingForm.wk_csd.value == ""){
+                   alert("근무자 현황 수를 입력해주세요.");
+                   return false;        
+              }     
+               if(document.watchKeepingForm.wk_itd.value == ""){
+                   alert("근무자 현황 수를 입력해주세요.");
+                   return false;        
+              } 
+               if(document.watchKeepingForm.wk_wio.value == ""){
+                   alert("근무자 현황 수를 입력해주세요.");
+                   return false;        
+              }    
+               if(document.watchKeepingForm.wk_wim.value == ""){
+                   alert("근무자 현황 수를 입력해주세요.");
+                   return false;        
+              }    
+               if(document.watchKeepingForm.wk_hwd.value == ""){
+                   alert("근무자 현황 수를 입력해주세요.");
+                   return false;        
+              }    
+               if(document.watchKeepingForm.wk_sii.value == ""){
+                   alert("근무자 현황 수를 입력해주세요.");
+                   return false;        
+              }    
         }
+        
+        function checkOfficeForm() {
+            //값에 대한 검사 : 브라우저 내부에서...
+            if(document.officeSecurityFNForm.os_document.value == ""){
+                 alert("문서상태를 체크해주세요.");
+                 return false;        
+            }
+            if(document.officeSecurityFNForm.os_clean.value == ""){
+                alert("청소상태를 체크해주세요.");
+                return false;        
+           }
+            if(document.officeSecurityFNForm.os_lightout.value == ""){
+                alert("소등상태를 체크해주세요.");
+                return false;        
+           }
+            if(document.officeSecurityFNForm.os_ventilation.value == ""){
+                alert("환기상태를 체크해주세요.");
+                return false;        
+           }
+            if(document.officeSecurityFNForm.os_door.value == ""){
+                alert("문 잠금상태를 체크해주세요.");
+                return false;        
+           }
+     }
+        
+        function checkOfficeForm() {
+            //값에 대한 검사 : 브라우저 내부에서...
+            if(document.officeSecurityForm.os_document.value == ""){
+                 alert("문서상태를 체크해주세요.");
+                 return false;        
+            }
+            if(document.officeSecurityForm.os_clean.value == ""){
+                alert("청소상태를 체크해주세요.");
+                return false;        
+           }
+            if(document.officeSecurityForm.os_lightout.value == ""){
+                alert("소등상태를 체크해주세요.");
+                return false;        
+           }
+            if(document.officeSecurityForm.os_ventilation.value == ""){
+                alert("환기상태를 체크해주세요.");
+                return false;        
+           }
+            if(document.officeSecurityForm.os_door.value == ""){
+                alert("문 잠금상태를 체크해주세요.");
+                return false;        
+           }
+     }
 		</script>
 	</head>
 	<body>
@@ -32,7 +112,7 @@
 
 					<!-- Logo -->
 						<div id="logo">
-							<span class="image avatar48"><img src="images/avatar.jpg" alt="avarta" /></span>
+							<span class="image avatar48"><img src="images/ssis.jpg" alt="SSIS" /></span>
 							<h1 id="title">${emp_name}</h1>
 							<p>${deptName} (${auth})</p>
 						</div>
@@ -44,7 +124,7 @@
 								<li><a href="officeSecurityChoice.do" class="skel-layers-ignoreHref"><span class="icon fa-pencil-square-o">사무실 보안점검 작성</span></a></li>
 								<li><a href="watchKeepingForm.do" class="skel-layers-ignoreHref"><span class="icon fa-pencil-square">당직 근무일지 작성</span></a></li>
 								
-								<li><a href="listOfficeSecurity.do?page=1" class="skel-layers-ignoreHref"><span class="icon fa-list">보안 점검 조회</span></a></li>
+								<li><a href="listOfficeSecurity.do?page=1" class="skel-layers-ignoreHref"><span class="icon fa-list">사무실 보안점검 조회</span></a></li>
 								<li><a href="listWatchKeeping.do?page=1" class="skel-layers-ignoreHref"><span class="icon fa-list">당직 근무일지 조회</span></a></li>
 								<li><a href="smartSecuritySolution.do" class="skel-layers-ignoreHref"><span class="icon fa-pie-chart">S.M.A.R.T 보안 솔루션</span></a></li>
 								

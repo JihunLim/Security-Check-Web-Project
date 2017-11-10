@@ -7,7 +7,7 @@
 <div id="main">
 	<!-- Intro -->
 		
-		<section id="top" class="one dark cover">
+		<section id="top" class="one dark">
 			<div class="container">
 				<header>
 					<h2>
@@ -21,7 +21,7 @@
 			<div class="container">			
 			<form class="form-horizontal" name="officeSecurityForm" method="post"
 				action="<%=context%>/officeSecurityCheck.do"
-				onsubmit="return checkForm()" enctype="multipart/form-data">
+				onsubmit="return checkOfficeForm()" enctype="multipart/form-data">
 
 				<input type="hidden" name="os_empemail"
 					value=<s:authentication property="name"/>><br />
@@ -93,7 +93,7 @@
 				<div class="control-group">
 								<label class="control-label" for="fileInput"><span class="icon fa-camera"> 사진 첨부</span>
 								
-									<input type="file" accept="image/*" capture="camera" name="imgFile"> 
+									<input type="file" accept="image/*" capture="camera" name="os_image"> 
 									<img id="pic" style="width:100px; height:100px"></label>
 								</div>
 				<div class="form-group">

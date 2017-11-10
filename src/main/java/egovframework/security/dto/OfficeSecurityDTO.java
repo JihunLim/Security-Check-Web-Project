@@ -16,7 +16,7 @@ public class OfficeSecurityDTO {
 	private int os_door;
 	private String os_etc;
 	private Timestamp os_datetime;
-	private byte[] imgFile;
+	private byte[] os_image;
 	
 	public OfficeSecurityDTO(){
 		
@@ -75,23 +75,10 @@ public class OfficeSecurityDTO {
 	}
 	
 
-	/**
-	 * @param os_id
-	 * @param os_empemail
-	 * @param os_deptcode
-	 * @param os_document
-	 * @param os_clean
-	 * @param os_lightout
-	 * @param os_ventilation
-	 * @param os_door
-	 * @param os_etc
-	 * @param os_datetime
-	 * @param imgFile
-	 */
 	public OfficeSecurityDTO(String os_empemail, int os_deptcode,
 			int os_document, int os_clean, int os_lightout, int os_ventilation,
 			int os_door, String os_etc,
-			byte[] imgFile) {
+			byte[] os_image) {
 		super();
 		this.os_empemail = os_empemail;
 		this.os_deptcode = os_deptcode;
@@ -101,25 +88,13 @@ public class OfficeSecurityDTO {
 		this.os_ventilation = os_ventilation;
 		this.os_door = os_door;
 		this.os_etc = os_etc;
-		this.imgFile = imgFile;
+		this.os_image = os_image;
 	}
 
 
-	/**
-	 * @param os_id
-	 * @param os_empemail
-	 * @param os_deptcode
-	 * @param os_document
-	 * @param os_clean
-	 * @param os_lightout
-	 * @param os_ventilation
-	 * @param os_door
-	 * @param os_etc
-	 * @param imgFile
-	 */
 	public OfficeSecurityDTO(int os_id, String os_empemail, int os_deptcode,
 			int os_document, int os_clean, int os_lightout, int os_ventilation,
-			int os_door, String os_etc, byte[] imgFile) {
+			int os_door, String os_etc, byte[] os_image) {
 		super();
 		this.os_id = os_id;
 		this.os_empemail = os_empemail;
@@ -130,7 +105,7 @@ public class OfficeSecurityDTO {
 		this.os_ventilation = os_ventilation;
 		this.os_door = os_door;
 		this.os_etc = os_etc;
-		this.imgFile = imgFile;
+		this.os_image = os_image;
 	}
 
 	public int getOs_id() {
@@ -194,14 +169,12 @@ public class OfficeSecurityDTO {
 		this.os_datetime = os_datetime;
 	}
 
-	public byte[] getImgFile() {
-		return imgFile;
+	public byte[] getOs_image() {
+		return os_image;
 	}
 
-	public void setImgFile(byte[] imgFile) {
-		this.imgFile = imgFile;
+	public void setOs_image(byte[] os_image) {
+		this.os_image = os_image;
 	}
-	
-	
-	
+
 }

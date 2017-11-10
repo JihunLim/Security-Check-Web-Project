@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mysql.jdbc.Blob;
+
 import egovframework.security.dto.DeptDTO;
 import egovframework.security.dto.EmployeeDTO;
 import egovframework.security.dto.NightDutyDTO;
@@ -75,6 +77,8 @@ public interface SecurityOfficeDAO {
     public HashMap findDeptDao(String data);
     //해당 날짜에 데이터가 있는지 확인
     public HashMap selectOfficeSecurityWithDateDao(int data);
+    //사진 가져오기(id로)
+    public OfficeSecurityDTO selectPicOfficeSecurityWithNoDao(int data);
     
     /*
      * 당직근무일지DB
@@ -136,12 +140,17 @@ public interface SecurityOfficeDAO {
     //스마트 보안점검 - 해당 부서 데이터 확인
     public int selectCheckScoreDeptOfficeDao(int data);
     //스마트 보안점검 - 모든 부서의 각 보안항목 점수
-    public int selectScoreDocumentDao();
-    public int selectScoreCleanDao();
-    public int selectScoreLightoutDao();
-    public int selectScoreVentilationDao();
-    public int selectScoreDoorDao();
-    
+    public float selectScoreDocumentDao();
+    public float selectScoreCleanDao();
+    public float selectScoreLightoutDao();
+    public float selectScoreVentilationDao();
+    public float selectScoreDoorDao();
+    //스마트 보안점검 - 자신 부서의 각 보안항목 점수
+    public int selectScoreDocumentWithDeptDao(int data);
+    public int selectScoreCleanWithDeptDao(int data);
+    public int selectScoreLightoutWithDeptDao(int data);
+    public int selectScoreVentilationWithDeptDao(int data);
+    public int selectScoreDoorWithDeptDao(int data);
     
     
     

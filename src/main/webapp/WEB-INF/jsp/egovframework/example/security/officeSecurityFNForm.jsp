@@ -9,7 +9,7 @@
 <div id="main">
 	<!-- Intro -->
 
-	<section id="top" class="one dark cover">
+	<section id="top" class="one dark">
 		<div class="container">
 			<header>
 				<h2>
@@ -23,7 +23,7 @@
 		<div class="container">
 			<form name="officeSecurityFNForm" method="post"
 				action="<%=context%>/officeSecurityFNCheck.do"
-				onsubmit="return checkForm()" enctype="multipart/form-data">
+				onsubmit="return checkOfficeForm()" enctype="multipart/form-data">
 
 				<div class="row">
 					<div class="2u 12u$(mobile)">
@@ -117,8 +117,7 @@
 				<div class="control-group">
 					<label class="control-label" for="fileInput"><span
 						class="icon fa-camera"> 사진 첨부</span> <input type="file"
-						accept="image/*" capture="camera" name="imgFile"> <img
-						id="pic" style="width: 100px; height: 100px"></label>
+						accept="image/*" capture="camera" name="os_image"> </label>
 				</div>
 				<div class="form-actions">
 					<button type="submit" class="btn btn-primary">저장</button>

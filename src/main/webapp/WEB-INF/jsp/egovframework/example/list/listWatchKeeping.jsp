@@ -5,13 +5,50 @@
 <!-- Main -->
 <div id="main">
 	<!-- Intro -->
-	<section id="top" class="one dark cover">
+	<section  class="one dark">
 		<div class="container">
 			<header>
 				<h2>당직근무일지 조회</h2>
 			</header>
 		</div>
 		</section>
+		
+		<!-- Single button -->
+	<div class="container">
+		<div class="btn-group">
+			<form method="post" action="<%=cp%>/listOfficeSecurity.do?page=1">
+				<div class="row">
+					<div class="3u 12u$(mobile)">
+						<select name="changeDept">
+							<option value="0">부서를 선택하세요.</option>
+							<option value="1">경영지원본부</option>
+							<option value="2">바우처본부</option>
+							<option value="3">보건의료본부</option>
+							<option value="4">고객지원본부</option>
+							<option value="5">정보기술본부</option>
+							<option value="6">복지정보운영본부</option>
+							<option value="7">복지정보관리본부</option>
+							<option value="8">희망복지본부</option>
+							<option value="9">사회보장정보연구소</option>
+						</select>
+					</div>
+					<div class="2u 3u(mobile)">
+						기간선택 : 
+						</div>
+						<div class="5u 6u(mobile)">
+						<input type="date" name="startDate"> ~ <input type="date" name="endDate">
+					</div>
+					
+					<div class="2u$ 3u$(mobile)">
+						<button type="submit" class="btn btn-primary">검색</button>
+					</div>
+				</div>
+
+			</form>
+
+
+		</div>
+	</div>
 		
 		<section class="white">
 			<div class="container">
@@ -63,9 +100,7 @@
 			</table>
 			</div>
 			<!-- 페이지 번호 구현  -->
-			<div class="row">
-				<div class="12u$ 12u$(mobile)">
-
+	
 					<ul class="pagination">
 						<c:if test="${paging.pageGroup > 1}">
 							<li><a
@@ -89,23 +124,7 @@
 								href="javascript:fnGoPaging(<c:out value='${paging.nextPage}'/>)">&raquo;</a>
 						</c:if>
 					</ul>
-				</div>
-
-				<div class="12u$ 12u$(mobile)">
-					<div class="table-toolbar">
-						<!-- search data 검색 기능 추가 -->
-						<div class="input-group">
-							<input type="text" class="form-control" placeholder="부서명/사원이름/내용">
-							<span class="input-group-btn">
-								<button class="btn btn-secondary" type="button">search</button>
-							</span>
-						</div>
-					</div>
-				</div>
-
-			</div>
-
-
+		
 		</div>
 	</section>
 </div>

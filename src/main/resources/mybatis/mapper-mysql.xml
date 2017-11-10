@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
  
     <insert id="insertOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
-        INSERT into officesecurity values(default, #{os_empemail}, #{os_deptcode}, #{os_document}, #{os_clean}, #{os_lightout}, #{os_ventilation}, #{os_door}, #{os_etc}, default, #{imgFile})
+        INSERT into officesecurity values(default, #{os_empemail}, #{os_deptcode}, #{os_document}, #{os_clean}, #{os_lightout}, #{os_ventilation}, #{os_door}, #{os_etc}, default, #{os_image})
     </insert>
     
     <update id="updateOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
@@ -69,6 +69,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectOfficeSecurityWithDateDao" parameterType="int" resultType="hashmap">
     	select * from officesecurity where date(os_datetime) = date(now()) and os_deptcode = #{os_deptcode} 
+    </select>
+    
+     <select id="selectPicOfficeSecurityWithNoDao" parameterType="int" resultType="egovframework.security.dto.OfficeSecurityDTO">
+        SELECT os_image FROM officesecurity where os_id = #{param1}
     </select>
     
     <!-- 당직근무일지DB DAO_Mapper-->
@@ -190,21 +194,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	select sum(os_document+os_clean+os_lightout+os_ventilation+os_door) from officesecurity where date(os_datetime) between adddate(curdate(), 1-dayofmonth(curdate())) and last_day(curdate()) and os_deptcode = #{param1} group by os_deptcode
     </select>
     
-    <select id="selectScoreDocumentDao" resultType="int">
+    <select id="selectScoreDocumentDao" resultType="float">
     	SELECT sum(os_document) FROM sejongdb.officesecurity;
     </select>
-    <select id="selectScoreCleanDao" resultType="int">
+    <select id="selectScoreCleanDao" resultType="float">
     	SELECT sum(os_clean) FROM sejongdb.officesecurity;
     </select>
-    <select id="selectScoreLightoutDao" resultType="int">
+    <select id="selectScoreLightoutDao" resultType="float">
     	SELECT sum(os_lightout) FROM sejongdb.officesecurity;
     </select>
-    <select id="selectScoreVentilationDao" resultType="int">
+    <select id="selectScoreVentilationDao" resultType="float">
     	SELECT sum(os_ventilation) FROM sejongdb.officesecurity;
     </select>
-    <select id="selectScoreDoorDao" resultType="int">
+    <select id="selectScoreDoorDao" resultType="float">
     	SELECT sum(os_door) FROM sejongdb.officesecurity;
     </select>
     
+    
+    <select id="selectScoreDocumentWithDeptDao" parameterType="int" resultType="int">
+    	SELECT sum(os_document) FROM sejongdb.officesecurity where os_deptcode = #{param1};
+    </select>
+    <select id="selectScoreCleanWithDeptDao" parameterType="int" resultType="int">
+    	SELECT sum(os_clean) FROM sejongdb.officesecurity where os_deptcode = #{param1};
+    </select>
+    <select id="selectScoreLightoutWithDeptDao" parameterType="int" resultType="int">
+    	SELECT sum(os_lightout) FROM sejongdb.officesecurity where os_deptcode = #{param1};
+    </select>
+    <select id="selectScoreVentilationWithDeptDao" parameterType="int" resultType="int">
+    	SELECT sum(os_ventilation) FROM sejongdb.officesecurity where os_deptcode = #{param1};
+    </select>
+    <select id="selectScoreDoorWithDeptDao" parameterType="int" resultType="int">
+    	SELECT sum(os_door) FROM sejongdb.officesecurity where os_deptcode = #{param1};
+    </select>
     
 </mapper>

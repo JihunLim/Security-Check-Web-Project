@@ -6,7 +6,7 @@
 <!-- Main -->
 <div id="main">
 	<!-- Intro -->
-	<section id="top" class="one dark cover">
+	<section id="top" class="one dark">
 		<div class="container">
 
 			<header>

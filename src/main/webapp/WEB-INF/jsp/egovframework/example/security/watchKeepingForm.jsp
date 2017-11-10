@@ -8,15 +8,21 @@
 <!-- Main -->
 <div id="main">
 	<!-- Intro -->
-	<section class="white">
+	<section id="top" class="one dark">
 		<div class="container">
-
 			<header>
-				<h2>당직점검일지</h2>
+				<h2>
+					<strong>당직점검일지</strong>
+				</h2>
 			</header>
+		</div>
+	</section>
+			
+				<section class="white">
+		<div class="container">
 			<form name="watchKeepingForm" method="post"
 				action="<%=context%>/watchKeepingCheck.do"
-				onsubmit="return checkForm()">
+				onsubmit="return checkNightForm()">
 
 			
 				<input type="hidden" name="wk_empemail"

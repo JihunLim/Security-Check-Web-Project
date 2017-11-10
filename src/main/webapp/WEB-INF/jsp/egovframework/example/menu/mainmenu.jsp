@@ -98,6 +98,13 @@
 						legend : {
 							display : true,
 							position : 'bottom'
+						},
+						scale:{
+							ticks: {
+								scaleOverride: true,
+						        beginAtZero: true,
+						        min:0
+							}
 						}
 					};
 					var data_list2 = new Array();
@@ -126,6 +133,7 @@
 									} ]
 								},
 								options : h_barOptions1
+								
 							});
 				</script>
 			</div>

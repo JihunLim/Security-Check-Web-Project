@@ -1,7 +1,10 @@
 package egovframework.security.web;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +13,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -47,11 +52,67 @@ public class HomeController {
 	// 서비스 시작 일자
 	String startDate = "2017-10-23"; // 시작 날짜
 
-	@RequestMapping("/test2.do")
-	public String test2(Model model) {
-		return "sample/test2";
+	
+	@RequestMapping("/showImage.do")
+	public String showImage(@RequestParam("imgIdx") String imgIdx, Model model)  {
+			try{
+				model.addAttribute("imgIdx", imgIdx);
+				System.out.println("17777");
+			}catch(Exception ex){
+				System.out.println("예외처리 메시지 : " + ex.getMessage());
+			}
+			return "security/showImage";
+		
 	}
 	
+	
+		@RequestMapping("/ShowImageFunc.do")
+	public Boolean ShowImageFunc(@RequestParam("imgIdx") String imgIdx, HttpServletResponse response
+            ,HttpServletRequest request) throws ServletException, IOException, SQLException  {
+			try{
+				
+				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+				String content_type = "image/png";
+				response.setContentType(content_type);  // Content Type Set
+				InputStream is = null;
+			    /* DB의 BLOB 타입의 내용을 가져와서 bytes 변수에 담아보자. */
+				if(dao.selectPicOfficeSecurityWithNoDao(Integer.parseInt(imgIdx)).getOs_image() == null)
+					return false; //데이터가 없을 경우
+		
+			    byte[] bytes = dao.selectPicOfficeSecurityWithNoDao(Integer.parseInt(imgIdx)).getOs_image();
+			    if (bytes == null)
+			    	return false; //데이터가 없을 경우
+			    
+			    /* String --> InputStream 타입으로 변환 */
+			    is = new ByteArrayInputStream(bytes);
+			    
+			    
+			    /* 이제 OutputStream 으로 출력해보자*/
+			    ServletOutputStream os = response.getOutputStream();
+			    
+			    int binaryRead;
+			    
+			    while ((binaryRead = is.read()) != -1)	{
+			        os.write(binaryRead);
+			    }
+
+			}catch(Exception ex){
+				System.out.println("예외처리 메시지 : " + ex.getMessage());
+			}
+			return true;
+				
+
+	}
+		
+	@RequestMapping("/test2.do")
+	public String test2(Model model, HttpServletResponse response
+            ,HttpServletRequest request) throws IOException {
+		
+		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+	
+		return "sample/test2";
+	}
+
 	@RequestMapping("/loginForm.do")
 	public String loginForm(Model model) {
 		return "security/loginForm";
@@ -151,12 +212,12 @@ public class HomeController {
 	 */
 	@RequestMapping("/officeSecurityCheck.do")
 	public String officeSecurityCheck(HttpServletRequest request, Model model,
-			@RequestParam("imgFile") MultipartFile os_image) throws Exception {
+			@RequestParam("os_image") MultipartFile imageFile) throws Exception {
 
 		String resultPage = "cmmn/saveDataSuccess";
 		boolean SendEmail = false;
 		Map<String, Object> imgMap = new HashMap<String, Object>();
-		byte[] imgFile = null;
+		byte[] os_image = null;
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 		model.addAttribute("emp_name", userInfo.getEmp_name());
 		model.addAttribute("deptName", userInfo.getDeptName());
@@ -178,16 +239,16 @@ public class HomeController {
 					.getParameter("os_ventilation"));
 			int os_door = Integer.parseInt(request.getParameter("os_door"));
 			String os_etc = request.getParameter("os_etc");
-			if (!os_image.isEmpty()) {
-				imgFile = os_image.getBytes();
-				imgMap.put("img", os_image.getBytes());
+			if (!imageFile.isEmpty()) {
+				os_image = imageFile.getBytes();
+				imgMap.put("img", imageFile.getBytes());
 			}
 
 			HashMap map = dao.findDeptDao(os_empemail);
 			int os_deptcode = (Integer) map.get("emp_deptcode");
 			officeDTO = new OfficeSecurityDTO(os_empemail, os_deptcode,
 					os_document, os_clean, os_lightout, os_ventilation,
-					os_door, os_etc, imgFile);
+					os_door, os_etc, os_image);
 
 			// 당직자 이메일 구하기
 			String fnUser = dao.selectEmailNightDutyWithDateDao();
@@ -212,7 +273,7 @@ public class HomeController {
 
 				officeDTO = new OfficeSecurityDTO((Integer) OSMap.get("os_id"),
 						os_empemail, os_deptcode, os_document, os_clean,
-						os_lightout, os_ventilation, os_door, os_etc, imgFile);
+						os_lightout, os_ventilation, os_door, os_etc, os_image);
 				if (fnUser.equals((String) OSMap.get("os_empemail"))) {
 					// 당직근무자가 이미 사무실보안점검을 한 경우
 					dao.updateOfficeSecurityDao(officeDTO);
@@ -279,12 +340,11 @@ public class HomeController {
 	 */
 	@RequestMapping("/officeSecurityFNCheck.do")
 	public String officeSecurityFNCheck(HttpServletRequest request,
-			Model model, @RequestParam("imgFile") MultipartFile os_image)
+			Model model, @RequestParam("os_image") MultipartFile imageData)
 			throws Exception {
 
-		String resultPage = "cmmn/saveDataSuccess";
-		Map<String, Object> imgMap = new HashMap<String, Object>();
-		byte[] imgFile = null;
+		String resultPage = "";
+		byte[] os_image = null;
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 
 		model.addAttribute("emp_name", userInfo.getEmp_name());
@@ -307,13 +367,13 @@ public class HomeController {
 			int os_door = Integer.parseInt(request.getParameter("os_door"));
 			String os_etc = request.getParameter("os_etc");
 
-			if (!os_image.isEmpty()) {
-				imgFile = os_image.getBytes();
-				imgMap.put("img", os_image.getBytes());
+			if (!imageData.isEmpty()) {
+				os_image = imageData.getBytes();
+				
 			}
 			officeDTO = new OfficeSecurityDTO(os_empemail, os_deptcode,
 					os_document, os_clean, os_lightout, os_ventilation,
-					os_door, os_etc, imgFile);
+					os_door, os_etc, os_image);
 
 			// 실행하는 날짜의 데이터가 있는지 확인
 			HashMap OSMap = (HashMap) dao
@@ -334,6 +394,7 @@ public class HomeController {
 				System.out.println("당직자 : " + fnUser);
 				if (fnUser.equals((String) OSMap.get("os_empemail"))) {
 					// 당직근무자가 이미 사무실보안점검을 한 경우
+					resultPage = "cmmn/dataHasAlready";
 					throw new Exception("당직근무자 중복실시 방지");
 				} else {
 					// 최종퇴실자가 이미 사무실보안점검을 한 경우
@@ -341,13 +402,15 @@ public class HomeController {
 							(Integer) OSMap.get("os_id"),
 							(String) OSMap.get("os_empemail"), os_deptcode,
 							os_document, os_clean, os_lightout, os_ventilation,
-							os_door, os_etc, imgFile);
+							os_door, os_etc, os_image);
 					dao.updateOfficeSecurityDao(officeDTO);
 				}
 			}
+			resultPage = "cmmn/saveDataSuccess";
 		} catch (Exception exp) {
 			System.out.println("예외처리 메시지 : " + exp.getMessage());
-			resultPage = "cmmn/dataAccessFailure";
+			if ("".equals(resultPage))
+				resultPage = "cmmn/dataAccessFailure";
 		}
 		return resultPage;
 	}
@@ -404,7 +467,9 @@ public class HomeController {
 		// 부서 별 보안점수 (월 단위)
 		int[] scoreDeptList = new int[deptTotalNum];
 		// 항목 별 보안점수 (db 전체)
-		int[] scoreEachList = new int[5];
+		float[] scoreEachList = new float[5];
+		// 항목 별 자신 부서 보안점수
+		int[] scoreMyDeptEachList = new int[5];
 
 		// userInfo 구하기
 		HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder
@@ -484,7 +549,7 @@ public class HomeController {
 		model.addAttribute("numNonImplement", numNonImplement);
 		model.addAttribute("scoreDeptList", scoreDeptList);
 		model.addAttribute("scoreEachList", scoreEachList);
-		
+		model.addAttribute("scoreMyDeptEachList", scoreMyDeptEachList);
 
 		return "menu/mainmenu";
 	}
@@ -555,14 +620,10 @@ public class HomeController {
 				// 관리자일 경우 모두 출력
 				// 페이지에 대한 정보 입력 및 전달
 				// 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
-				pageInfo = new PagingDTO(dao.selectNumTotalListOfOfficeDao(),
-						pageNum);
+				pageInfo = new PagingDTO(dao.selectNumTotalListOfOfficeDao(), pageNum);
 				model.addAttribute("paging", pageInfo);
 				// 파라미터 -> (클릭한 페이지 넘버 -1) * rows
-				model.addAttribute(
-						"list",
-						dao.selectOfficeSecurityDao((long) ((pageNum - 1) * pageInfo
-								.getRows())));
+				model.addAttribute("list", dao.selectOfficeSecurityDao((long) ((pageNum - 1) * pageInfo.getRows())));
 			} else {
 				// 일반유저일 경우 해당 부서만 출력
 				// 사용자의 부서정보 가져옴
@@ -578,8 +639,8 @@ public class HomeController {
 				map.put("userDept", (int) userDept);
 				map.put("page", (long) ((pageNum - 1) * pageInfo.getRows()));
 
-				model.addAttribute("list",
-						dao.selectOfficeSecurityWithDeptDao(map));
+				model.addAttribute("list", dao.selectOfficeSecurityWithDeptDao(map));
+			    
 			}
 
 		} catch (Exception exp) {
@@ -860,7 +921,9 @@ public class HomeController {
 		// 부서 별 보안점수 (월 단위)
 		int[] scoreDeptList = new int[deptTotalNum];
 		// 항목 별 보안점수 (db 전체)
-		int[] scoreEachList = new int[5];
+		float[] scoreEachList = new float[5];
+		// 항목 별 자신 부서 보안점수
+		float[] scoreMyDeptEachList = new float[5];
 		try {
 			model.addAttribute("emp_name", userInfo.getEmp_name());
 			model.addAttribute("deptName", userInfo.getDeptName());
@@ -898,46 +961,58 @@ public class HomeController {
 				temp = i - 1;
 				strDeptName[temp] = dao.selectTotalDeptDao(i); // 부서 이름 넣기
 				if (dao.selectCheckScoreDeptOfficeDao(i) != 0)
-					scoreDeptList[temp] = dao.selectScoreDeptOfficeDao(i); // 부서
-																			// 별
-																			// 보안점수
-																			// 넣기(당월
-																			// 데이터만
-																			// 해당)
+					// 부서 별 보안점수 넣기(당월 데이터만 해당)
+					scoreDeptList[temp] = dao.selectScoreDeptOfficeDao(i); 
 				else
 					scoreDeptList[temp] = 0; // 부서 별 보안점수 넣기(당월 데이터만 해당)
-				numNonImplement[temp] = ((int) diffDateAsDay - dao
-						.selectNumImplementDao(i));// 전체일 수 - 실시일 수
+				numNonImplement[temp] = ((int) diffDateAsDay - dao.selectNumImplementDao(i));// 전체일 수 - 실시일 수
 				if (numNonImplement[temp] > max)
 					max = numNonImplement[temp];
 			}
-			int maxNum = (max / 10) + 10;
-			// ArrayList<Integer> tempArray = dao.selectScoreListOfficeDao();
-			// System.out.println("aaab : "+ tempArray.size());
-			// for(int i=0; i<5; i++){
-			// scoreEachList[i] = tempArray.get(i).intValue();
-			// System.out.println("aaa : "+i +":"+ scoreEachList[i]);
-			// }
-
-			System.out.println("aaa1 : " + dao.selectScoreDocumentDao());
-			System.out.println("aaa2 : " + dao.selectScoreCleanDao());
-			System.out.println("aaa3 : " + dao.selectScoreLightoutDao());
-			System.out.println("aaa4 : " + dao.selectScoreVentilationDao());
-			System.out.println("aaa5 : " + dao.selectScoreDoorDao());
-
-			scoreEachList[0] = dao.selectScoreDocumentDao();
-			scoreEachList[1] = dao.selectScoreCleanDao();
-			scoreEachList[2] = dao.selectScoreLightoutDao();
-			scoreEachList[3] = dao.selectScoreVentilationDao();
-			scoreEachList[4] = dao.selectScoreDoorDao();
-
+			int maxNum = ((max / 10)+1) * 10;
+			
+			// 평균 데이터
+			scoreEachList[0] = Math.round(dao.selectScoreDocumentDao()/(float)deptTotalNum);
+			scoreEachList[1] = Math.round(dao.selectScoreCleanDao()/(float)deptTotalNum);
+			scoreEachList[2] = Math.round(dao.selectScoreLightoutDao()/(float)deptTotalNum);
+			scoreEachList[3] = Math.round(dao.selectScoreVentilationDao()/(float)deptTotalNum);
+			scoreEachList[4] = Math.round(dao.selectScoreDoorDao()/(float)deptTotalNum);
+			
+			// 자기 부서 데이터
+			scoreMyDeptEachList[0] = dao.selectScoreDocumentWithDeptDao(userInfo.getOs_deptcode());
+			scoreMyDeptEachList[1] = dao.selectScoreCleanWithDeptDao(userInfo.getOs_deptcode());
+			scoreMyDeptEachList[2] = dao.selectScoreLightoutWithDeptDao(userInfo.getOs_deptcode());
+			scoreMyDeptEachList[3] = dao.selectScoreVentilationWithDeptDao(userInfo.getOs_deptcode());
+			scoreMyDeptEachList[4] = dao.selectScoreDoorWithDeptDao(userInfo.getOs_deptcode());
+			
+			float max2 = 0;
+			for(int i =0;i<scoreEachList.length;i++){
+				if(scoreEachList[i] > max2)
+					max2 = scoreEachList[i];
+				if(scoreMyDeptEachList[i] > max2)
+					max2 = scoreMyDeptEachList[i];
+			}
+			int stepSize2=1;
+			if(max2<10)
+				stepSize2 = 1;
+			else if(max2<100)
+				stepSize2 = 10;
+			else if(max2<1000)
+				stepSize2 = 100;
+			else
+				stepSize2 = 1000;
+			
 			model.addAttribute("month_date", month_date);
 			model.addAttribute("maxNumBar", maxNum);
 			model.addAttribute("nameDept", strDeptName);
 			model.addAttribute("numNonImplement", numNonImplement);
 			model.addAttribute("scoreDeptList", scoreDeptList);
 			model.addAttribute("scoreEachList", scoreEachList);
-			// 2번째 그래프
+			model.addAttribute("scoreMyDeptEachList", scoreMyDeptEachList);
+			model.addAttribute("max2", max2);
+			model.addAttribute("stepSize2", stepSize2);
+			
+			
 		} catch (Exception exp) {
 			System.out.println("예외처리 메시지 : " + exp.getMessage());
 			System.out.println("예외처리 메시지 : " + exp.getCause());

@@ -6,7 +6,7 @@
 <!-- Main -->
 <div id="main">
 	<!-- Intro -->
-	<section id="top" class="one dark cover">
+	<section id="top" class="one dark">
 		<div class="container">
 			<header>
 				<h2>S.M.A.R.T 보안 솔루션</h2>
@@ -88,15 +88,32 @@
 				<canvas id="myChart1"></canvas>
 
 				<script>
-					var h_barOptions1 = {
+				var max2 = "<c:out value="${max2}"/>";
+				var step2 = "<c:out value="${stepSize2}"/>";
+				max2 *= 1;
+				step2 *= 1;
+					var radarOption = {
 						legend : {
 							display : true,
 							position : 'bottom'
+						},
+						scale:{
+							ticks: {
+								scaleOverride: true,
+						        beginAtZero: true,
+						        min:0,
+						        max : max2,
+						        stepSize: step2
+							}
 						}
 					};
 					var data_list2 = new Array();
 					<c:forEach items="${scoreEachList}" var="item">
 					data_list2.push("${item}");
+					</c:forEach>
+					var data_myList2 = new Array();  
+					<c:forEach items="${scoreMyDeptEachList}" var="myItem">
+					data_myList2.push("${myItem}");
 					</c:forEach>
 
 					var ctx = document.getElementById('myChart1');
@@ -106,7 +123,8 @@
 								data : {
 									labels : [ '책상정리', '청소상태', '소등상태', '환기상태',
 											'문닫힘상태' ],
-									datasets : [ {
+									datasets : [ 
+									             {
 										label : '항목별 누적 보안점수',
 										backgroundColor : "rgba(200,0,0,0.2)",
 										borderColor : "rgba(200,0,0,0.6)",
@@ -117,9 +135,22 @@
 										pointBorderColor : "rgba(200,0,0,0.6)",
 										pointHoverRadius : 10,
 										data : data_list2
-									} ]
+									}, {
+										label : '항목별 부서 보안점수',
+										backgroundColor : "rgba(0,0,200,0.2)",
+										borderColor : "rgba(0,0,200,0.6)",
+										radius : 6,
+										pointRadius : 6,
+										pointBorderWidth : 2,
+										pointBackgroundColor : "indigo",
+										pointBorderColor : "rgba(0,0,200,0.6)",
+										pointHoverRadius : 10,
+										data : data_myList2
+									} 
+									             
+									             ]
 								},
-								options : h_barOptions1
+								options : radarOption
 							});
 				</script>
 			</div>
