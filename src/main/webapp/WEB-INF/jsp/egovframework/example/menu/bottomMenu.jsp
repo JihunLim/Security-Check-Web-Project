@@ -19,6 +19,8 @@
 			<script src="<%=cp2%>/bootstrap/js/main.js"></script>
 			<script src="https://use.fontawesome.com/b24720279e.js"></script>
 			<script src="<%=cp2%>/bootstrap/js/bootstrap.js"></script>
-
+		
+			
+			
 	</body>
 </html>

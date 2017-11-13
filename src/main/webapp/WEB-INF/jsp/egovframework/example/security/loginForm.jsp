@@ -35,8 +35,8 @@
 						</c:if>
 						<h3 style="text-align: center;">로그인 화면</h3>
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="아이디" name="j_username" id="j_username">
-							<input type="password" class="form-control" placeholder="비밀번호" name="j_password" id="j_password">
+							<input type="text" class="form-control" placeholder="아이디" name="j_username" id="j_username" required autofocus>
+							<input type="password" class="form-control" placeholder="비밀번호" name="j_password" id="j_password" required>
 						</div>
 						<input type="submit" class="btn btn-primary form-control" value="전송">
 						<!--  ID : <input type="text" name="j_username" id="j_username"><br/>

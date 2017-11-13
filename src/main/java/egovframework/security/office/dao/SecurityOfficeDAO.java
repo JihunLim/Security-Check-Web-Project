@@ -113,6 +113,8 @@ public interface SecurityOfficeDAO {
     public void updateNightDutyDao(NightDutyDTO data);
     //당직근무표 전체출력
     public List<NightDutyDTO> selectNightDutyDao();
+    //당직근무표 날짜에 맞춰서 출력
+    public List<NightDutyDTO> selectNightDutyWithMonthDao(String data);
     //당직근무표 해당날짜출력
     public NightDutyDTO selectNightDutyWithDateDao(String data);
     //당직근무표 회원이메일 출력하기

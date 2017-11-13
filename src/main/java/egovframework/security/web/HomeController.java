@@ -57,7 +57,6 @@ public class HomeController {
 	public String showImage(@RequestParam("imgIdx") String imgIdx, Model model)  {
 			try{
 				model.addAttribute("imgIdx", imgIdx);
-				System.out.println("17777");
 			}catch(Exception ex){
 				System.out.println("예외처리 메시지 : " + ex.getMessage());
 			}
@@ -1027,13 +1026,31 @@ public class HomeController {
 	@RequestMapping("/nightDutyTable.do")
 	public String nightDutyTable(HttpServletRequest request, Model model) {
 		String resultPage = "security/nightDutyTable";
+		int year = -1;
+		int month = -1;
 		try {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
+			
+			Date dt = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("MM");
+			String now_month = sdf.format(dt).toString();
+			
 			model.addAttribute("emp_name", userInfo.getEmp_name());
 			model.addAttribute("deptName", userInfo.getDeptName());
 			model.addAttribute("auth", userInfo.getAuth());
-			model.addAttribute("list", dao.selectNightDutyDao());
+			System.out.println("aiiia : " + Integer.parseInt(request.getParameter("month")));
+			//int year = Integer.parseInt(request.getParameter("year"));
+			month = Integer.parseInt(request.getParameter("month"));
+			if(year == -1)
+				year = 2017;
+			if(month == -1)
+				month = Integer.parseInt(now_month);
+			//db에 넘겨주는 데이터 값 : yyyy-mm-% 
+			String value = year + "-" + month + "-%";
+			System.out.println("aa" + value);
+			model.addAttribute("list", dao.selectNightDutyWithMonthDao(value));
+			//model.addAttribute("list", dao.selectNightDutyDao());
 		} catch (Exception exp) {
 			System.out.println(exp.getMessage());
 		}
