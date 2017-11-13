@@ -121,7 +121,8 @@ public interface SecurityOfficeDAO {
     public String selectEmailNightDutyWithDateDao();
     //오늘 당직근무표에 인원이 할당되어있는지 숫자 리턴
     public int selectNumNightDutyWithDateDao();
-    
+    //당직근무표 자신것만 출력하기
+    public List<NightDutyDTO> selectNightDutyOnlyMeDao(String data);
     /*
      * 페이지 DB 
      */

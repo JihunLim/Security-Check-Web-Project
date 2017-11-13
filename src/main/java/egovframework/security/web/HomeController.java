@@ -1026,8 +1026,8 @@ public class HomeController {
 	@RequestMapping("/nightDutyTable.do")
 	public String nightDutyTable(HttpServletRequest request, Model model) {
 		String resultPage = "security/nightDutyTable";
-		int year = -1;
-		int month = -1;
+		String year = null;
+		String month = null;
 		try {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
@@ -1039,17 +1039,22 @@ public class HomeController {
 			model.addAttribute("emp_name", userInfo.getEmp_name());
 			model.addAttribute("deptName", userInfo.getDeptName());
 			model.addAttribute("auth", userInfo.getAuth());
-			System.out.println("aiiia : " + Integer.parseInt(request.getParameter("month")));
+			
 			//int year = Integer.parseInt(request.getParameter("year"));
-			month = Integer.parseInt(request.getParameter("month"));
-			if(year == -1)
-				year = 2017;
-			if(month == -1)
-				month = Integer.parseInt(now_month);
+			month = request.getParameter("month");
+			if(year == null)
+				year = "2017";
+			if(month == null)
+				month = now_month;
 			//db에 넘겨주는 데이터 값 : yyyy-mm-% 
 			String value = year + "-" + month + "-%";
-			System.out.println("aa" + value);
-			model.addAttribute("list", dao.selectNightDutyWithMonthDao(value));
+			System.out.println("aa-> " + SecurityContextHolder
+					.getContext().getAuthentication().getName());
+			if ("13".equals(month))
+				model.addAttribute("list", dao.selectNightDutyOnlyMeDao(SecurityContextHolder
+						.getContext().getAuthentication().getName()));
+			else
+				model.addAttribute("list", dao.selectNightDutyWithMonthDao(value));
 			//model.addAttribute("list", dao.selectNightDutyDao());
 		} catch (Exception exp) {
 			System.out.println(exp.getMessage());

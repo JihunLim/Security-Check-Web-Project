@@ -59,8 +59,6 @@
 		</div>
 	</div>
 
-
-
 	<section class="white">
 		<div class="container">
 		<div style="border:0px solid black;overflow-y:hidden;overflow-x:scroll;">
