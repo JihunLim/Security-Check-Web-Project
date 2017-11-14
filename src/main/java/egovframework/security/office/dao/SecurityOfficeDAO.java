@@ -115,14 +115,15 @@ public interface SecurityOfficeDAO {
     public List<NightDutyDTO> selectNightDutyDao();
     //당직근무표 날짜에 맞춰서 출력
     public List<NightDutyDTO> selectNightDutyWithMonthDao(String data);
+    //당직근무표 자신것에 맞춰서 출력
+    public List<NightDutyDTO> selectNightDutyOnlyMeDao(String data);
     //당직근무표 해당날짜출력
     public NightDutyDTO selectNightDutyWithDateDao(String data);
     //당직근무표 회원이메일 출력하기
     public String selectEmailNightDutyWithDateDao();
     //오늘 당직근무표에 인원이 할당되어있는지 숫자 리턴
     public int selectNumNightDutyWithDateDao();
-    //당직근무표 자신것만 출력하기
-    public List<NightDutyDTO> selectNightDutyOnlyMeDao(String data);
+    
     /*
      * 페이지 DB 
      */

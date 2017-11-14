@@ -794,10 +794,7 @@ public class HomeController {
 			pageInfo = new PagingDTO(dao.selectNumTotalListOfNightDutyDao(),
 					pageNum);
 			model.addAttribute("paging", pageInfo);
-			model.addAttribute("list", dao
-					.selectWatchKeepingDao((long) ((pageNum - 1) * pageInfo
-							.getRows())));
-			System.out.print("listWatchKeeping");
+			model.addAttribute("list", dao.selectWatchKeepingDao((long) ((pageNum - 1) * pageInfo.getRows())));
 		} catch (Exception exp) {
 			System.out.println(exp.getMessage());
 		}
@@ -1033,8 +1030,10 @@ public class HomeController {
 					.getMapper(SecurityOfficeDAO.class);
 			
 			Date dt = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("MM");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 			String now_month = sdf.format(dt).toString();
+			String today = sdf2.format(dt).toString();
 			
 			model.addAttribute("emp_name", userInfo.getEmp_name());
 			model.addAttribute("deptName", userInfo.getDeptName());
@@ -1047,15 +1046,15 @@ public class HomeController {
 			if(month == null)
 				month = now_month;
 			//db에 넘겨주는 데이터 값 : yyyy-mm-% 
-			String value = year + "-" + month + "-%";
-			System.out.println("aa-> " + SecurityContextHolder
-					.getContext().getAuthentication().getName());
-			if ("13".equals(month))
-				model.addAttribute("list", dao.selectNightDutyOnlyMeDao(SecurityContextHolder
-						.getContext().getAuthentication().getName()));
+			String value = month + "-%";
+			if ("1".equals(month))
+				model.addAttribute("list", dao.selectNightDutyOnlyMeDao(SecurityContextHolder.getContext().getAuthentication().getName()));
 			else
 				model.addAttribute("list", dao.selectNightDutyWithMonthDao(value));
-			//model.addAttribute("list", dao.selectNightDutyDao());
+			//model.addAttribute("list", dao.selectNightDutyDao());  //전체출력
+			//오늘 날짜 전달
+			model.addAttribute("today", today);
+			
 		} catch (Exception exp) {
 			System.out.println(exp.getMessage());
 		}

@@ -54,51 +54,51 @@
 				<label class="control-label">서류보관 상태</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
-						name="os_document" id="option1" value="0"> 미흡
+						name="os_document" id="option1" value="0" required> 미흡
 					</label> <label class="btn btn-primary"> <input type="radio"
-						name="os_document" id="option2" value="1"> 보통
+						name="os_document" id="option2" value="1" required> 보통
 					</label> <label class="btn btn-primary"> <input type="radio"
-						name="os_document" id="option3" value="2"> 양호
+						name="os_document" id="option3" value="2" required> 양호
 					</label>
 				</div>
 				</br> </br> <label class="control-label">청소 상태</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
-						name="os_clean" id="option1" value="0"> 미흡
+						name="os_clean" id="option1" value="0" required> 미흡
 					</label> <label class="btn btn-primary"> <input type="radio"
-						name="os_clean" id="option2" value="1"> 보통
+						name="os_clean" id="option2" value="1" required> 보통
 					</label> <label class="btn btn-primary"> <input type="radio"
-						name="os_clean" id="option3" value="2"> 양호
+						name="os_clean" id="option3" value="2" required> 양호
 					</label>
 				</div>
 				<br /> </br> <label class="control-label">소등상태</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
-						name="os_lightout" id="option1" value="0"> 미흡
+						name="os_lightout" id="option1" value="0" required> 미흡
 					</label> <label class="btn btn-primary"> <input type="radio"
-						name="os_lightout" id="option2" value="1"> 보통
+						name="os_lightout" id="option2" value="1" required> 보통
 					</label> <label class="btn btn-primary"> <input type="radio"
-						name="os_lightout" id="option3" value="2"> 양호
+						name="os_lightout" id="option3" value="2" required> 양호
 					</label>
 				</div>
 				</br> </br> <label class="control-label">환기상태</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
-						name="os_ventilation" id="option1" value="0"> 미흡
+						name="os_ventilation" id="option1" value="0" required> 미흡
 					</label> <label class="btn btn-primary"> <input type="radio"
-						name="os_ventilation" id="option2" value="1"> 보통
+						name="os_ventilation" id="option2" value="1" required> 보통
 					</label> <label class="btn btn-primary"> <input type="radio"
-						name="os_ventilation" id="option3" value="2"> 양호
+						name="os_ventilation" id="option3" value="2" required> 양호
 					</label>
 				</div>
 				</br> </br> <label class="control-label">문단속</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
-						name="os_door" id="option1" value="0"> 미흡
+						name="os_door" id="option1" value="0" required> 미흡
 					</label> <label class="btn btn-primary"> <input type="radio"
-						name="os_door" id="option2" value="1"> 보통
+						name="os_door" id="option2" value="1" required> 보통
 					</label> <label class="btn btn-primary"> <input type="radio"
-						name="os_door" id="option3" value="2"> 양호
+						name="os_door" id="option3" value="2" required> 양호
 					</label>
 				</div>
 

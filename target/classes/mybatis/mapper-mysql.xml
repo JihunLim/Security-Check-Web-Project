@@ -44,12 +44,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <!-- 사무실보안점검DB DAO_Mapper-->
     <select id="selectOfficeSecurityDao" parameterType="long" resultType="egovframework.security.dto.OfficeSecurityDTO">
-        SELECT * FROM officesecurity ORDER BY os_datetime DESC, os_deptcode ASC	limit 15 offset #{param1}
+        SELECT os_id,os_empemail,os_deptcode,os_deptcode,os_document,os_clean,os_lightout,os_ventilation,os_door,os_etc,os_datetime,os_image,deptName,emp_name  FROM officesecurity, employee, dept where employee.emp_email=officesecurity.os_empemail and dept.deptNo=officesecurity.os_deptcode ORDER BY os_datetime DESC, os_deptcode ASC limit 15 offset #{param1}
     </select>
     
     <select id="selectOfficeSecurityWithDeptDao" parameterType="hashmap" resultType="egovframework.security.dto.OfficeSecurityDTO">
-        SELECT * FROM officesecurity where os_deptcode = #{userDept} ORDER BY os_datetime DESC limit 15 offset #{page}
+        SELECT os_id,os_empemail,os_deptcode,os_deptcode,os_document,os_clean,os_lightout,os_ventilation,os_door,os_etc,os_datetime,os_image,deptName,emp_name  FROM officesecurity, employee, dept where os_deptcode = #{userDept} and employee.emp_email=officesecurity.os_empemail and dept.deptNo=officesecurity.os_deptcode ORDER BY os_datetime DESC limit 15 offset #{page}
     </select>
+ 
  
     <insert id="insertOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
         INSERT into officesecurity values(default, #{os_empemail}, #{os_deptcode}, #{os_document}, #{os_clean}, #{os_lightout}, #{os_ventilation}, #{os_door}, #{os_etc}, default, #{os_image})
@@ -161,7 +162,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 	<select id="selectNightDutyOnlyMeDao" parameterType="string" resultType="egovframework.security.dto.NightDutyDTO">
-    	select nd_date,nd_empemail,deptName,emp_rank,emp_name from nightduty,employee,dept where emp_email=nd_empemail and emp_deptcode=deptNo and nd_empemail= #{param1} order by nd_date ASC
+    	select nd_date,nd_empemail,deptName,emp_rank,emp_name from nightduty,employee,dept where emp_email=nd_empemail and emp_deptcode=deptNo and nd_empemail= #{param1} order by nd_date DESC
     </select>
 
     <select id="selectNightDutyWithDateDao" resultType="egovframework.security.dto.NightDutyDTO" parameterType="String">

@@ -15,8 +15,11 @@ public class OfficeSecurityDTO {
 	private int os_ventilation;
 	private int os_door;
 	private String os_etc;
-	private Timestamp os_datetime;
+	private String os_datetime;
 	private byte[] os_image;
+	//부서이름과 사용자 이름을 위한 wrapper
+	private String deptName;
+	private String emp_name;
 	
 	public OfficeSecurityDTO(){
 		
@@ -162,11 +165,16 @@ public class OfficeSecurityDTO {
 	public void setOs_etc(String os_etc) {
 		this.os_etc = os_etc;
 	}
-	public Timestamp getOs_datetime() {
+	public String getOs_datetime() {
 		return os_datetime;
 	}
 	public void setOs_datetime(Timestamp os_datetime) {
-		this.os_datetime = os_datetime;
+		try {
+		  java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		  this.os_datetime = formatter.format(os_datetime);
+		} catch (Exception ex) {
+			this.os_datetime = "";
+		}
 	}
 
 	public byte[] getOs_image() {
@@ -176,5 +184,23 @@ public class OfficeSecurityDTO {
 	public void setOs_image(byte[] os_image) {
 		this.os_image = os_image;
 	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public String getEmp_name() {
+		return emp_name;
+	}
+
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
+	
+	
 
 }

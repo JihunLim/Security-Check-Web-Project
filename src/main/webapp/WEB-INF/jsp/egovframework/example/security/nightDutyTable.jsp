@@ -14,7 +14,10 @@ $(function() {
         onClose: function(dateText, inst) { 
             var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
             var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            month *= 1;
+            month += 1;
             $(this).datepicker('setDate', new Date(year, month, 1));
+            location.href="<%=cp%>/nightDutyTable.do?month="+year+"-"+month;
         }
     });
 });
@@ -41,17 +44,11 @@ $(function() {
       <div class="btn-group">
          <div class="row">
             <div class="6u 12u$(mobile)">
-               <div class="2u 3u(mobile)">
-                  기간선택 : 
-                  </div>
-                  <div class="3u 3u(mobile)">
-                   <input name="startDate" id="startDate" class="date-picker" />
-               </div>
-               
+                  년월로 검색 : <input name="month" class="date-picker" />  
             </div>
             
             <div class="6u 12u$(mobile)">
-               <input type="checkbox" value="nightDutyTable.do?month=showMe" onchange="if(this.value) location.href=(this.value);">자신 것만 보기
+               <input type="checkbox" value="nightDutyTable.do?month=1" onchange="if(this.value) location.href=(this.value);">나의 당직표 확인
             </div>
             
             </div>
@@ -66,8 +63,8 @@ $(function() {
                <td>당직자 부서</td>
                <td>당직자 이름</td>
             <tr>
-               <c:forEach items="${list}" var="dto">
-                  <tr>
+               <c:forEach items="${list}" var="dto">           
+                  <tr <c:if test="${dto.nd_date eq today}"> bgcolor = "#C8FAC8" </c:if>>
                      <td>${dto.nd_date}</td>
                      <td>${dto.deptName}</td>
                      <td>${dto.emp_name}</td>
@@ -75,6 +72,10 @@ $(function() {
                </c:forEach>
          </table>
       
+      	<div style="float:right">
+		<a href="officeSecurityChoice.do" class="button">당직근무 수정하기</a>
+		</div>
+	  
       </div>
    </section>
 </div>
