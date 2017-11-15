@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/topMenu.jsp"%>
-
+<script>
+	//원하는 페이지로 이동시 검색조건
+	function fnGoPaging(page){
+    	location.href="<%=cp%>/listWatchKeeping.do?page=" + page;
+	}
+</script>
 <!-- Main -->
 <div id="main">
 	<!-- Intro -->
@@ -18,28 +23,10 @@
 		<div class="btn-group">
 			<form method="post" action="<%=cp%>/listOfficeSecurity.do?page=1">
 				<div class="row">
-					<div class="3u 12u$(mobile)">
-						<select name="changeDept">
-							<option value="0">부서를 선택하세요.</option>
-							<option value="1">경영지원본부</option>
-							<option value="2">바우처본부</option>
-							<option value="3">보건의료본부</option>
-							<option value="4">고객지원본부</option>
-							<option value="5">정보기술본부</option>
-							<option value="6">복지정보운영본부</option>
-							<option value="7">복지정보관리본부</option>
-							<option value="8">희망복지본부</option>
-							<option value="9">사회보장정보연구소</option>
-						</select>
-					</div>
-					<div class="2u 3u(mobile)">
-						기간선택 : 
-						</div>
-						<div class="5u 6u(mobile)">
-						<input type="date" name="startDate"> ~ <input type="date" name="endDate">
-					</div>
-					
-					<div class="2u$ 3u$(mobile)">
+					<div class="10u 10u(mobile)" style="text-align:left;">
+						기간선택 : <input type="date" name="startDate"> ~ <input type="date" name="endDate">
+					</div>			
+					<div class="2u$ 2u$(mobile)" style="text-align:right;">
 						<button type="submit" class="btn btn-primary">검색</button>
 					</div>
 				</div>

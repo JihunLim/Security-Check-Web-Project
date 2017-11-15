@@ -9,8 +9,7 @@
 <script>
 	//원하는 페이지로 이동시 검색조건
 	function fnGoPaging(page){
-    	location.href="<%=cp%>
-	/listOfficeSecurity.do?page=" + page;
+    	location.href="<%=cp%>/listOfficeSecurity.do?page=" + page;
 	}
 </script>
 
@@ -114,8 +113,7 @@
 					varStatus="status">
 					<c:choose>
 						<c:when test="${paging.page eq i}">
-							<span class="active"><a
-								href="javascript:fnGoPaging(${i});">${i}&nbsp;</a></span>
+							<span class="active"><a href="javascript:fnGoPaging(${i});">${i}&nbsp;</a></span>
 						</c:when>
 						<c:otherwise>
 							<span><a href="javascript:fnGoPaging(${i});">${i}&nbsp;</a></span>
