@@ -84,11 +84,11 @@
 								<td>${dto.os_datetime}</td>
 								<td>${dto.deptName}</td>
 								<td>${dto.emp_name}</td>
-								<td>${dto.os_document}</td>
-								<td>${dto.os_clean}</td>
-								<td>${dto.os_lightout}</td>
-								<td>${dto.os_ventilation}</td>
-								<td>${dto.os_door}</td>
+								<td>${dto.str_document}</td>
+								<td>${dto.str_clean}</td>
+								<td>${dto.str_lightout}</td>
+								<td>${dto.str_ventilation}</td>
+								<td>${dto.str_door}</td>
 								<td>${dto.os_etc}</td>
 								<td><c:if test="${fn:length(dto.os_image)>0}">
 										<a href="ShowImageFunc.do?imgIdx=${dto.os_id}"
@@ -113,7 +113,7 @@
 					varStatus="status">
 					<c:choose>
 						<c:when test="${paging.page eq i}">
-							<span class="active"><a href="javascript:fnGoPaging(${i});">${i}&nbsp;</a></span>
+							<span class="active" style="color:#e8cc74;"><a href="javascript:fnGoPaging(${i});">${i}&nbsp;</a></span>
 						</c:when>
 						<c:otherwise>
 							<span><a href="javascript:fnGoPaging(${i});">${i}&nbsp;</a></span>

@@ -17,8 +17,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT deptName FROM dept where deptNo = #{param1}
     </select>
  	
- 	<select id="selectDeptNumDao" parameterType="int" resultType="int">
-        SELECT deptNum FROM dept where deptNo = #{param1}
+ 	<select id="selectDeptNumDao" resultType="int">
+        SELECT deptNum FROM dept
     </select>
  
  	<select id="selectNDeptDao" resultType="int">
@@ -78,7 +78,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <!-- 당직근무일지DB DAO_Mapper-->
     <select id="selectWatchKeepingDao" parameterType="long" resultType="egovframework.security.dto.WatchKeepingDTO">
-        SELECT * FROM watchkeeping ORDER BY wk_datetime DESC limit 15 offset #{param1}	
+        SELECT wk_id,wk_datetime,wk_empemail,wk_indication,wk_measure,wk_mpd,wk_hmd,wk_csd,wk_itd,wk_idd,wk_wid,wk_vmd,wk_vid,wk_sii,wk_specificity,wk_report,wk_delivery,deptName,emp_name FROM watchkeeping, employee, dept where wk_empemail=emp_email and deptNo=emp_deptcode ORDER BY wk_datetime DESC limit 15 offset #{param1}	
+    </select>
+    
+ 	<select id="selectWatchKeepingWithIdDao" parameterType="int" resultType="egovframework.security.dto.WatchKeepingDTO">
+        SELECT wk_id,wk_datetime,wk_empemail,wk_indication,wk_measure,wk_mpd,wk_hmd,wk_csd,wk_itd,wk_idd,wk_wid,wk_vmd,wk_vid,wk_sii,wk_specificity,wk_report,wk_delivery,deptName,emp_name,emp_rank FROM watchkeeping, employee, dept where wk_empemail=emp_email and deptNo=emp_deptcode and wk_id = #{param1};	
     </select>
     
     <select id="selectNumWatchKeepingDao" resultType="int">
@@ -218,6 +222,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectScoreDoorDao" resultType="float">
     	SELECT sum(os_door) FROM sejongdb.officesecurity;
     </select>
+    <select id="selectScoreDao" resultType="java.util.HashMap">
+    	SELECT sum(os_document),sum(os_clean),sum(os_lightout),sum(os_ventilation),sum(os_door) FROM sejongdb.officesecurity;
+    </select>
     
     
     <select id="selectScoreDocumentWithDeptDao" parameterType="int" resultType="int">
@@ -234,6 +241,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="selectScoreDoorWithDeptDao" parameterType="int" resultType="int">
     	SELECT sum(os_door) FROM sejongdb.officesecurity where os_deptcode = #{param1};
+    </select>
+    
+    <select id="selectScoreWithDeptDao" parameterType="int" resultType="java.util.HashMap">
+    	SELECT sum(os_document),sum(os_clean),sum(os_lightout),sum(os_ventilation),sum(os_door) FROM sejongdb.officesecurity where os_deptcode = #{param1};
     </select>
     
 </mapper>

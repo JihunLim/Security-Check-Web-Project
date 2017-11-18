@@ -23,7 +23,7 @@ public interface SecurityOfficeDAO {
 	//부서이름 출력하기
 	public String selectDeptNameDao(int data);
 	//부서 인원수 출력하기
-	public int selectDeptNumDao(int data);
+	public List<Integer> selectDeptNumDao();
 	//부서 개수 출력하기
 	public int selectNDeptDao();
 	//부서 장 이메일 출력하기
@@ -85,6 +85,8 @@ public interface SecurityOfficeDAO {
      */
     //당직근무일지 출력하기
     public List<WatchKeepingDTO> selectWatchKeepingDao(long data);
+    //id로 당직근무일지 출력하기
+    public WatchKeepingDTO selectWatchKeepingWithIdDao(int data);
     //당직근무일지 작성 확인
     public int selectNumWatchKeepingDao();
     //당직근무일지 삽입하기
@@ -93,7 +95,8 @@ public interface SecurityOfficeDAO {
     public void updateWatchKeepingDao(WatchKeepingDTO data);
     //당직근무일지 삭제하기
     public void deleteWatchKeepingDao(WatchKeepingDTO data);
-     
+    
+    
     /*
      * 당직근무자 관련 DB
      */
@@ -149,12 +152,14 @@ public interface SecurityOfficeDAO {
     public float selectScoreLightoutDao();
     public float selectScoreVentilationDao();
     public float selectScoreDoorDao();
+    public HashMap selectScoreDao();
     //스마트 보안점검 - 자신 부서의 각 보안항목 점수
     public int selectScoreDocumentWithDeptDao(int data);
     public int selectScoreCleanWithDeptDao(int data);
     public int selectScoreLightoutWithDeptDao(int data);
     public int selectScoreVentilationWithDeptDao(int data);
     public int selectScoreDoorWithDeptDao(int data);
+    public HashMap selectScoreWithDeptDao(int data);
     
     
     

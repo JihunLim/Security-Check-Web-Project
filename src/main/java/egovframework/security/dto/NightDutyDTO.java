@@ -2,9 +2,10 @@ package egovframework.security.dto;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Locale;
 
 public class NightDutyDTO {
-	private Date nd_date;
+	private String nd_date;
 	private String nd_empemail;
 	//회원정보를 가져오기 위한 추가속성
 	private String deptName;
@@ -18,7 +19,7 @@ public class NightDutyDTO {
 	 * @param nd_date
 	 * @param nd_empemail
 	 */
-	public NightDutyDTO(Date nd_date, String nd_empemail) {
+	public NightDutyDTO(String nd_date, String nd_empemail) {
 		super();
 		this.nd_date = nd_date;
 		this.nd_empemail = nd_empemail;
@@ -31,7 +32,7 @@ public class NightDutyDTO {
 	 * @param emp_rank
 	 * @param emp_name
 	 */
-	public NightDutyDTO(Date nd_date, String nd_empemail, String deptName,
+	public NightDutyDTO(String nd_date, String nd_empemail, String deptName,
 			String emp_rank, String emp_name) {
 		super();
 		this.nd_date = nd_date;
@@ -42,11 +43,16 @@ public class NightDutyDTO {
 	}
 
 
-	public Date getNd_date() {
+	public String getNd_date() {
 		return nd_date;
 	}
 	public void setNd_date(Date nd_date) {
-		this.nd_date = nd_date;
+		try {
+			  java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd (EEE)",Locale.KOREAN);
+			  this.nd_date = formatter.format(nd_date);
+			} catch (Exception ex) {
+				this.nd_date = "date is not available";
+			}
 	}
 	public String getNd_empemail() {
 		return nd_empemail;

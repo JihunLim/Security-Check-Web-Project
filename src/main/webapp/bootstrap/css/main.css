@@ -44,6 +44,8 @@
 		border-spacing: 0;
 		font-size: 80%;
 	}
+	
+
 
 	body {
 		-webkit-text-size-adjust: none;
@@ -1900,6 +1902,14 @@
 			table.default tfoot {
 				background: #eee;
 			}
+			
+			table.table-hover tr td{
+				background: #FFFFF5;
+			}
+	
+			table.table-hover tr:hover td{
+				background-color: #ACDEDD;
+			}
 
 /* Button */
 
@@ -2116,6 +2126,10 @@
 				background: rgba(0, 0, 0, 0.15);
 				box-shadow: inset 0 0 0.25em 0 rgba(0, 0, 0, 0.125);
 				color: #fff;
+			}
+			
+			 span.active {
+				
 			}
 			
 			#nav ul li a:hover {

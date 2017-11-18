@@ -20,6 +20,13 @@ public class OfficeSecurityDTO {
 	//부서이름과 사용자 이름을 위한 wrapper
 	private String deptName;
 	private String emp_name;
+	//For String
+	private String str_document;
+	private String str_clean;
+	private String str_lightout;
+	private String str_ventilation;
+	private String str_door;
+	
 	
 	public OfficeSecurityDTO(){
 		
@@ -199,6 +206,51 @@ public class OfficeSecurityDTO {
 
 	public void setEmp_name(String emp_name) {
 		this.emp_name = emp_name;
+	}
+
+	public String getStr_document() {
+		if (os_document == 0)
+			return "미흡";
+		else if (os_document == 1)
+			return "보통";
+		else
+			return "양호";
+	}
+
+	public String getStr_clean() {
+		if (os_clean == 0)
+			return "미흡";
+		else if (os_clean == 1)
+			return "보통";
+		else
+			return "양호";
+	}
+
+	public String getStr_lightout() {
+		if (os_lightout == 0)
+			return "미흡";
+		else if (os_lightout == 1)
+			return "보통";
+		else
+			return "양호";
+	}
+
+	public String getStr_ventilation() {
+		if (os_ventilation == 0)
+			return "미흡";
+		else if (os_ventilation == 1)
+			return "보통";
+		else
+			return "양호";
+	}
+
+	public String getStr_door() {
+		if (os_door == 0)
+			return "미흡";
+		else if (os_door == 1)
+			return "보통";
+		else
+			return "양호";
 	}
 	
 	

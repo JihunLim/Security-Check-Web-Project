@@ -1,10 +1,11 @@
 package egovframework.security.dto;
 
 import java.sql.Timestamp;
+import java.util.Locale;
 
 public class WatchKeepingDTO {
 	private int wk_id;
-	private Timestamp wk_datetime;
+	private String wk_datetime;
 	private String wk_empemail;
 	private String wk_indication;
 	private String wk_measure;
@@ -22,6 +23,10 @@ public class WatchKeepingDTO {
 	private String wk_delivery;
 	//부서이름을 가져오기 위한 추가속성
 	private String deptName;
+	private String emp_name;
+	private String emp_rank;
+	//평균 보안점수
+	private int avg_score;
 
 	public WatchKeepingDTO(){
 		
@@ -47,7 +52,7 @@ public class WatchKeepingDTO {
 	 * @param wk_delivery
 	 * @param deptName
 	 */
-	public WatchKeepingDTO(int wk_id, Timestamp wk_datetime,
+	public WatchKeepingDTO(int wk_id, String wk_datetime,
 			String wk_empemail, String wk_indication, String wk_measure,
 			int wk_mpd, int wk_vmd, int wk_hmd, int wk_csd, int wk_itd,
 			int wk_wio, int wk_wim, int wk_hwd, int wk_sii,
@@ -132,7 +137,7 @@ public class WatchKeepingDTO {
 	 * @param wk_report
 	 * @param wk_delivery
 	 */
-	public WatchKeepingDTO(int wk_id, Timestamp wk_datetime,
+	public WatchKeepingDTO(int wk_id, String wk_datetime,
 			String wk_empemail, String wk_indication, String wk_measure,
 			int wk_mpd, int wk_vmd, int wk_hmd, int wk_csd, int wk_itd,
 			int wk_wio, int wk_wim, int wk_hwd, int wk_sii,
@@ -165,12 +170,17 @@ public class WatchKeepingDTO {
 		this.wk_id = wk_id;
 	}
 
-	public Timestamp getWk_datetime() {
+	public String getWk_datetime() {
 		return wk_datetime;
 	}
 
 	public void setWk_datetime(Timestamp wk_datetime) {
-		this.wk_datetime = wk_datetime;
+		try {
+			  java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd(EEE) HH:mm:ss",Locale.KOREAN);
+			  this.wk_datetime = formatter.format(wk_datetime);
+			} catch (Exception ex) {
+				this.wk_datetime = "";
+			}
 	}
 
 	public String getWk_empemail() {
@@ -301,5 +311,21 @@ public class WatchKeepingDTO {
 		this.deptName = deptName;
 	}
 
+	public String getEmp_name() {
+		return emp_name;
+	}
+
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
+
+	public int getAvg_score() {
+		return (wk_mpd+wk_vmd+wk_hmd+wk_csd+wk_itd+wk_wio+wk_wim+wk_hwd+wk_sii)/9;
+	}
+
+	public String getEmp_rank() {
+		return emp_rank;
+	}
+	
 	
 }

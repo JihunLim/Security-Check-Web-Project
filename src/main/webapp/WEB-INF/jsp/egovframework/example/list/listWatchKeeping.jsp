@@ -40,47 +40,24 @@
 		<section class="white">
 			<div class="container">
 			<div class="block-content collapse in">	
-											
-			<table class="table">
+			<table class="table table-hover">
 				<thead>
 					<tr>
 						<th>일시</th>
-						<th>이메일</th>
-						<th>지시받은사항</th>
-						<th>조치사항</th>
-						<th>경영기획본부 근무자 현황</th>
-						<th>바우처본부 근무자 현황</th>
-						<th>보건의료본부 근무자 현황</th>
-						<th>고객지원본부 근무자 현황</th>
-						<th>정보기술본부 근무자 현황</th>
-						<th>복지정보운영본부 근무자 현황</th>
-						<th>복지정보관리본부 근무자 현황</th>
-						<th>희망복지본부 근무자 현황</th>
-						<th>사회보장정보연구소 근무자 현황</th>
-						<th>당직중 특이사항</th>
-						<th>보고사항</th>
-						<th>인계사항</th>
+						<th>당직자</th>
+						<th>평균 근무자현황</th>
+						<th>당직점검일지</th>
+						<th>사무실점검일지</th>
 					</tr>
 				</thead>
 				<c:forEach items="${list}" var="dto">
 					<tbody>
-						<tr>
+						<tr style = "cursor:pointer;" onClick="location.href='contentWatchKeeping.do?id=${dto.wk_id}'" >
 							<td>${dto.wk_datetime}</td>
-							<td>${dto.wk_empemail}</td>
-							<td>${dto.wk_indication}</td>
-							<td>${dto.wk_measure}</td>
-							<td>${dto.wk_mpd}</td>
-							<td>${dto.wk_vmd}</td>
-							<td>${dto.wk_hmd}</td>
-							<td>${dto.wk_csd}</td>
-							<td>${dto.wk_itd}</td>
-							<td>${dto.wk_wio}</td>
-							<td>${dto.wk_wim}</td>
-							<td>${dto.wk_hwd}</td>
-							<td>${dto.wk_sii}</td>
-							<td>${dto.wk_specificity}</td>
-							<td>${dto.wk_report}</td>
-							<td>${dto.wk_delivery}</td>
+							<td>${dto.deptName}&nbsp;${dto.emp_name}</td>
+							<td>${dto.avg_score}</td>
+							<td><a href="extractWatchKeeping.do?id=${dto.wk_id}" class="skel-layers-ignoreHref"><span class="icon fa-file-text-o"></span></a></td>
+							<td><span class="icon fa-file-text"></span></td>
 						</tr>
 					</tbody>
 				</c:forEach>
@@ -99,7 +76,7 @@
 							varStatus="status">
 							<c:choose>
 								<c:when test="${paging.page eq i}">
-									<span class="active"><a href="javascript:fnGoPaging(${i});">${i}&nbsp;</a></span>
+									<span class="active" style="color:#e8cc74;"><a href="javascript:fnGoPaging(${i});">${i}&nbsp;</a></span>
 								</c:when>
 								<c:otherwise>
 									<span><a href="javascript:fnGoPaging(${i});">${i}&nbsp;</a></span>

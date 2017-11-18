@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,6 +53,12 @@ public class HomeController {
 	// 서비스 시작 일자
 	String startDate = "2017-10-23"; // 시작 날짜
 
+	@RequestMapping("/aaa.do")
+	public String aaa(Model model)  {
+			return "security/aaa";
+	}
+	
+	
 	
 	@RequestMapping("/showImage.do")
 	public String showImage(@RequestParam("imgIdx") String imgIdx, Model model)  {
@@ -791,14 +798,76 @@ public class HomeController {
 				pageNum = 1;
 			// 페이지에 대한 정보 입력 및 전달
 			// 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
-			pageInfo = new PagingDTO(dao.selectNumTotalListOfNightDutyDao(),
-					pageNum);
+			pageInfo = new PagingDTO(dao.selectNumTotalListOfNightDutyDao(), pageNum);
 			model.addAttribute("paging", pageInfo);
 			model.addAttribute("list", dao.selectWatchKeepingDao((long) ((pageNum - 1) * pageInfo.getRows())));
 		} catch (Exception exp) {
 			System.out.println(exp.getMessage());
 		}
 		return "list/listWatchKeeping";
+	}
+	
+	/**
+	 * 당직근무일지 내용 조회
+	 */
+	@RequestMapping("/contentWatchKeeping.do")
+	public String contentWatchKeeping(HttpServletRequest request, Model model)
+			throws Exception {
+		try {
+			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+			PagingDTO pageInfo;
+
+			model.addAttribute("emp_name", userInfo.getEmp_name());
+			model.addAttribute("deptName", userInfo.getDeptName());
+			model.addAttribute("auth", userInfo.getAuth());
+
+			// id 가져옴
+			String id = request.getParameter("id");
+			if (id == null)
+				return "cmmn/dataAccessFailure";
+			model.addAttribute("data", dao.selectWatchKeepingWithIdDao(Integer.parseInt(id)));
+			model.addAttribute("deptNum", dao.selectDeptNumDao());
+			
+		} catch (Exception exp) {
+			System.out.println(exp.getMessage());
+		}
+		return "list/contentWatchKeeping";
+	}
+	
+	/**
+	 * 당직근무일지 내용 출력
+	 */
+	@RequestMapping("/extractWatchKeeping.do")
+	public String extractWatchKeeping(HttpServletRequest request, Model model) throws Exception {
+		
+			try {
+				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+				PagingDTO pageInfo;
+				
+				Date dt = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy. MM. dd. EEE", Locale.KOREA);
+				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+				String today = sdf.format(dt).toString();
+				String filename ="("+sdf2.format(dt).toString()+")";
+				
+				model.addAttribute("emp_name", userInfo.getEmp_name());
+				model.addAttribute("deptName", userInfo.getDeptName());
+				model.addAttribute("auth", userInfo.getAuth());
+
+				// id 가져옴
+				String id = request.getParameter("id");
+				if (id == null)
+					return "cmmn/dataAccessFailure";
+				model.addAttribute("data", dao.selectWatchKeepingWithIdDao(Integer.parseInt(id)));
+				// 밑에 각 부서의 총 인원 수 가져올 수 있도록 수정
+				model.addAttribute("listDeptNum", dao.selectDeptNumDao());
+				model.addAttribute("today", today);
+				model.addAttribute("filename", filename);
+				
+			} catch (Exception exp) {
+				System.out.println(exp.getMessage());
+			}
+			return "security/extractWatchKeeping";
 	}
 
 	/**
@@ -919,7 +988,7 @@ public class HomeController {
 		// 항목 별 보안점수 (db 전체)
 		float[] scoreEachList = new float[5];
 		// 항목 별 자신 부서 보안점수
-		float[] scoreMyDeptEachList = new float[5];
+		int[] scoreMyDeptEachList = new int[5];
 		try {
 			model.addAttribute("emp_name", userInfo.getEmp_name());
 			model.addAttribute("deptName", userInfo.getDeptName());
@@ -937,19 +1006,15 @@ public class HomeController {
 			long diffDateAsDay = 0;
 			// String Type을 Date Type으로 캐스팅하면서 생기는 예외로 인해 여기서 예외처리 해주지 않으면
 			// 컴파일러에서 에러가 발생해서 컴파일을 할 수 없다.
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			// date1, date2 두 날짜를 parse()를 통해 Date형으로 변환.
 			Date FirstDate = format.parse(startDate);
 			Date SecondDate = format.parse(endDate);
-			long calDate = FirstDate.getTime() - SecondDate.getTime();
-
+			long calDate = SecondDate.getTime() - FirstDate.getTime();
+			
 			// Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다.
 			// 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
-			diffDateAsDay = calDate / (24 * 60 * 60 * 1000);
-
-			diffDateAsDay = Math.abs(diffDateAsDay);
-
-			System.out.println("두 날짜의 날짜 차이: " + diffDateAsDay);
+			diffDateAsDay = Math.abs(calDate / (24 * 60 * 60 * 1000));
 
 			int temp = 0;
 			int max = 0;
@@ -968,18 +1033,20 @@ public class HomeController {
 			int maxNum = ((max / 10)+1) * 10;
 			
 			// 평균 데이터
-			scoreEachList[0] = Math.round(dao.selectScoreDocumentDao()/(float)deptTotalNum);
-			scoreEachList[1] = Math.round(dao.selectScoreCleanDao()/(float)deptTotalNum);
-			scoreEachList[2] = Math.round(dao.selectScoreLightoutDao()/(float)deptTotalNum);
-			scoreEachList[3] = Math.round(dao.selectScoreVentilationDao()/(float)deptTotalNum);
-			scoreEachList[4] = Math.round(dao.selectScoreDoorDao()/(float)deptTotalNum);
+			HashMap<String, BigDecimal> totalScore = dao.selectScoreDao();
+			scoreEachList[0] = Math.round(((BigDecimal)totalScore.get("sum(os_document)")).intValueExact()/(float)deptTotalNum);
+			scoreEachList[1] = Math.round(((BigDecimal)totalScore.get("sum(os_clean)")).intValueExact()/(float)deptTotalNum);
+			scoreEachList[2] = Math.round(((BigDecimal)totalScore.get("sum(os_lightout)")).intValueExact()/(float)deptTotalNum);
+			scoreEachList[3] = Math.round(((BigDecimal)totalScore.get("sum(os_ventilation)")).intValueExact()/(float)deptTotalNum);
+			scoreEachList[4] = Math.round(((BigDecimal)totalScore.get("sum(os_door)")).intValueExact()/(float)deptTotalNum);
 			
 			// 자기 부서 데이터
-			scoreMyDeptEachList[0] = dao.selectScoreDocumentWithDeptDao(userInfo.getOs_deptcode());
-			scoreMyDeptEachList[1] = dao.selectScoreCleanWithDeptDao(userInfo.getOs_deptcode());
-			scoreMyDeptEachList[2] = dao.selectScoreLightoutWithDeptDao(userInfo.getOs_deptcode());
-			scoreMyDeptEachList[3] = dao.selectScoreVentilationWithDeptDao(userInfo.getOs_deptcode());
-			scoreMyDeptEachList[4] = dao.selectScoreDoorWithDeptDao(userInfo.getOs_deptcode());
+			HashMap<String, BigDecimal> ownScore = dao.selectScoreWithDeptDao(userInfo.getOs_deptcode());
+			scoreMyDeptEachList[0] = ((BigDecimal)ownScore.get("sum(os_document)")).intValueExact();
+			scoreMyDeptEachList[1] = ((BigDecimal)ownScore.get("sum(os_clean)")).intValueExact(); 
+			scoreMyDeptEachList[2] = ((BigDecimal)ownScore.get("sum(os_lightout)")).intValueExact(); 
+			scoreMyDeptEachList[3] = ((BigDecimal)ownScore.get("sum(os_ventilation)")).intValueExact();
+			scoreMyDeptEachList[4] = ((BigDecimal)ownScore.get("sum(os_door)")).intValueExact();
 			
 			float max2 = 0;
 			for(int i =0;i<scoreEachList.length;i++){

@@ -125,7 +125,7 @@
 											'문닫힘상태' ],
 									datasets : [ 
 									             {
-										label : '항목별 누적 보안점수',
+										label : '항목별 부서평균 보안점수',
 										backgroundColor : "rgba(200,0,0,0.2)",
 										borderColor : "rgba(200,0,0,0.6)",
 										radius : 6,
@@ -136,7 +136,7 @@
 										pointHoverRadius : 10,
 										data : data_list2
 									}, {
-										label : '항목별 부서 보안점수',
+										label : '항목별 나의 부서 보안점수',
 										backgroundColor : "rgba(0,0,200,0.2)",
 										borderColor : "rgba(0,0,200,0.6)",
 										radius : 6,
