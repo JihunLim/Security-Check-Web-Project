@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/egovframework/example/menu/topMenu.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css">
@@ -16,11 +17,9 @@ $(function() {
             var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
             month *= 1;
             month += 1;
+            	
             $(this).datepicker('setDate', new Date(year, month, 1));
-            if(month<=9)
-            	location.href="<%=cp%>/nightDutyTable.do?month="+year+"-0"+month;
-            else
-            	location.href="<%=cp%>/nightDutyTable.do?month="+year+"-"+month;
+            location.href="<%=cp%>/insertNightDutyTable.do?month="+year+"-"+month;
         }
     });
 });
@@ -37,7 +36,7 @@ $(function() {
    <section  class="one dark">
       <div class="container">
          <header>
-            <h2>당직근무 테이블</h2>
+            <h2>당직근무표 생성하기</h2>
          </header>
       </div>
       </section>
@@ -46,12 +45,8 @@ $(function() {
    <div class="container">
       <div class="btn-group">
          <div class="row">
-            <div class="6u 12u$(mobile)" style="float:left;font-size:0.8em">
-                           년월로 검색 : <input name="month" class="date-picker" style="font-size: 0.8em;height: 2em;width:10em;"/>
-            </div>
-            
-            <div class="6u 12u$(mobile)">
-               <input type="checkbox" value="nightDutyTable.do?month=1" onchange="if(this.value) location.href=(this.value);">나의 당직표 확인
+            <div class="12u$ 12u$(mobile)" style="float:left;font-size:0.8em">
+               	년월로 검색 : <input name="month" class="date-picker" style="font-size: 0.8em;height: 2em;width:10em;"/>  
             </div>
             
             </div>
@@ -60,27 +55,27 @@ $(function() {
       
       <section class="white">
          <div class="container">
+         
+         	<form method="post" action="<%=cp%>/insertNightDutyCheck.do">
+         
             <table width="800" cellpadding="0" cellspacing="0" border="1">
             <tr>
                <td>일시</td>
-               <td>당직자 부서</td>
-               <td>당직자 이름</td>
+               <td>당직자 E-mail</td>
             <tr>
-               <c:forEach items="${list}" var="dto">           
-                  <tr <c:if test="${dto.nd_date eq today}"> bgcolor = "#C8FAC8" </c:if>>
-                     <td>${dto.nd_date}</td>
-                     <td>${dto.deptName}</td>
-                     <td>${dto.emp_name}</td>
+               <c:forEach items="${date}" var="dto">           
+                  <tr>
+                     <td><input type="text" name="nd_date" style="color:#000;border:0px;text-align:center;" value="${dto}" readonly></input></td>
+                     <td><input type="text" name="nd_email" style="color:#000;font-size: 1em;border:0px;text-align:center;" placeholder="E-mail을 입력해주세요" required></input></td>
                   <tr>
                </c:forEach>
          </table>
-        <s:authorize access="hasAuthority('ROLE_ADMIN')">
+        	<s:authorize access="hasAuthority('ROLE_ADMIN')">
         	<div style="float:right">
-			<a href="insertNightDutyTable.do?month=0-0" class="button" style="font-size:0.85em; padding: 0.55em 1.5em 0.55em 1.5em;">월별 당직근무 생성하기</a>
-			<a href="insertSeveralNightDutyTable.do" class="button" style="font-size:0.85em; padding: 0.55em 1.5em 0.55em 1.5em;">당직근무 수정</a>
-			
+        	<button type="submit" class="btn btn-primary">제출하기</button>
 			</div>                  
-        </s:authorize>
+        </s:authorize> 
+         </form>
       </div>
    </section>
 </div>

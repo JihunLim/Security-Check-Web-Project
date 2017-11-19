@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import egovframework.security.dto.DeptDTO;
+import egovframework.security.dto.NightDutyDTO;
 import egovframework.security.dto.OfficeSecurityDTO;
 import egovframework.security.dto.PagingDTO;
 import egovframework.security.dto.WatchKeepingDTO;
@@ -600,8 +602,7 @@ public class HomeController {
 	 * 사무실보안점검 리스트 조회
 	 */
 	@RequestMapping("/listOfficeSecurity.do")
-	public String listOfficeSecurity(HttpServletRequest request, Model model)
-			throws Exception {
+	public String listOfficeSecurity(HttpServletRequest request, Model model) throws Exception {
 		try {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
@@ -654,6 +655,44 @@ public class HomeController {
 		}
 		return "list/listOfficeSecurity";
 	}
+	
+	/**
+	 * 사무실보안일지 출력
+	 */
+	@RequestMapping("/extractOfficeSecurity.do")
+	public String extractOfficeSecurity(HttpServletRequest request, Model model) throws Exception {
+		
+			try {
+				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+				PagingDTO pageInfo;
+				
+				Date dt = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd");
+				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+				String today = sdf.format(dt).toString();
+				String filename ="("+sdf2.format(dt).toString()+")";
+				
+				model.addAttribute("emp_name", userInfo.getEmp_name());
+				model.addAttribute("deptName", userInfo.getDeptName());
+				model.addAttribute("auth", userInfo.getAuth());
+
+				// id 가져옴
+				String id = request.getParameter("id");
+				if (id == null)
+					return "cmmn/dataAccessFailure";
+				model.addAttribute("data", dao.selectWatchKeepingWithIdDao(Integer.parseInt(id)));
+				// 밑에 각 부서의 총 인원 수 가져올 수 있도록 수정
+				model.addAttribute("listDeptNum", dao.selectDeptNumDao());
+				model.addAttribute("today", today);
+				model.addAttribute("filename", filename);
+				
+			} catch (Exception exp) {
+				System.out.println(exp.getMessage());
+			}
+			return "security/extractOfficeSecurity";
+	}
+	
+	
 
 	/**
 	 * 당직점검 DB에 저장
@@ -843,26 +882,28 @@ public class HomeController {
 			try {
 				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 				PagingDTO pageInfo;
+				// id받아와서 해당 id에 맞는 당직근무일지 데이터 가져옴
+				String id = request.getParameter("id");
+				if (id == null)
+					return "cmmn/dataAccessFailure";
+				WatchKeepingDTO wkDto = dao.selectWatchKeepingWithIdDao(Integer.parseInt(id));
 				
-				Date dt = new Date();
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy. MM. dd. EEE", Locale.KOREA);
+				Date dt = new SimpleDateFormat("yyyy-MM-dd(EEE) hh:mm:ss",Locale.KOREA).parse(wkDto.getWk_datetime());     
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy. MM. dd. (EEE)", Locale.KOREA);
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
-				String today = sdf.format(dt).toString();
-				String filename ="("+sdf2.format(dt).toString()+")";
-				
+				String date = sdf.format(dt).toString();
+				String tempName ="당직근무일지("+sdf2.format(dt).toString()+").hwp";
+				String fileName = new String(tempName.getBytes("UTF-8"), "ISO-8859-1");
 				model.addAttribute("emp_name", userInfo.getEmp_name());
 				model.addAttribute("deptName", userInfo.getDeptName());
 				model.addAttribute("auth", userInfo.getAuth());
 
-				// id 가져옴
-				String id = request.getParameter("id");
-				if (id == null)
-					return "cmmn/dataAccessFailure";
-				model.addAttribute("data", dao.selectWatchKeepingWithIdDao(Integer.parseInt(id)));
+				
+				model.addAttribute("data",dao.selectWatchKeepingWithIdDao(Integer.parseInt(id)));
 				// 밑에 각 부서의 총 인원 수 가져올 수 있도록 수정
 				model.addAttribute("listDeptNum", dao.selectDeptNumDao());
-				model.addAttribute("today", today);
-				model.addAttribute("filename", filename);
+				model.addAttribute("today", date);
+				model.addAttribute("fileName", fileName);
 				
 			} catch (Exception exp) {
 				System.out.println(exp.getMessage());
@@ -1090,7 +1131,6 @@ public class HomeController {
 	@RequestMapping("/nightDutyTable.do")
 	public String nightDutyTable(HttpServletRequest request, Model model) {
 		String resultPage = "security/nightDutyTable";
-		String year = null;
 		String month = null;
 		try {
 			SecurityOfficeDAO dao = sqlSession
@@ -1108,8 +1148,7 @@ public class HomeController {
 			
 			//int year = Integer.parseInt(request.getParameter("year"));
 			month = request.getParameter("month");
-			if(year == null)
-				year = "2017";
+
 			if(month == null)
 				month = now_month;
 			//db에 넘겨주는 데이터 값 : yyyy-mm-% 
@@ -1127,5 +1166,105 @@ public class HomeController {
 		}
 		return resultPage;
 	}
-
+	
+	
+	// 당직테이블 삽입 폼
+		@RequestMapping("/insertNightDutyTable.do")
+		public String insertNightDutyTable(HttpServletResponse response, HttpServletRequest request, Model model) {
+			String resultPage = "manage/insertNightDutyTable";
+			String year = null;
+			String month = null;
+			ArrayList<String> date = new ArrayList<String>();
+			try {
+				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+				
+				model.addAttribute("emp_name", userInfo.getEmp_name());
+				model.addAttribute("deptName", userInfo.getDeptName());
+				model.addAttribute("auth", userInfo.getAuth());
+				
+				Date dt = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM");
+				
+				String now_month = sdf2.format(dt).toString();
+				//int year = Integer.parseInt(request.getParameter("year"));
+				//month = request.getParameter("month");
+				month = (request.getParameter("month") == null) ? "" : request.getParameter("month");
+				if(month == null || "0-0".equals(month)){
+					date.add("날짜를 선택해주세요.");
+					model.addAttribute("date", date);
+					return resultPage;
+				}
+				//month를 date로 변경
+				Date d_month = sdf2.parse(month);
+				String check_month = sdf.format(d_month).toString();
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(d_month);
+				int endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+				String value = null;
+				for (int i=1;i<=endDay;i++){
+					value = month + "-" + i;
+					date.add(value);
+				}
+				model.addAttribute("date", date);
+				if (dao.checkNightDutyDao(check_month)>0){
+					resultPage = "cmmn/dataHasAlready";
+				}
+				
+			} catch (Exception exp) {
+				System.out.println(exp.getMessage());
+			}
+			System.out.println("akaka : "+date.size());
+			return resultPage;
+		}
+		
+		
+			// 당직테이블 삽입하기
+			@RequestMapping("/insertNightDutyCheck.do")
+			public String insertNightDutyCheck(HttpServletResponse response, HttpServletRequest request, Model model) {
+				String resultPage = "cmmn/saveDataSuccessForTable";
+				String year = null;
+				String month = null;
+				try {
+					SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+					String[] arrDate = request.getParameterValues("nd_date");
+					String[] arrEmail = request.getParameterValues("nd_email");
+					
+					//데이터가 이미 있는지 확인
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
+					SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM");
+					Date d_month = sdf.parse(arrDate[0]);
+					String insert_month = sdf2.format(d_month).toString();
+					String value = insert_month + "-%";
+					System.out.println("ak : "+value);
+					if (dao.checkNightDutyDao(value)>0){
+						resultPage = "cmmn/dataHasAlready";
+					}else{
+						for (int i=0;i<arrDate.length;i++){
+							NightDutyDTO ndDto = new NightDutyDTO(arrDate[i], arrEmail[i]);
+							dao.insertNightDutyDao(ndDto);
+						}
+						
+					}
+				} catch (Exception exp) {
+					System.out.println(exp.getMessage());
+				}
+				return resultPage;
+			}	
+			
+		
+			// 당직테이블 삽입하기 ver2
+						@RequestMapping("/insertSeveralNightDutyTable.do")
+						public String insertSeveralNightDutyTable(HttpServletResponse response, HttpServletRequest request, Model model) {
+							String resultPage = "manage/insertSeveralNightDutyTable";
+					
+							try {
+								SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+								
+							} catch (Exception exp) {
+								System.out.println(exp.getMessage());
+							}
+							return resultPage;
+						}	
+			
 }

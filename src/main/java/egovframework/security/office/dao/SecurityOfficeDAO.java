@@ -112,6 +112,8 @@ public interface SecurityOfficeDAO {
      */
     //당직근무표 삽입
     public void insertNightDutyDao(NightDutyDTO data);
+    //당직근무표 확인
+    public int checkNightDutyDao(String data);
     //당직근무표 수정
     public void updateNightDutyDao(NightDutyDTO data);
     //당직근무표 전체출력

@@ -153,6 +153,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	insert into nightduty values(#{nd_date}, #{nd_empemail})
     </insert>
     
+    <select id="checkNightDutyDao" parameterType="string" resultType="int">
+    	select count(*) from nightduty where nd_date LIKE date(#{param1})
+    </select>
+    
     <update id="updateNightDutyDao" parameterType="egovframework.security.dto.NightDutyDTO">
     	update nightduty set nd_date = #{nd_date}, nd_empemail = #{nd_empemail} where nd_date = #{nd_date}
     </update>

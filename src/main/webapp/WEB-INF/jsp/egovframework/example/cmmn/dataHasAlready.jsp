@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script>alert('이미 점검이 완료되어 중복 실시하실 수 없습니다. \n자세한 내용은 관리자에게 문의하십시오.');history.back();</script>
+<script>alert('이미 해당 정보가 제출되었습니다. \n자세한 내용은 관리자에게 문의하십시오.');history.back();</script>
 <title>403 Error</title>
 </head>
 <body>
