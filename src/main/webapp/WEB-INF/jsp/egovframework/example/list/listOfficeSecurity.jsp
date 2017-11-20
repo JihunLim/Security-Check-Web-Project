@@ -28,9 +28,10 @@
 	<div class="container">
 		<div class="btn-group">
 			<form method="post" action="<%=cp%>/listOfficeSecurity.do?page=1">
+			 <s:authorize access="hasAuthority('ROLE_ADMIN')">
 				<div class="row">
-					<div class="3u 12u$(mobile)">
-						<select name="changeDept">
+					<div class="5u 12u$(mobile)" style="float:left;font-size: 0.8em;">
+						<select name="changeDept" style="font-size: 0.9em;height: 2.5em;width:12em;">
 							<option value="0">부서를 선택하세요.</option>
 							<option value="1">경영지원본부</option>
 							<option value="2">바우처본부</option>
@@ -43,17 +44,28 @@
 							<option value="9">사회보장정보연구소</option>
 						</select>
 					</div>
-					<div class="2u 3u(mobile)">기간선택 :</div>
-					<div class="5u 6u(mobile)">
-						<input type="date" name="startDate"> ~ <input type="date"
-							name="endDate">
+					
+					
+					<div class="5u 12u$(mobile)" style="vertical-align:middle;">
+						<label style="font-size:0.8em">조회기간 : <input type="date" name="startDate" style="font-size: 0.8em;height: 2em;width:10em;"> ~ <input type="date" name="endDate" style="font-size: 0.8em;height: 2em;width:10em;"></label>
 					</div>
-
-					<div class="2u$ 3u$(mobile)">
-						<button type="submit" class="btn btn-primary">검색</button>
+					<div class="2u$ 12u$(mobile)">
+						<button type="submit" class="btn btn-primary" style="float:right;vertical-align:middle;">검색</button>
 					</div>
 				</div>
-
+				</s:authorize>
+				<s:authorize access="hasAuthority('ROLE_USER')">
+				<div class="row">
+					<div class="9u 12u$(mobile)" style="vertical-align:middle;">
+						<label style="font-size:0.8em">조회기간 : <input type="date" name="startDate" style="font-size: 0.8em;height: 2em;width:10em;"> ~ <input type="date" name="endDate" style="font-size: 0.8em;height: 2em;width:10em;"></label>
+					</div>
+					<div class="3u$ 12u$(mobile)">
+						<button type="submit" class="btn btn-primary" style="float:right;margin:5px 0 0 0;">검색</button>
+					</div>
+				</div>
+				</s:authorize>
+				
+				
 			</form>
 		</div>
 	</div>

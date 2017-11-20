@@ -604,22 +604,24 @@ public class HomeController {
 	@RequestMapping("/listOfficeSecurity.do")
 	public String listOfficeSecurity(HttpServletRequest request, Model model) throws Exception {
 		try {
-			SecurityOfficeDAO dao = sqlSession
-					.getMapper(SecurityOfficeDAO.class);
+			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 			PagingDTO pageInfo;
 			model.addAttribute("emp_name", userInfo.getEmp_name());
 			model.addAttribute("deptName", userInfo.getDeptName());
 			model.addAttribute("auth", userInfo.getAuth());
 			// 현재 로그인 정보 가져오기
-			Authentication auth = SecurityContextHolder.getContext()
-					.getAuthentication();
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			System.out.println("로그인 정보 : " + auth.getDetails());
-			// 페이지 번호 가져옴
-			long pageNum = (long) Integer
-					.parseInt(request.getParameter("page"));
+			// 클라이언트에서 보낸 정보 받아오기
+			long pageNum = (long) Integer.parseInt(request.getParameter("page"));
+			int selectedDept = Integer.parseInt(request.getParameter("changeDept"));
+			String startDate = request.getParameter("startDate");
+			String endDate = request.getParameter("endDate");
 			if (pageNum <= 0)
 				pageNum = 1;
-
+			
+			System.out.println("캬하하: "+startDate);
+			
 			// 관리자 정보 가져오기
 			ArrayList managerList = dao.selectManagerDao();
 			// 권한에 따라 다르게 출력
@@ -1202,19 +1204,25 @@ public class HomeController {
 				cal.setTime(d_month);
 				int endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 				String value = null;
+				//date(d_month)를 String으로 변환
+				String strMonth = sdf2.format(d_month).toString();
+				//month = (Integer.parseInt(month)<10) ? "0"+month : month; 
 				for (int i=1;i<=endDay;i++){
-					value = month + "-" + i;
+					if(i<10)
+						value = strMonth + "-0" + i;
+					else
+						value = strMonth + "-" + i;
 					date.add(value);
 				}
 				model.addAttribute("date", date);
 				if (dao.checkNightDutyDao(check_month)>0){
-					resultPage = "cmmn/dataHasAlready";
+					//update처리를 해줬기 때문에 에러페이지 호출 안함
+					//resultPage = "cmmn/dataHasAlready";
 				}
 				
 			} catch (Exception exp) {
 				System.out.println(exp.getMessage());
 			}
-			System.out.println("akaka : "+date.size());
 			return resultPage;
 		}
 		
@@ -1237,15 +1245,15 @@ public class HomeController {
 					String insert_month = sdf2.format(d_month).toString();
 					String value = insert_month + "-%";
 					System.out.println("ak : "+value);
-					if (dao.checkNightDutyDao(value)>0){
-						resultPage = "cmmn/dataHasAlready";
-					}else{
-						for (int i=0;i<arrDate.length;i++){
-							NightDutyDTO ndDto = new NightDutyDTO(arrDate[i], arrEmail[i]);
+					
+					for (int i=0;i<arrDate.length;i++){
+						NightDutyDTO ndDto = new NightDutyDTO(arrDate[i], arrEmail[i]);
+						if(dao.checkNightDutyDao(arrDate[i])<=0)
 							dao.insertNightDutyDao(ndDto);
-						}
-						
+						else
+							dao.updateNightDutyDao(ndDto);
 					}
+
 				} catch (Exception exp) {
 					System.out.println(exp.getMessage());
 				}
@@ -1253,13 +1261,52 @@ public class HomeController {
 			}	
 			
 		
-			// 당직테이블 삽입하기 ver2
+			// 당직테이블 삽입폼 ver2
 						@RequestMapping("/insertSeveralNightDutyTable.do")
 						public String insertSeveralNightDutyTable(HttpServletResponse response, HttpServletRequest request, Model model) {
 							String resultPage = "manage/insertSeveralNightDutyTable";
-					
 							try {
 								SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+								model.addAttribute("emp_name", userInfo.getEmp_name());
+								model.addAttribute("deptName", userInfo.getDeptName());
+								model.addAttribute("auth", userInfo.getAuth());
+								
+								
+								
+							} catch (Exception exp) {
+								System.out.println(exp.getMessage());
+							}
+							return resultPage;
+						}
+						
+						// 당직테이블 삽입하기 ver2
+						@RequestMapping("/insertSeveralNightDutyCheck.do")
+						public String insertSeveralNightDutyCheck(HttpServletResponse response, HttpServletRequest request, Model model) {
+							String resultPage = "cmmn/saveDataSuccessForTable";
+							String year = null;
+							String month = null;
+							try {
+								SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+								String[] arrDate = request.getParameterValues("nd_date");
+								String[] arrEmail = request.getParameterValues("nd_email");
+								
+								/*
+								  1. 데이터를 받아서
+								  2. for문을 돌리는데
+								  3. if문으로 날짜 값이 이미 있으면 update로 수정
+								  4. 없으면 insert로 삽입
+								 */
+								System.out.println("날짜 : "+arrDate[0]);
+								for (int i=0;i<arrDate.length;i++){
+									//객체 instance
+									NightDutyDTO ndDto = new NightDutyDTO(arrDate[i], arrEmail[i]);
+									//날짜 값이 이미 있는 경우
+									if(dao.checkNightDutyDao(arrDate[i])>0)
+										dao.updateNightDutyDao(ndDto);
+									//날짜 값이 없는 경우
+									else
+										dao.insertNightDutyDao(ndDto);
+								}
 								
 							} catch (Exception exp) {
 								System.out.println(exp.getMessage());

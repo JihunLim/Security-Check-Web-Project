@@ -162,6 +162,7 @@ public interface SecurityOfficeDAO {
     public int selectScoreVentilationWithDeptDao(int data);
     public int selectScoreDoorWithDeptDao(int data);
     public HashMap selectScoreWithDeptDao(int data);
+	
     
     
     

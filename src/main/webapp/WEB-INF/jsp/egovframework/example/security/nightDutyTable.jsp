@@ -46,12 +46,12 @@ $(function() {
    <div class="container">
       <div class="btn-group">
          <div class="row">
-            <div class="6u 12u$(mobile)" style="float:left;font-size:0.8em">
+            <div class="6u 6u(mobile)" style="float:left;font-size:0.8em">
                            년월로 검색 : <input name="month" class="date-picker" style="font-size: 0.8em;height: 2em;width:10em;"/>
             </div>
             
-            <div class="6u 12u$(mobile)">
-               <input type="checkbox" value="nightDutyTable.do?month=1" onchange="if(this.value) location.href=(this.value);">나의 당직표 확인
+            <div class="6u 6u$(mobile)">
+               <input type="checkbox" value="nightDutyTable.do?month=1" onchange="if(this.value) location.href=(this.value);"><font size="4px";>나의 당직표 확인2</font>
             </div>
             
             </div>
