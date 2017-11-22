@@ -59,6 +59,33 @@ public class HomeController {
 	// 메일 서비스 보내는 사람 이메일
 	String setfrom = "limjihun204@gmail.com";
 
+	public void getUserInfo(Model model) throws Exception{
+		// userInfo 구하기
+				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+				//User 객체가 null이면 실행, null이 아니면 실행하지 않음
+				if(userInfo == null){
+					HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
+					String emp_name = (String) empMap.get("emp_name");
+					int os_deptcode = (Integer) empMap.get("emp_deptcode");
+					String deptName = (String) dao.selectDeptNameDao(os_deptcode);
+					String emp_role = (String) empMap.get("emp_role");
+					String emp_rank = (String) empMap.get("emp_rank");
+					String auth = "";
+					
+					userInfo = new UserInfo(os_deptcode, deptName, emp_name, emp_role, emp_rank);
+
+					if ("ROLE_USER".equals(emp_role))
+						auth = "일반사용자";
+					else
+						auth = "관리자";
+
+				}
+				
+				model.addAttribute("emp_name", userInfo.getEmp_name());
+				model.addAttribute("deptName", userInfo.getDeptName());
+				model.addAttribute("auth", userInfo.getAuth());
+	}
+	
 	@RequestMapping("/showImage.do")
 	public String showImage(@RequestParam("imgIdx") String imgIdx, Model model) {
 		try {
@@ -125,45 +152,28 @@ public class HomeController {
 	}
 
 	@RequestMapping("/updateDept.do")
-	public String updateDept(Locale locale, Model model) {
+	public String updateDept(Locale locale, Model model) throws Exception {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);
 		model.addAttribute("list", dao.selectDeptDao());
 		System.out.print("updateManager");
 		return "manage/updateDept";
 	}
 
 	@RequestMapping("/addDeptForm.do")
-	public String addDeptForm(Locale locale, Model model) {
+	public String addDeptForm(Locale locale, Model model) throws Exception {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);
 		return "manage/addDeptForm";
 	}
 
-	// access_denied.do
-	@RequestMapping("/access_denied.do")
-	public String access_denied(HttpServletResponse response, Model model)
-			throws IOException {
-		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
-		return "cmmn/access_denied";
-	}
-
 	@RequestMapping("/addDeptCheck.do")
-	public String addDeptCheck(HttpServletRequest request, Model model) {
+	public String addDeptCheck(HttpServletRequest request, Model model) throws Exception {
 		// 추가한 부서 insert 처리
 		String resultPage = "forward:/updateDept.do";
 
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);//사용자 정보를 가져옴
 		DeptDTO deptDto;
 		try {
 
@@ -180,14 +190,12 @@ public class HomeController {
 	}
 
 	@RequestMapping("/deleteDeptCheck.do")
-	public String deleteDeptCheck(HttpServletRequest request, Model model) {
+	public String deleteDeptCheck(HttpServletRequest request, Model model) throws Exception {
 		// 추가한 부서 insert 처리
 		String resultPage = "forward:/updateDept.do";
 
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);//사용자 정보를 가져옴
 		DeptDTO deptDto;
 		try {
 			// 정보 가지고 오기
@@ -207,9 +215,7 @@ public class HomeController {
 	@RequestMapping("/officeSecurityForm.do")
 	public String officeSecurityForm(Model model) throws Exception {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);//사용자 정보를 가져옴
 		return "security/officeSecurityForm";
 	}
 
@@ -226,9 +232,7 @@ public class HomeController {
 		Map<String, Object> imgMap = new HashMap<String, Object>();
 		byte[] os_image = null;
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);//사용자 정보를 가져옴
 
 		OfficeSecurityDTO officeDTO;
 		try {
@@ -336,9 +340,7 @@ public class HomeController {
 	@RequestMapping("/officeSecurityFNForm.do")
 	public String officeSecurityFNForm(Model model) throws Exception {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);//사용자 정보를 가져옴
 		return "security/officeSecurityFNForm";
 	}
 
@@ -354,9 +356,7 @@ public class HomeController {
 		byte[] os_image = null;
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);//사용자 정보를 가져옴
 		OfficeSecurityDTO officeDTO;
 		try {
 			// 정보 가지고 오기
@@ -428,9 +428,7 @@ public class HomeController {
 	@RequestMapping("/updateDeptForm.do")
 	public String updateDeptForm(Model model) throws Exception {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);//사용자 정보를 가져옴
 		return "manage/list_dept";
 	}
 
@@ -441,9 +439,7 @@ public class HomeController {
 	public String updateDeptCheck(HttpServletRequest request, Model model)
 			throws Exception {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);//사용자 정보를 가져옴
 
 		DeptDTO deptDTO = new DeptDTO();
 
@@ -465,27 +461,7 @@ public class HomeController {
 	public String mainMenu(Model model) throws Exception {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 		Boolean SendEmail = false;
-		// userInfo 구하기
-		HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
-		String emp_name = (String) empMap.get("emp_name");
-		int os_deptcode = (Integer) empMap.get("emp_deptcode");
-		String deptName = (String) dao.selectDeptNameDao(os_deptcode);
-		String emp_role = (String) empMap.get("emp_role");
-		String emp_rank = (String) empMap.get("emp_rank");
-		String auth = "";
-
-		
-		
-		userInfo = new UserInfo(os_deptcode, deptName, emp_name, emp_role, emp_rank);
-
-		if ("ROLE_USER".equals(emp_role))
-			auth = "일반사용자";
-		else
-			auth = "관리자";
-
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);//사용자 정보를 가져옴
 		
 //		if (SendEmail) {
 //			// 성공할 시 메일 보내기
@@ -520,9 +496,7 @@ public class HomeController {
 		String resultPage = "/";
 		String fnUser = "";
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);//사용자 정보를 가져옴
 
 		// 당직자면 당직자페이지로, 아니면 최종퇴실자페이지로 이동
 		if (dao.selectNumNightDutyWithDateDao() > 0) // 오늘 당직자가 있으면
@@ -557,9 +531,7 @@ public class HomeController {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
 			PagingDTO pageInfo;
-			model.addAttribute("emp_name", userInfo.getEmp_name());
-			model.addAttribute("deptName", userInfo.getDeptName());
-			model.addAttribute("auth", userInfo.getAuth());
+			getUserInfo(model);//사용자 정보를 가져옴
 			// 현재 로그인 정보 가져오기
 			Authentication auth = SecurityContextHolder.getContext()
 					.getAuthentication();
@@ -699,9 +671,7 @@ public class HomeController {
 			String today = sdf.format(dt).toString();
 			String filename = "(" + sdf2.format(dt).toString() + ")";
 
-			model.addAttribute("emp_name", userInfo.getEmp_name());
-			model.addAttribute("deptName", userInfo.getDeptName());
-			model.addAttribute("auth", userInfo.getAuth());
+			getUserInfo(model);//사용자 정보를 가져옴
 
 			// id 가져옴
 			String id = request.getParameter("id");
@@ -731,9 +701,7 @@ public class HomeController {
 		try {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
-			model.addAttribute("emp_name", userInfo.getEmp_name());
-			model.addAttribute("deptName", userInfo.getDeptName());
-			model.addAttribute("auth", userInfo.getAuth());
+			getUserInfo(model);//사용자 정보를 가져옴
 			// 당직자 정보 가져오기
 			String fnUser = dao.selectEmailNightDutyWithDateDao();
 			// 현재 로그인 정보 가져오기
@@ -773,9 +741,7 @@ public class HomeController {
 		try {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
-			model.addAttribute("emp_name", userInfo.getEmp_name());
-			model.addAttribute("deptName", userInfo.getDeptName());
-			model.addAttribute("auth", userInfo.getAuth());
+			getUserInfo(model);//사용자 정보를 가져옴
 			WatchKeepingDTO wkDTO;
 			// 정보 가지고 오기
 			request.setCharacterEncoding("EUC-KR");
@@ -861,10 +827,7 @@ public class HomeController {
 			Map map = new HashMap();
 			PagingDTO pageInfo;
 
-			/* 밑에 코드 수정해야 함 */
-			model.addAttribute("emp_name", userInfo.getEmp_name());
-			model.addAttribute("deptName", userInfo.getDeptName());
-			model.addAttribute("auth", userInfo.getAuth());
+			getUserInfo(model);//사용자 정보를 가져옴
 
 			// 클라이언트에서 보낸 정보 받아오기
 			long pageNum = (long) Integer
@@ -917,9 +880,7 @@ public class HomeController {
 					.getMapper(SecurityOfficeDAO.class);
 			PagingDTO pageInfo;
 
-			model.addAttribute("emp_name", userInfo.getEmp_name());
-			model.addAttribute("deptName", userInfo.getDeptName());
-			model.addAttribute("auth", userInfo.getAuth());
+			getUserInfo(model);//사용자 정보를 가져옴
 
 			// id 가져옴
 			String id = request.getParameter("id");
@@ -986,9 +947,7 @@ public class HomeController {
 			throws Exception {
 		String resultPage = "cmmn/saveDataSuccess";
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);//사용자 정보를 가져옴
 		return resultPage;
 	}
 
@@ -1002,9 +961,7 @@ public class HomeController {
 		try {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
-			model.addAttribute("emp_name", userInfo.getEmp_name());
-			model.addAttribute("deptName", userInfo.getDeptName());
-			model.addAttribute("auth", userInfo.getAuth());
+			getUserInfo(model);//사용자 정보를 가져옴
 			model.addAttribute("list", dao.selectAllManagerDao());
 		} catch (Exception exp) {
 			System.out.println(exp.getMessage());
@@ -1021,9 +978,7 @@ public class HomeController {
 		try {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
-			model.addAttribute("emp_name", userInfo.getEmp_name());
-			model.addAttribute("deptName", userInfo.getDeptName());
-			model.addAttribute("auth", userInfo.getAuth());
+			getUserInfo(model);//사용자 정보를 가져옴
 			// 정보 가지고 오기
 			String emp_email = request.getParameter("emp_email"); // 부서이름
 			if (dao.countManagerDao() > 1) {
@@ -1042,25 +997,21 @@ public class HomeController {
 
 	// 관리자 권한 추가 양식
 	@RequestMapping("/addManagerForm.do")
-	public String addManagerForm(Locale locale, Model model) {
+	public String addManagerForm(Locale locale, Model model) throws Exception {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);//사용자 정보를 가져옴
 		model.addAttribute("list", dao.selectEmployeeNotManagerDao());
 		return "manage/addManagerForm";
 	}
 
 	// 관리자 권한 추가
 	@RequestMapping("/addManagerCheck.do")
-	public String addManagerCheck(HttpServletRequest request, Model model) {
+	public String addManagerCheck(HttpServletRequest request, Model model) throws Exception {
 		// 추가한 부서 insert 처리
 		String resultPage = "forward:/updateManager.do";
 
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-		model.addAttribute("emp_name", userInfo.getEmp_name());
-		model.addAttribute("deptName", userInfo.getDeptName());
-		model.addAttribute("auth", userInfo.getAuth());
+		getUserInfo(model);//사용자 정보를 가져옴
 		try {
 			// 정보 가지고 오기
 			request.setCharacterEncoding("EUC-KR");
@@ -1085,7 +1036,7 @@ public class HomeController {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 		String resultPage = "security/smartSecuritySolution";
 		// 부서 총 수
-		int deptTotalNum = dao.selectNDeptDao();
+		int deptTotalNum = 9;//dao.selectNDeptDao();
 		// 부서 이름
 		String[] strDeptName = new String[deptTotalNum];
 		// 부서 별 미실시 횟수
@@ -1097,9 +1048,7 @@ public class HomeController {
 		// 항목 별 자신 부서 보안점수
 		int[] scoreMyDeptEachList = new int[5];
 		try {
-			model.addAttribute("emp_name", userInfo.getEmp_name());
-			model.addAttribute("deptName", userInfo.getDeptName());
-			model.addAttribute("auth", userInfo.getAuth());
+			getUserInfo(model);//사용자 정보를 가져옴
 
 			// /
 			Date dt = new Date();
@@ -1225,9 +1174,7 @@ public class HomeController {
 			String now_month = sdf.format(dt).toString();
 			String today = sdf3.format(dt).toString();
 
-			model.addAttribute("emp_name", userInfo.getEmp_name());
-			model.addAttribute("deptName", userInfo.getDeptName());
-			model.addAttribute("auth", userInfo.getAuth());
+			getUserInfo(model);//사용자 정보를 가져옴
 
 			// int year = Integer.parseInt(request.getParameter("year"));
 			month = request.getParameter("month");
@@ -1266,9 +1213,7 @@ public class HomeController {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
 
-			model.addAttribute("emp_name", userInfo.getEmp_name());
-			model.addAttribute("deptName", userInfo.getDeptName());
-			model.addAttribute("auth", userInfo.getAuth());
+			getUserInfo(model);//사용자 정보를 가져옴
 
 			Date dt = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -1356,9 +1301,7 @@ public class HomeController {
 		try {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
-			model.addAttribute("emp_name", userInfo.getEmp_name());
-			model.addAttribute("deptName", userInfo.getDeptName());
-			model.addAttribute("auth", userInfo.getAuth());
+			getUserInfo(model);//사용자 정보를 가져옴
 
 		} catch (Exception exp) {
 			System.out.println(exp.getMessage());
@@ -1410,9 +1353,7 @@ public class HomeController {
 		try {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
-			model.addAttribute("emp_name", userInfo.getEmp_name());
-			model.addAttribute("deptName", userInfo.getDeptName());
-			model.addAttribute("auth", userInfo.getAuth());
+			getUserInfo(model);//사용자 정보를 가져옴
 			// 오늘 날짜 얻기
 			Date dt = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 (EEE)", Locale.KOREA);

@@ -17,6 +17,8 @@
     <security:http pattern="/common/**" security="none"/>
     <security:http pattern="/images/**" security="none"/>
 
+	<!-- http://niees.tistory.com/18 : 사용자정보 확장 이용 -->
+
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:jdbc-user-service 
@@ -36,6 +38,9 @@
 		<security:intercept-url pattern="/updateManager.do**" access="hasAuthority('ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/addManagerForm.do**" access="hasAuthority('ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/addManagerCheck.do**" access="hasAuthority('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/indicateWatchKeeping.do**" access="hasAuthority('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/insertNightDutyTable.do**" access="hasAuthority('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/insertSeveralNightDutyTable.do**" access="hasAuthority('ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/**" access="hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')"/>
 		
 		<security:form-login login-page="/loginForm.do"
