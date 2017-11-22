@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT count(*) FROM dept
     </select>
  
- 	<select id="selectDeptBossEmailDao" parameterType="string" resultType="int">
+ 	<select id="selectDeptBossEmailDao" parameterType="int" resultType="string">
         SELECT deptBoss FROM dept where deptNo = #{param1}
     </select>
     
@@ -51,6 +51,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT os_id,os_empemail,os_deptcode,os_deptcode,os_document,os_clean,os_lightout,os_ventilation,os_door,os_etc,os_datetime,os_image,deptName,emp_name  FROM officesecurity, employee, dept where os_deptcode = #{userDept} and employee.emp_email=officesecurity.os_empemail and dept.deptNo=officesecurity.os_deptcode ORDER BY os_datetime DESC limit 15 offset #{page}
     </select>
  
+ 	<select id="selectOfficeSecurityWithDeptAndDateDao" parameterType="hashmap" resultType="egovframework.security.dto.OfficeSecurityDTO">
+        SELECT os_id,os_empemail,os_deptcode,os_deptcode,os_document,os_clean,os_lightout,os_ventilation,os_door,os_etc,os_datetime,os_image,deptName,emp_name  FROM officesecurity, employee, dept where os_deptcode = #{userDept} and employee.emp_email=officesecurity.os_empemail and dept.deptNo=officesecurity.os_deptcode and DATE_FORMAT(os_datetime, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate} ORDER BY os_datetime DESC limit 15 offset #{page}
+    </select>
+ 
+ 	<select id="selectOfficeSecurityWithDateDao" parameterType="hashmap" resultType="egovframework.security.dto.OfficeSecurityDTO">
+        SELECT os_id,os_empemail,os_deptcode,os_deptcode,os_document,os_clean,os_lightout,os_ventilation,os_door,os_etc,os_datetime,os_image,deptName,emp_name  FROM officesecurity, employee, dept where employee.emp_email=officesecurity.os_empemail and dept.deptNo=officesecurity.os_deptcode and DATE_FORMAT(os_datetime, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate} ORDER BY os_datetime DESC limit 15 offset #{page}
+    </select>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
     <insert id="insertOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
         INSERT into officesecurity values(default, #{os_empemail}, #{os_deptcode}, #{os_document}, #{os_clean}, #{os_lightout}, #{os_ventilation}, #{os_door}, #{os_etc}, default, #{os_image})
@@ -68,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	select emp_deptcode from employee where emp_email = #{param1}
     </select>
     
-    <select id="selectOfficeSecurityWithDateDao" parameterType="int" resultType="hashmap">
+    <select id="checkOfficeSecurityWithDateDao" parameterType="int" resultType="hashmap">
     	select * from officesecurity where date(os_datetime) = date(now()) and os_deptcode = #{os_deptcode} 
     </select>
     
@@ -81,6 +101,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT wk_id,wk_datetime,wk_empemail,wk_indication,wk_measure,wk_mpd,wk_hmd,wk_csd,wk_itd,wk_idd,wk_wid,wk_vmd,wk_vid,wk_sii,wk_specificity,wk_report,wk_delivery,deptName,emp_name FROM watchkeeping, employee, dept where wk_empemail=emp_email and deptNo=emp_deptcode ORDER BY wk_datetime DESC limit 15 offset #{param1}	
     </select>
     
+    <select id="selectWatchKeepingWithDateDao" parameterType="hashmap" resultType="egovframework.security.dto.WatchKeepingDTO">
+        SELECT wk_id,wk_datetime,wk_empemail,wk_indication,wk_measure,wk_mpd,wk_hmd,wk_csd,wk_itd,wk_idd,wk_wid,wk_vmd,wk_vid,wk_sii,wk_specificity,wk_report,wk_delivery,deptName,emp_name FROM watchkeeping, employee, dept where wk_empemail=emp_email and deptNo=emp_deptcode and DATE_FORMAT(wk_datetime, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate} ORDER BY wk_datetime DESC limit 15 offset #{data}	
+    </select>
+    
  	<select id="selectWatchKeepingWithIdDao" parameterType="int" resultType="egovframework.security.dto.WatchKeepingDTO">
         SELECT wk_id,wk_datetime,wk_empemail,wk_indication,wk_measure,wk_mpd,wk_hmd,wk_csd,wk_itd,wk_idd,wk_wid,wk_vmd,wk_vid,wk_sii,wk_specificity,wk_report,wk_delivery,deptName,emp_name,emp_rank FROM watchkeeping, employee, dept where wk_empemail=emp_email and deptNo=emp_deptcode and wk_id = #{param1};	
     </select>
@@ -90,11 +114,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
  
     <insert id="insertWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
-        INSERT into watchkeeping values(default, default, #{wk_empemail}, #{wk_indication}, #{wk_measure}, #{wk_mpd}, #{wk_vmd}, #{wk_hmd}, #{wk_csd}, #{wk_itd}, #{wk_wio}, #{wk_wim}, #{wk_hwd}, #{wk_sii}, #{wk_specificity}, #{wk_report}, #{wk_delivery})
+        INSERT into watchkeeping values(default,default,#{wk_empemail},#{wk_indication},#{wk_measure},#{wk_mpd},#{wk_hmd},#{wk_csd},#{wk_itd},#{wk_idd},#{wk_wid},#{wk_vmd},#{wk_vid},#{wk_sii},#{wk_specificity}, #{wk_report}, #{wk_delivery})
     </insert>
     
     <update id="updateWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
-    	UPDATE watchkeeping set wk_empemail=#{wk_empemail},wk_measure=#{wk_measure},wk_mpd=#{wk_mpd},wk_vmd=#{wk_vmd},wk_hmd=#{wk_hmd},wk_csd=#{wk_csd},wk_itd=#{wk_itd},wk_wio=#{wk_wio},wk_wim=#{wk_wim},wk_hwd=#{wk_hwd},wk_sii=#{wk_sii},wk_specificity=#{wk_specificity},wk_report=#{wk_report},wk_delivery=#{wk_delivery} where wk_id = #{wk_id}
+    	UPDATE watchkeeping set wk_empemail=#{wk_empemail},wk_measure=#{wk_measure},wk_mpd=#{wk_mpd},wk_hmd=#{wk_hmd},wk_csd=#{wk_csd},wk_itd=#{wk_itd},wk_idd=#{wk_idd},wk_wid=#{wk_wid},wk_vmd=#{wk_vmd},wk_vid=#{wk_vid},wk_sii=#{wk_sii},wk_specificity=#{wk_specificity},wk_report=#{wk_report},wk_delivery=#{wk_delivery} where date(wk_datetime) = date(now());
     </update>
     
     <delete id="deleteWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
@@ -186,16 +210,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <!-- 페이징 처리 DB -->
-    <select id="selectNumTotalListOfOfficeDao" resultType="long">
+    <select id="selectNumTotalListOfMOfficeDao" resultType="long">
     	select count(*) from officesecurity
     </select>
+   
+    <select id="selectNumTotalListOfMOfficeWithDeptAndDateDao" parameterType="hashmap" resultType="long">
+    	select count(*) from officesecurity where os_deptcode=#{userDept} and DATE_FORMAT(os_datetime, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}; 
+    </select>
     
-    <select id="selectNumTotalListOfOfficeWithDeptDao" resultType="long">
+    <select id="selectNumTotalListOfMOfficeWithDeptDao" parameterType="hashmap" resultType="long">
+    	select count(*) from officesecurity where os_deptcode=#{userDept};
+    </select>
+    
+    <select id="selectNumTotalListOfMOfficeWithDateDao" parameterType="hashmap" resultType="long">
+    	select count(*) from officesecurity where DATE_FORMAT(os_datetime, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate};
+    </select>
+    
+    <select id="selectNumTotalListOfOfficeWithDeptDao" parameterType="int" resultType="long">
     	select count(*) from officesecurity where os_deptcode = #{param1}
+    </select>
+    
+     <select id="selectNumTotalListOfOfficeWithDeptAndDateDao" parameterType="hashmap" resultType="long">
+    	select count(*) from officesecurity where os_deptcode = #{userDept} and DATE_FORMAT(os_datetime, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate};
     </select>
     
     <select id="selectNumTotalListOfNightDutyDao" resultType="long">
     	select count(*) from watchkeeping
+    </select>
+    
+    <select id="selectNumTotalListOfNightDutyWithDateDao" parameterType="hashmap" resultType="long">
+    	select count(*) from watchkeeping where DATE_FORMAT(wk_datetime, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate};
     </select>
     
     <!-- S.M.A.R.T 보안점검 처리 DB -->
@@ -250,5 +294,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectScoreWithDeptDao" parameterType="int" resultType="java.util.HashMap">
     	SELECT sum(os_document),sum(os_clean),sum(os_lightout),sum(os_ventilation),sum(os_door) FROM sejongdb.officesecurity where os_deptcode = #{param1};
     </select>
+    
+    <!-- 당직근무 지시사항 DB -->
+    <select id="selectIndicationDao" resultType="string">
+    	SELECT wk_indication FROM watchkeeping where date(wk_datetime) = date(now());
+    </select>
+    
+    <update id="updateIndicationDao" parameterType="string">
+    	update watchkeeping set wk_indication = #{param1} where date(wk_datetime) = date(now());
+    </update>
+    
+    <insert id="insertIndicationDao" parameterType="string">
+    	insert into watchkeeping (wk_indication) values(#{param1});
+    </insert>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 </mapper>

@@ -21,7 +21,7 @@
 		<!-- Single button -->
 	<div class="container">
 		<div style="vertical-align:middle;">
-			<form method="post" action="<%=cp%>/listOfficeSecurity.do?page=1">
+			<form method="post" action="<%=cp%>/listWatchKeeping.do?page=1">
 				<div class="row">
 					<div class="9u 12u$(mobile)" style="vertical-align:middle;">
 						<label style="font-size:0.8em">조회기간 : <input type="date" name="startDate" style="font-size: 0.8em;height: 2em;width:10em;"> ~ <input type="date" name="endDate" style="font-size: 0.8em;height: 2em;width:10em;"></label>

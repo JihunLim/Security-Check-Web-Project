@@ -27,7 +27,7 @@
 
 				<div class="row">
 					<div class="2u 12u$(mobile)">
-						<label class="control-label" for="select01">점검부서</label>
+						<label class="control-label" for="select01">1. 점검부서</label>
 					</div>
 					<div class="4u$ 12u$(mobile)">
 						<input type="hidden" name="os_empemail"
@@ -43,15 +43,14 @@
 								<option value="7">복지정보관리본부</option>
 								<option value="8">희망복지본부</option>
 								<option value="9">사회보장정보연구소</option>
-
 							</select>
 						</div>
 					</div>
 				</div>
 
-				<br />
+				<br /><br />
 				<!-- 보안점검 체크 부분 -->
-				<label class="control-label">서류보관 상태</label>
+				<label class="control-label">2. 서류보관 상태</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
 						name="os_document" id="option1" value="0" required> 미흡
@@ -61,7 +60,7 @@
 						name="os_document" id="option3" value="2" required> 양호
 					</label>
 				</div>
-				</br> </br> <label class="control-label">청소 상태</label>
+				</br> </br> <label class="control-label">3. 청소 상태</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
 						name="os_clean" id="option1" value="0" required> 미흡
@@ -71,7 +70,7 @@
 						name="os_clean" id="option3" value="2" required> 양호
 					</label>
 				</div>
-				<br /> </br> <label class="control-label">소등상태</label>
+				<br /> </br> <label class="control-label">4. 소등상태</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
 						name="os_lightout" id="option1" value="0" required> 미흡
@@ -81,7 +80,7 @@
 						name="os_lightout" id="option3" value="2" required> 양호
 					</label>
 				</div>
-				</br> </br> <label class="control-label">환기상태</label>
+				</br> </br> <label class="control-label">5. 환기상태</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
 						name="os_ventilation" id="option1" value="0" required> 미흡
@@ -91,7 +90,7 @@
 						name="os_ventilation" id="option3" value="2" required> 양호
 					</label>
 				</div>
-				</br> </br> <label class="control-label">문단속</label>
+				</br> </br> <label class="control-label">6. 문단속</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
 						name="os_door" id="option1" value="0" required> 미흡
@@ -106,22 +105,21 @@
 				<br />
 
 				<div class="control-group">
-					<label class="control-label" for="textarea2">Comment</label>
+					<label class="control-label" for="textarea2">7. 기타사항</label>
 					<div class="controls">
-						<textarea class="input-xlarge textarea" name="os_etc"
-							placeholder="기타사항을 입력하세요." style="width: 810px; height: 200px"></textarea>
+						<textarea class="input-xlarge textarea" name="os_etc" placeholder="기타사항을 입력하세요." ></textarea>
 					</div>
 				</div>
 				<br />
 
 				<div class="control-group">
-					<label class="control-label" for="fileInput"><span
-						class="icon fa-camera"> 사진 첨부</span> <input type="file"
-						accept="image/*" capture="camera" name="os_image"> </label>
+					<label class="control-label" for="fileInput">
+					<span class="icon fa-camera"> 사진 첨부</span><br /> 
+					<input type="file" accept="image/*" capture="camera" name="os_image"> </label>
 				</div>
 				<div class="form-actions">
-					<button type="submit" class="btn btn-primary">저장</button>
-					<button type="reset" class="btn">취소</button>
+				<br />
+					<input type="submit" value="제출하기" />
 				</div>
 			</form>
 		</div>

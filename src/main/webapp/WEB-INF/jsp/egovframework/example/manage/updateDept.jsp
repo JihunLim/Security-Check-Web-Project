@@ -17,7 +17,7 @@
 
 	<section class="white">
 		<div class="container">
-			<table class="table table-hover">
+			<table class="table">
 				<tr>
 					<td>부서이름</td>
 					<td>삭제</td>

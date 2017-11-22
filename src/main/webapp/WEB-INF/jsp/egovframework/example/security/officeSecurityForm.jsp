@@ -27,7 +27,7 @@
 					value=<s:authentication property="name"/>><br />
 
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="os_document">서류보관상태:
+					<label class="control-label col-sm-2" for="os_document">1. 서류보관상태
 					</label>
 					<div class="col-sm-10">
 						<label class="control-label col-sm-2"><input type="radio"
@@ -40,7 +40,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="os_clean">청소상태:
+					<label class="control-label col-sm-2" for="os_clean">2. 청소상태
 					</label>
 					<div class="col-sm-10">
 						<label class="control-label col-sm-2"><input type="radio"
@@ -53,7 +53,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="os_lightout">소등상태:
+					<label class="control-label col-sm-2" for="os_lightout">3. 소등상태
 					</label>
 					<div class="col-sm-10">
 						<label class="control-label col-sm-2"><input type="radio"
@@ -66,7 +66,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="os_ventilation">환기상태:
+					<label class="control-label col-sm-2" for="os_ventilation">4. 환기상태
 					</label>
 					<div class="col-sm-10">
 						<label class="control-label col-sm-2"><input type="radio"
@@ -79,7 +79,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="os_door">문단속: </label>
+					<label class="control-label col-sm-2" for="os_door">5. 문단속 </label>
 					<div class="col-sm-10">
 						<label class="control-label col-sm-2"><input type="radio"
 							name="os_door" value="0">미흡</label> <label
@@ -90,24 +90,21 @@
 						<br />
 					</div>
 				</div>
-				<div class="control-group">
-								<label class="control-label" for="fileInput"><span class="icon fa-camera"> 사진 첨부</span>
-								
-									<input type="file" accept="image/*" capture="camera" name="os_image"> 
-									<img id="pic" style="width:100px; height:100px"></label>
-								</div>
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="comment">Comment:</label>
+					<label class="control-label col-sm-2" for="comment">6. 기타사항</label>
 					<div class="col-sm-5">
-						<textarea class="form-control" rows="5" name="os_etc"></textarea>
+						<textarea class="form-control" rows="5" name="os_etc" placeholder="기타사항을 입력하세요."></textarea>
 						<br />
 						<br />
 					</div>
 				</div>
-
+				<div class="control-group">
+					<label class="control-label" for="fileInput"><span class="icon fa-camera">사진 첨부</span><br />
+					<input type="file" accept="image/*" capture="camera" name="os_image"> </label>
+				</div>
 				<div class="form-group">
-					<label class="control-label col-sm-2"><button type="제출"
-							class="btn-default">Submit</button></label>
+					<br />
+					<input type="submit" value="제출하기" />
 				</div>
 			</form>
 		</div>

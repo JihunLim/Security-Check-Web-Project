@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,71 +55,67 @@ public class HomeController {
 	UserInfo userInfo;
 
 	// 서비스 시작 일자
-	String startDate = "2017-10-23"; // 시작 날짜
+	String startDate = "2017-11-20"; // 시작 날짜
+	// 메일 서비스 보내는 사람 이메일
+	String setfrom = "limjihun204@gmail.com";
 
-	@RequestMapping("/aaa.do")
-	public String aaa(Model model)  {
-			return "security/aaa";
-	}
-	
-	
-	
 	@RequestMapping("/showImage.do")
-	public String showImage(@RequestParam("imgIdx") String imgIdx, Model model)  {
-			try{
-				model.addAttribute("imgIdx", imgIdx);
-			}catch(Exception ex){
-				System.out.println("예외처리 메시지 : " + ex.getMessage());
-			}
-			return "security/showImage";
-		
-	}
-	
-	
-		@RequestMapping("/ShowImageFunc.do")
-	public Boolean ShowImageFunc(@RequestParam("imgIdx") String imgIdx, HttpServletResponse response
-            ,HttpServletRequest request) throws ServletException, IOException, SQLException  {
-			try{
-				
-				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-				String content_type = "image/png";
-				response.setContentType(content_type);  // Content Type Set
-				InputStream is = null;
-			    /* DB의 BLOB 타입의 내용을 가져와서 bytes 변수에 담아보자. */
-				if(dao.selectPicOfficeSecurityWithNoDao(Integer.parseInt(imgIdx)).getOs_image() == null)
-					return false; //데이터가 없을 경우
-		
-			    byte[] bytes = dao.selectPicOfficeSecurityWithNoDao(Integer.parseInt(imgIdx)).getOs_image();
-			    if (bytes == null)
-			    	return false; //데이터가 없을 경우
-			    
-			    /* String --> InputStream 타입으로 변환 */
-			    is = new ByteArrayInputStream(bytes);
-			    
-			    
-			    /* 이제 OutputStream 으로 출력해보자*/
-			    ServletOutputStream os = response.getOutputStream();
-			    
-			    int binaryRead;
-			    
-			    while ((binaryRead = is.read()) != -1)	{
-			        os.write(binaryRead);
-			    }
-
-			}catch(Exception ex){
-				System.out.println("예외처리 메시지 : " + ex.getMessage());
-			}
-			return true;
-				
+	public String showImage(@RequestParam("imgIdx") String imgIdx, Model model) {
+		try {
+			model.addAttribute("imgIdx", imgIdx);
+		} catch (Exception ex) {
+			System.out.println("예외처리 메시지 : " + ex.getMessage());
+		}
+		return "security/showImage";
 
 	}
-		
+
+	@RequestMapping("/ShowImageFunc.do")
+	public Boolean ShowImageFunc(@RequestParam("imgIdx") String imgIdx,
+			HttpServletResponse response, HttpServletRequest request)
+			throws ServletException, IOException, SQLException {
+		try {
+
+			SecurityOfficeDAO dao = sqlSession
+					.getMapper(SecurityOfficeDAO.class);
+			String content_type = "image/png";
+			response.setContentType(content_type); // Content Type Set
+			InputStream is = null;
+			/* DB의 BLOB 타입의 내용을 가져와서 bytes 변수에 담아보자. */
+			if (dao.selectPicOfficeSecurityWithNoDao(Integer.parseInt(imgIdx))
+					.getOs_image() == null)
+				return false; // 데이터가 없을 경우
+
+			byte[] bytes = dao.selectPicOfficeSecurityWithNoDao(
+					Integer.parseInt(imgIdx)).getOs_image();
+			if (bytes == null)
+				return false; // 데이터가 없을 경우
+
+			/* String --> InputStream 타입으로 변환 */
+			is = new ByteArrayInputStream(bytes);
+
+			/* 이제 OutputStream 으로 출력해보자 */
+			ServletOutputStream os = response.getOutputStream();
+
+			int binaryRead;
+
+			while ((binaryRead = is.read()) != -1) {
+				os.write(binaryRead);
+			}
+
+		} catch (Exception ex) {
+			System.out.println("예외처리 메시지 : " + ex.getMessage());
+		}
+		return true;
+
+	}
+
 	@RequestMapping("/test2.do")
-	public String test2(Model model, HttpServletResponse response
-            ,HttpServletRequest request) throws IOException {
-		
+	public String test2(Model model, HttpServletResponse response,
+			HttpServletRequest request) throws IOException {
+
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-	
+
 		return "sample/test2";
 	}
 
@@ -223,6 +221,7 @@ public class HomeController {
 			@RequestParam("os_image") MultipartFile imageFile) throws Exception {
 
 		String resultPage = "cmmn/saveDataSuccess";
+		String strReSend = "";
 		boolean SendEmail = false;
 		Map<String, Object> imgMap = new HashMap<String, Object>();
 		byte[] os_image = null;
@@ -261,8 +260,7 @@ public class HomeController {
 			// 당직자 이메일 구하기
 			String fnUser = dao.selectEmailNightDutyWithDateDao();
 			// 실행하는 날짜의 데이터가 있는지 확인
-			HashMap OSMap = (HashMap) dao
-					.selectOfficeSecurityWithDateDao(os_deptcode);
+			HashMap OSMap = (HashMap) dao.checkOfficeSecurityWithDateDao(os_deptcode);
 			// 지금 실시하고자 하는 최종퇴실자의 부서번호와 이미 db에 입력되어있는 부서번호를 비교하여 -> 있으면 : update
 			// 및 alert() 발생 / 없으면 : insert
 			if (OSMap == null) {
@@ -288,31 +286,32 @@ public class HomeController {
 					SendEmail = true;
 				} else {
 					// 다른 최종퇴실자가 처리를 한 경우
-					// 그래도 수정하는지 alert 발생 처리
 					dao.updateOfficeSecurityDao(officeDTO);
+					// 중복실시할 경우 이메일을 보내지 않게 할 경우 하단을 false로 변경할 것
+					strReSend = "(재실시)";
+					SendEmail = true;
 				}
 			}
+			System.out.println("확인 : "+SendEmail);
 			if (SendEmail) {
 				// 성공할 시 메일 보내기
 				Date dt = new Date();
-				SimpleDateFormat sdf = new SimpleDateFormat(
-						"yyyy-MM-dd, a hh:mm:ss");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd, a hh:mm:ss");
 				String os_date = sdf.format(dt).toString();
 				String setfrom = "limjihun204@gmail.com"; // 보내는 사람 이메일
 				String title = "[" + os_date.toString() + "] "
 						+ "사회보장정보원 사무실보안점검" + "(" + userInfo.getDeptName()
 						+ ")" + "을 완료했습니다."; // 제목
-				String content = "[" + os_date.toString() + "]경으로 "
+				String content = strReSend+"[" + os_date.toString() + "]경으로 "
 						+ userInfo.getEmp_name() + "(" + userInfo.getDeptName()
 						+ ")" + "님께서 사회보장정보원 사무실보안점검" + "("
 						+ userInfo.getDeptName() + ")"
 						+ "을 완료했습니다.\n자세한 내용은 홈페이지에서 확인바랍니다."; // 내용
-				String tomail = (String) dao
-						.selectDeptBossEmailDao(os_deptcode);// 받는 사람 이메일
+				String tomail = (String) dao.selectDeptBossEmailDao(os_deptcode);// 받는 사람 이메일
+				System.out.println("보내는사람 : "+tomail);
 				try {
 					MimeMessage message = mailSender.createMimeMessage();
-					MimeMessageHelper messageHelper = new MimeMessageHelper(
-							message, true, "UTF-8");
+					MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 					messageHelper.setFrom(setfrom); // 보내는사람
 					messageHelper.setTo(tomail); // 받는사람 이메일
 					messageHelper.setSubject(title); // 메일제목
@@ -377,7 +376,7 @@ public class HomeController {
 
 			if (!imageData.isEmpty()) {
 				os_image = imageData.getBytes();
-				
+
 			}
 			officeDTO = new OfficeSecurityDTO(os_empemail, os_deptcode,
 					os_document, os_clean, os_lightout, os_ventilation,
@@ -385,7 +384,7 @@ public class HomeController {
 
 			// 실행하는 날짜의 데이터가 있는지 확인
 			HashMap OSMap = (HashMap) dao
-					.selectOfficeSecurityWithDateDao(os_deptcode);
+					.checkOfficeSecurityWithDateDao(os_deptcode);
 			if (OSMap == null) {
 				// 데이터가 없을 시
 				System.out.println("기존 데이터가 없음");
@@ -465,23 +464,9 @@ public class HomeController {
 	@RequestMapping("/mainmenu.do")
 	public String mainMenu(Model model) throws Exception {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-
-		// 부서 총 수
-		int deptTotalNum = dao.selectNDeptDao();
-		// 부서 이름
-		String[] strDeptName = new String[deptTotalNum];
-		// 부서 별 미실시 횟수
-		int[] numNonImplement = new int[deptTotalNum];
-		// 부서 별 보안점수 (월 단위)
-		int[] scoreDeptList = new int[deptTotalNum];
-		// 항목 별 보안점수 (db 전체)
-		float[] scoreEachList = new float[5];
-		// 항목 별 자신 부서 보안점수
-		int[] scoreMyDeptEachList = new int[5];
-
+		Boolean SendEmail = false;
 		// userInfo 구하기
-		HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder
-				.getContext().getAuthentication().getName());
+		HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
 		String emp_name = (String) empMap.get("emp_name");
 		int os_deptcode = (Integer) empMap.get("emp_deptcode");
 		String deptName = (String) dao.selectDeptNameDao(os_deptcode);
@@ -489,8 +474,9 @@ public class HomeController {
 		String emp_rank = (String) empMap.get("emp_rank");
 		String auth = "";
 
-		userInfo = new UserInfo(os_deptcode, deptName, emp_name, emp_role,
-				emp_rank);
+		
+		
+		userInfo = new UserInfo(os_deptcode, deptName, emp_name, emp_role, emp_rank);
 
 		if ("ROLE_USER".equals(emp_role))
 			auth = "일반사용자";
@@ -500,64 +486,27 @@ public class HomeController {
 		model.addAttribute("emp_name", userInfo.getEmp_name());
 		model.addAttribute("deptName", userInfo.getDeptName());
 		model.addAttribute("auth", userInfo.getAuth());
-
-		// smart 도표 구하기
-		Date dt = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat sdf2 = new SimpleDateFormat("MM");
-		String now_date = sdf.format(dt).toString();
-		String month_date = sdf2.format(dt).toString();
-
-		String endDate = now_date; // 오늘 날짜
-		long diffDateAsDay = 0;
-		// String Type을 Date Type으로 캐스팅하면서 생기는 예외로 인해 여기서 예외처리 해주지 않으면 컴파일러에서
-		// 에러가 발생해서 컴파일을 할 수 없다.
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-		// date1, date2 두 날짜를 parse()를 통해 Date형으로 변환.
-		Date FirstDate = format.parse(startDate);
-		Date SecondDate = format.parse(endDate);
-		long calDate = FirstDate.getTime() - SecondDate.getTime();
-
-		// Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다.
-		// 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
-		diffDateAsDay = calDate / (24 * 60 * 60 * 1000);
-		diffDateAsDay = Math.abs(diffDateAsDay);
-		int temp = 0;
-		int max = 0;
-		for (int i = 1; i <= deptTotalNum; i++) {
-			temp = i - 1;
-			strDeptName[temp] = dao.selectTotalDeptDao(i); // 부서 이름 넣기
-			if (dao.selectCheckScoreDeptOfficeDao(i) != 0)
-				//부서 별 보안점수 넣기(당원 데이터만 해당)
-				scoreDeptList[temp] = dao.selectScoreDeptOfficeDao(i);
-			else
-				scoreDeptList[temp] = 0; // 부서 별 보안점수 넣기(당월 데이터만 해당)
-			numNonImplement[temp] = ((int) diffDateAsDay - dao
-					.selectNumImplementDao(i));// 전체일 수 - 실시일 수
-			if (numNonImplement[temp] > max)
-				max = numNonImplement[temp];
-		}
-		int maxNum = (max / 10) + 10;
-		// ArrayList<Integer> tempArray = dao.selectScoreListOfficeDao();
-		// System.out.println("aaab : "+ tempArray.size());
-		// for(int i=0; i<5; i++){
-		// scoreEachList[i] = tempArray.get(i).intValue();
-		// System.out.println("aaa : "+i +":"+ scoreEachList[i]);
-		// }
-
-		scoreEachList[0] = dao.selectScoreDocumentDao();
-		scoreEachList[1] = dao.selectScoreCleanDao();
-		scoreEachList[2] = dao.selectScoreLightoutDao();
-		scoreEachList[3] = dao.selectScoreVentilationDao();
-		scoreEachList[4] = dao.selectScoreDoorDao();
 		
-		model.addAttribute("month_date", month_date);
-		model.addAttribute("maxNumBar", maxNum);
-		model.addAttribute("nameDept", strDeptName);
-		model.addAttribute("numNonImplement", numNonImplement);
-		model.addAttribute("scoreDeptList", scoreDeptList);
-		model.addAttribute("scoreEachList", scoreEachList);
-		model.addAttribute("scoreMyDeptEachList", scoreMyDeptEachList);
+//		if (SendEmail) {
+//			// 성공할 시 메일 보내기
+//			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd(EEE)", Locale.KOREA);
+//			String os_date = sdf2.format(dt).toString();
+//			String setfrom = "limjihun204@gmail.com"; // 보내는 사람 이메일
+//			String title = "[" + os_date.toString() + "] " + "당직점검 지시사항이 등록되었습니다."; // 제목
+//			String content = "오늘의 당직점검 지시사항이 등록되었습니다.\n"+"["+os_date+"]당직점검 지시사항 : "+hasIndication+"\n\n자세한 내용은 홈페이지에서 확인바랍니다.";
+//			String tomail = fnUser;// 받는 사람 이메일
+//			try {
+//				MimeMessage message = mailSender.createMimeMessage();
+//				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+//				messageHelper.setFrom(setfrom); // 보내는사람
+//				messageHelper.setTo(tomail); // 받는사람 이메일
+//				messageHelper.setSubject(title); // 메일제목
+//				messageHelper.setText(content); // 메일 내용
+//				mailSender.send(message);
+//			} catch (Exception e) {
+//				System.out.println(e);
+//			}
+//		}
 
 		return "menu/mainmenu";
 	}
@@ -602,54 +551,128 @@ public class HomeController {
 	 * 사무실보안점검 리스트 조회
 	 */
 	@RequestMapping("/listOfficeSecurity.do")
-	public String listOfficeSecurity(HttpServletRequest request, Model model) throws Exception {
+	public String listOfficeSecurity(HttpServletRequest request, Model model)
+			throws Exception {
 		try {
-			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+			SecurityOfficeDAO dao = sqlSession
+					.getMapper(SecurityOfficeDAO.class);
 			PagingDTO pageInfo;
 			model.addAttribute("emp_name", userInfo.getEmp_name());
 			model.addAttribute("deptName", userInfo.getDeptName());
 			model.addAttribute("auth", userInfo.getAuth());
 			// 현재 로그인 정보 가져오기
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Authentication auth = SecurityContextHolder.getContext()
+					.getAuthentication();
 			System.out.println("로그인 정보 : " + auth.getDetails());
 			// 클라이언트에서 보낸 정보 받아오기
-			long pageNum = (long) Integer.parseInt(request.getParameter("page"));
-			int selectedDept = Integer.parseInt(request.getParameter("changeDept"));
+			long pageNum = (long) Integer
+					.parseInt(request.getParameter("page"));
+			int selectedDept = (request.getParameter("changeDept") == null ? 0
+					: Integer.parseInt(request.getParameter("changeDept")));
 			String startDate = request.getParameter("startDate");
 			String endDate = request.getParameter("endDate");
 			if (pageNum <= 0)
 				pageNum = 1;
-			
-			System.out.println("캬하하: "+startDate);
-			
+
+			System.out.println("캬하하: " + selectedDept);
+
 			// 관리자 정보 가져오기
 			ArrayList managerList = dao.selectManagerDao();
 			// 권한에 따라 다르게 출력
 			if (managerList.contains(auth.getName())) {
 				// 관리자일 경우 모두 출력
-				// 페이지에 대한 정보 입력 및 전달
-				// 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
-				pageInfo = new PagingDTO(dao.selectNumTotalListOfOfficeDao(), pageNum);
-				model.addAttribute("paging", pageInfo);
-				// 파라미터 -> (클릭한 페이지 넘버 -1) * rows
-				model.addAttribute("list", dao.selectOfficeSecurityDao((long) ((pageNum - 1) * pageInfo.getRows())));
+
+				/*
+				 * 경우의 수 1. 부서선택과 기간선택 모두 2. 부서선택만 3. 기간선택만
+				 */
+				Map map = new HashMap();
+				if (selectedDept != 0 && startDate != null && endDate != null
+						&& !"".equals(startDate) && !"".equals(endDate)) {
+					// case 1 : 부서선택과 기간선택 모두
+					map.put("userDept", selectedDept);
+					map.put("startDate", startDate);
+					map.put("endDate", endDate);
+					// 페이지에 대한 정보 입력 및 전달, 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
+					pageInfo = new PagingDTO(
+							dao.selectNumTotalListOfMOfficeWithDeptAndDateDao(map),
+							pageNum);
+					model.addAttribute("paging", pageInfo);
+					// 파라미터 -> (클릭한 페이지 넘버 -1) * rows
+					map.put("page", (long) ((pageNum - 1) * pageInfo.getRows()));
+					model.addAttribute("list",
+							dao.selectOfficeSecurityWithDeptAndDateDao(map));
+				} else if (selectedDept != 0
+						&& !(startDate != null && endDate != null
+								&& !"".equals(startDate) && !"".equals(endDate))) {
+					// case 2 : 부서선택만 한 경우
+					map.put("userDept", selectedDept);
+					// 페이지에 대한 정보 입력 및 전달, 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
+					pageInfo = new PagingDTO(
+							dao.selectNumTotalListOfMOfficeWithDeptDao(map),
+							pageNum);
+					model.addAttribute("paging", pageInfo);
+					// 파라미터 -> (클릭한 페이지 넘버 -1) * rows
+					map.put("page", (long) ((pageNum - 1) * pageInfo.getRows()));
+					model.addAttribute("list",
+							dao.selectOfficeSecurityWithDeptDao(map));
+				} else if (selectedDept == 0 && startDate != null
+						&& endDate != null && !"".equals(startDate)
+						&& !"".equals(endDate)) {
+					// case 3 : 기간선택만 한 경우
+					map.put("startDate", startDate);
+					map.put("endDate", endDate);
+					// 페이지에 대한 정보 입력 및 전달, 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
+					pageInfo = new PagingDTO(
+							dao.selectNumTotalListOfMOfficeWithDateDao(map),
+							pageNum);
+					model.addAttribute("paging", pageInfo);
+					// 파라미터 -> (클릭한 페이지 넘버 -1) * rows
+					map.put("page", (long) ((pageNum - 1) * pageInfo.getRows()));
+					model.addAttribute("list",
+							dao.selectOfficeSecurityWithDateDao(map));
+				} else {
+					// 모두 선택하지 않은 경우
+					// 페이지에 대한 정보 입력 및 전달, 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
+					pageInfo = new PagingDTO(
+							dao.selectNumTotalListOfMOfficeDao(), pageNum);
+					model.addAttribute("paging", pageInfo);
+					// 파라미터 -> (클릭한 페이지 넘버 -1) * rows
+					model.addAttribute(
+							"list",
+							dao.selectOfficeSecurityDao((long) ((pageNum - 1) * pageInfo
+									.getRows())));
+				}
+
 			} else {
 				// 일반유저일 경우 해당 부서만 출력
 				// 사용자의 부서정보 가져옴
 				int userDept = dao.selectDeptWithIdDao(auth.getName());
-				// 페이지에 대한 정보 입력 및 전달
-				// 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
-				pageInfo = new PagingDTO(
-						dao.selectNumTotalListOfOfficeWithDeptDao(userDept),
-						pageNum);
-				model.addAttribute("paging", pageInfo);
-
 				Map map = new HashMap();
 				map.put("userDept", (int) userDept);
-				map.put("page", (long) ((pageNum - 1) * pageInfo.getRows()));
-
-				model.addAttribute("list", dao.selectOfficeSecurityWithDeptDao(map));
-			    
+				// 검색을 한 경우 (기간 선택)
+				if (startDate != null && endDate != null
+						&& !"".equals(startDate) && !"".equals(endDate)) {
+					map.put("startDate", startDate);
+					map.put("endDate", endDate);
+					// 페이지에 대한 정보 입력 및 전달, 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
+					pageInfo = new PagingDTO(
+							dao.selectNumTotalListOfOfficeWithDeptAndDateDao(map),
+							pageNum);
+					model.addAttribute("paging", pageInfo);
+					map.put("page", (long) ((pageNum - 1) * pageInfo.getRows()));
+					model.addAttribute("list",
+							dao.selectOfficeSecurityWithDeptAndDateDao(map));
+				} else {
+					// 검색을 하지 않은 경우(기본)
+					// 페이지에 대한 정보 입력 및 전달, 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
+					pageInfo = new PagingDTO(
+							dao.selectNumTotalListOfOfficeWithDeptDao(userDept),
+							pageNum);
+					model.addAttribute("paging", pageInfo);
+					map.put("page", (long) ((pageNum - 1) * pageInfo.getRows()));
+					model.addAttribute("list",
+							dao.selectOfficeSecurityWithDeptDao(map));
+				}
 			}
 
 		} catch (Exception exp) {
@@ -657,44 +680,45 @@ public class HomeController {
 		}
 		return "list/listOfficeSecurity";
 	}
-	
+
 	/**
 	 * 사무실보안일지 출력
 	 */
 	@RequestMapping("/extractOfficeSecurity.do")
-	public String extractOfficeSecurity(HttpServletRequest request, Model model) throws Exception {
-		
-			try {
-				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-				PagingDTO pageInfo;
-				
-				Date dt = new Date();
-				SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd");
-				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
-				String today = sdf.format(dt).toString();
-				String filename ="("+sdf2.format(dt).toString()+")";
-				
-				model.addAttribute("emp_name", userInfo.getEmp_name());
-				model.addAttribute("deptName", userInfo.getDeptName());
-				model.addAttribute("auth", userInfo.getAuth());
+	public String extractOfficeSecurity(HttpServletRequest request, Model model)
+			throws Exception {
 
-				// id 가져옴
-				String id = request.getParameter("id");
-				if (id == null)
-					return "cmmn/dataAccessFailure";
-				model.addAttribute("data", dao.selectWatchKeepingWithIdDao(Integer.parseInt(id)));
-				// 밑에 각 부서의 총 인원 수 가져올 수 있도록 수정
-				model.addAttribute("listDeptNum", dao.selectDeptNumDao());
-				model.addAttribute("today", today);
-				model.addAttribute("filename", filename);
-				
-			} catch (Exception exp) {
-				System.out.println(exp.getMessage());
-			}
-			return "security/extractOfficeSecurity";
+		try {
+			SecurityOfficeDAO dao = sqlSession
+					.getMapper(SecurityOfficeDAO.class);
+			PagingDTO pageInfo;
+
+			Date dt = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd");
+			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+			String today = sdf.format(dt).toString();
+			String filename = "(" + sdf2.format(dt).toString() + ")";
+
+			model.addAttribute("emp_name", userInfo.getEmp_name());
+			model.addAttribute("deptName", userInfo.getDeptName());
+			model.addAttribute("auth", userInfo.getAuth());
+
+			// id 가져옴
+			String id = request.getParameter("id");
+			if (id == null)
+				return "cmmn/dataAccessFailure";
+			model.addAttribute("data",
+					dao.selectWatchKeepingWithIdDao(Integer.parseInt(id)));
+			// 밑에 각 부서의 총 인원 수 가져올 수 있도록 수정
+			model.addAttribute("listDeptNum", dao.selectDeptNumDao());
+			model.addAttribute("today", today);
+			model.addAttribute("filename", filename);
+
+		} catch (Exception exp) {
+			System.out.println(exp.getMessage());
+		}
+		return "security/extractOfficeSecurity";
 	}
-	
-	
 
 	/**
 	 * 당직점검 DB에 저장
@@ -703,6 +727,7 @@ public class HomeController {
 	public String watchKeepingForm(Model model, HttpServletResponse response) {
 		// 당직자인지 확인해서 아니면 경고표시 후 back 시킴
 		String resultPage = "cmmn/dataAccessFailure";
+		String hasIndication = ""; // 미리 입력된 조치사항
 		try {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
@@ -720,21 +745,16 @@ public class HomeController {
 				if (dao.selectNumWatchKeepingDao() < 1) {
 					resultPage = "security/watchKeepingForm";
 				} else {
-					// 이미 실행된 경우
-					resultPage = "cmmn/dataHasAlready";
+					// 이미 실행된 경우 -> 지시사항 조치로 인하여 실행됐어도 진행
+					resultPage = "security/watchKeepingForm";
 				}
 			} else {
 				// 당직근무자와 접속자가 다른 경우 경고 후 뒤로 돌아가기
-				response.setCharacterEncoding("EUC-KR");
-				PrintWriter writer = response.getWriter();
-				writer.println("<script type='text/javascript'>");
-				writer.println("alert('당직자가 아닙니다.');");
-				writer.println("history.back();");
-				writer.println("</script>");
-				writer.flush();
-				return null;
+				resultPage = "cmmn/dataAccessFailure";
 			}
-
+			hasIndication = "Today's 지시사항 : \n" + ((dao.selectIndicationDao() == null) ? " " : dao.selectIndicationDao());  
+					
+			model.addAttribute("indication", hasIndication);
 		} catch (Exception exp) {
 			System.out.println(exp.getMessage());
 			resultPage = "cmmn/dataAccessFailure";
@@ -749,6 +769,7 @@ public class HomeController {
 	public String watchKeepingCheck(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
 		String resultPage = "cmmn/saveDataSuccess";
+
 		try {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
@@ -758,9 +779,9 @@ public class HomeController {
 			WatchKeepingDTO wkDTO;
 			// 정보 가지고 오기
 			request.setCharacterEncoding("EUC-KR");
-			String wk_empemail = request.getParameter("wk_empemail"); //
-			String wk_indication = request.getParameter("wk_indication"); //
-			String wk_measure = request.getParameter("wk_measure"); //
+			String wk_empemail = request.getParameter("wk_empemail");
+			String wk_indication = request.getParameter("wk_indication");
+			String wk_measure = request.getParameter("wk_measure");
 			int wk_mpd = Integer.parseInt(request.getParameter("wk_mpd"));
 			int wk_vmd = Integer.parseInt(request.getParameter("wk_vmd"));
 			int wk_hmd = Integer.parseInt(request.getParameter("wk_hmd"));
@@ -777,7 +798,19 @@ public class HomeController {
 			wkDTO = new WatchKeepingDTO(wk_empemail, wk_indication, wk_measure,
 					wk_mpd, wk_vmd, wk_hmd, wk_csd, wk_itd, wk_wio, wk_wim,
 					wk_hwd, wk_sii, wk_specificity, wk_report, wk_delivery);
-			dao.insertWatchKeepingDao(wkDTO);
+
+			// 지시사항으로 이미 데이터가 있을 경우 수정, 없을 경우 삽입
+			if (dao.selectNumWatchKeepingDao() > 0) {
+				// 데이터가 이미 있을 경우 update하기
+				dao.updateWatchKeepingDao(wkDTO);
+				// 조치사항 가져오기
+
+			} else {
+				// 데이터가 없을 경우 insert하기
+				dao.insertWatchKeepingDao(wkDTO);
+				// 조치사항이 없음
+
+			}
 
 			// 성공할 시 메일 보내기
 			Date dt = new Date();
@@ -791,9 +824,9 @@ public class HomeController {
 					+ userInfo.getEmp_name() + "(" + userInfo.getDeptName()
 					+ ")" + "님께서 사회보장정보원 당직점검을 완료했습니다.\n자세한 내용은 홈페이지에서 확인바랍니다."; // 내용
 			int count = dao.selectManagerCheckEmailNumDao(); // 보내는 사람이 몇명인지 확인
+			List<HashMap> emailList = dao.selectManagerCheckEmailDao();
 			while (count-- > 0) {
-				String tomail = (String) dao.selectManagerCheckEmailDao()
-						.get(count).get("emp_email");// 받는 사람 이메일
+				String tomail = (String) emailList.get(count).get("emp_email");// 받는 사람 이메일
 				try {
 					MimeMessage message = mailSender.createMimeMessage();
 					MimeMessageHelper messageHelper = new MimeMessageHelper(
@@ -825,6 +858,7 @@ public class HomeController {
 		try {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
+			Map map = new HashMap();
 			PagingDTO pageInfo;
 
 			/* 밑에 코드 수정해야 함 */
@@ -832,22 +866,46 @@ public class HomeController {
 			model.addAttribute("deptName", userInfo.getDeptName());
 			model.addAttribute("auth", userInfo.getAuth());
 
-			// 페이지 번호 가져옴
+			// 클라이언트에서 보낸 정보 받아오기
 			long pageNum = (long) Integer
 					.parseInt(request.getParameter("page"));
+			String startDate = request.getParameter("startDate");
+			String endDate = request.getParameter("endDate");
 			if (pageNum <= 0)
 				pageNum = 1;
-			// 페이지에 대한 정보 입력 및 전달
-			// 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
-			pageInfo = new PagingDTO(dao.selectNumTotalListOfNightDutyDao(), pageNum);
-			model.addAttribute("paging", pageInfo);
-			model.addAttribute("list", dao.selectWatchKeepingDao((long) ((pageNum - 1) * pageInfo.getRows())));
+
+			System.out.println("pipi: " + startDate);
+
+			// 검색을 한 경우
+			if (startDate != null && endDate != null && !"".equals(startDate)
+					&& !"".equals(endDate)) {
+				map.put("startDate", startDate);
+				map.put("endDate", endDate);
+				// 페이지에 대한 정보 입력 및 전달, 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
+				pageInfo = new PagingDTO(
+						dao.selectNumTotalListOfNightDutyWithDateDao(), pageNum);
+				model.addAttribute("paging", pageInfo);
+				long data = (long) ((pageNum - 1) * pageInfo.getRows());
+				map.put("data", data);
+				model.addAttribute("list",
+						dao.selectWatchKeepingWithDateDao(map));
+			} else {
+				// 검색하지 않은 경우
+				// 페이지에 대한 정보 입력 및 전달, 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
+				pageInfo = new PagingDTO(
+						dao.selectNumTotalListOfNightDutyDao(), pageNum);
+				model.addAttribute("paging", pageInfo);
+				model.addAttribute("list", dao
+						.selectWatchKeepingDao((long) ((pageNum - 1) * pageInfo
+								.getRows())));
+			}
+
 		} catch (Exception exp) {
 			System.out.println(exp.getMessage());
 		}
 		return "list/listWatchKeeping";
 	}
-	
+
 	/**
 	 * 당직근무일지 내용 조회
 	 */
@@ -855,7 +913,8 @@ public class HomeController {
 	public String contentWatchKeeping(HttpServletRequest request, Model model)
 			throws Exception {
 		try {
-			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+			SecurityOfficeDAO dao = sqlSession
+					.getMapper(SecurityOfficeDAO.class);
 			PagingDTO pageInfo;
 
 			model.addAttribute("emp_name", userInfo.getEmp_name());
@@ -866,51 +925,56 @@ public class HomeController {
 			String id = request.getParameter("id");
 			if (id == null)
 				return "cmmn/dataAccessFailure";
-			model.addAttribute("data", dao.selectWatchKeepingWithIdDao(Integer.parseInt(id)));
+			model.addAttribute("data",
+					dao.selectWatchKeepingWithIdDao(Integer.parseInt(id)));
 			model.addAttribute("deptNum", dao.selectDeptNumDao());
-			
+
 		} catch (Exception exp) {
 			System.out.println(exp.getMessage());
 		}
 		return "list/contentWatchKeeping";
 	}
-	
+
 	/**
-	 * 당직근무일지 내용 출력
+	 * 당직근무일지 내용 출력(hwp)
 	 */
 	@RequestMapping("/extractWatchKeeping.do")
-	public String extractWatchKeeping(HttpServletRequest request, Model model) throws Exception {
-		
-			try {
-				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-				PagingDTO pageInfo;
-				// id받아와서 해당 id에 맞는 당직근무일지 데이터 가져옴
-				String id = request.getParameter("id");
-				if (id == null)
-					return "cmmn/dataAccessFailure";
-				WatchKeepingDTO wkDto = dao.selectWatchKeepingWithIdDao(Integer.parseInt(id));
-				
-				Date dt = new SimpleDateFormat("yyyy-MM-dd(EEE) hh:mm:ss",Locale.KOREA).parse(wkDto.getWk_datetime());     
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy. MM. dd. (EEE)", Locale.KOREA);
-				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
-				String date = sdf.format(dt).toString();
-				String tempName ="당직근무일지("+sdf2.format(dt).toString()+").hwp";
-				String fileName = new String(tempName.getBytes("UTF-8"), "ISO-8859-1");
-				model.addAttribute("emp_name", userInfo.getEmp_name());
-				model.addAttribute("deptName", userInfo.getDeptName());
-				model.addAttribute("auth", userInfo.getAuth());
+	public String extractWatchKeeping(HttpServletRequest request, Model model)
+			throws Exception {
 
-				
-				model.addAttribute("data",dao.selectWatchKeepingWithIdDao(Integer.parseInt(id)));
-				// 밑에 각 부서의 총 인원 수 가져올 수 있도록 수정
-				model.addAttribute("listDeptNum", dao.selectDeptNumDao());
-				model.addAttribute("today", date);
-				model.addAttribute("fileName", fileName);
-				
-			} catch (Exception exp) {
-				System.out.println(exp.getMessage());
-			}
-			return "security/extractWatchKeeping";
+		try {
+			SecurityOfficeDAO dao = sqlSession
+					.getMapper(SecurityOfficeDAO.class);
+			PagingDTO pageInfo;
+			// id받아와서 해당 id에 맞는 당직근무일지 데이터 가져옴
+			String id = request.getParameter("id");
+			if (id == null)
+				return "cmmn/dataAccessFailure";
+			WatchKeepingDTO wkDto = dao.selectWatchKeepingWithIdDao(Integer.parseInt(id));
+
+			Date dt = new SimpleDateFormat("yyyy-MM-dd(EEE) hh:mm:ss",
+					Locale.KOREA).parse(wkDto.getWk_datetime());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy. MM. dd. (EEE)",
+					Locale.KOREA);
+			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+			String date = sdf.format(dt).toString();
+			String tempName = "당직근무일지(" + sdf2.format(dt).toString() + ").hwp";
+			String fileName = new String(tempName.getBytes("UTF-8"),
+					"ISO-8859-1");
+			model.addAttribute("emp_name", userInfo.getEmp_name());
+			model.addAttribute("deptName", userInfo.getDeptName());
+			model.addAttribute("auth", userInfo.getAuth());
+
+			model.addAttribute("data",dao.selectWatchKeepingWithIdDao(Integer.parseInt(id)));
+			// 밑에 각 부서의 총 인원 수 가져올 수 있도록 수정
+			model.addAttribute("listDeptNum", dao.selectDeptNumDao());
+			model.addAttribute("today", date);
+			model.addAttribute("fileName", fileName);
+
+		} catch (Exception exp) {
+			System.out.println(exp.getMessage());
+		}
+		return "security/extractWatchKeeping";
 	}
 
 	/**
@@ -1054,7 +1118,7 @@ public class HomeController {
 			Date FirstDate = format.parse(startDate);
 			Date SecondDate = format.parse(endDate);
 			long calDate = SecondDate.getTime() - FirstDate.getTime();
-			
+
 			// Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다.
 			// 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
 			diffDateAsDay = Math.abs(calDate / (24 * 60 * 60 * 1000));
@@ -1066,48 +1130,65 @@ public class HomeController {
 				strDeptName[temp] = dao.selectTotalDeptDao(i); // 부서 이름 넣기
 				if (dao.selectCheckScoreDeptOfficeDao(i) != 0)
 					// 부서 별 보안점수 넣기(당월 데이터만 해당)
-					scoreDeptList[temp] = dao.selectScoreDeptOfficeDao(i); 
+					scoreDeptList[temp] = dao.selectScoreDeptOfficeDao(i);
 				else
 					scoreDeptList[temp] = 0; // 부서 별 보안점수 넣기(당월 데이터만 해당)
-				numNonImplement[temp] = ((int) diffDateAsDay - dao.selectNumImplementDao(i));// 전체일 수 - 실시일 수
+				numNonImplement[temp] = ((int) diffDateAsDay - dao
+						.selectNumImplementDao(i));// 전체일 수 - 실시일 수
 				if (numNonImplement[temp] > max)
 					max = numNonImplement[temp];
 			}
-			int maxNum = ((max / 10)+1) * 10;
-			
+			int maxNum = ((max / 10) + 1) * 10;
+
 			// 평균 데이터
 			HashMap<String, BigDecimal> totalScore = dao.selectScoreDao();
-			scoreEachList[0] = Math.round(((BigDecimal)totalScore.get("sum(os_document)")).intValueExact()/(float)deptTotalNum);
-			scoreEachList[1] = Math.round(((BigDecimal)totalScore.get("sum(os_clean)")).intValueExact()/(float)deptTotalNum);
-			scoreEachList[2] = Math.round(((BigDecimal)totalScore.get("sum(os_lightout)")).intValueExact()/(float)deptTotalNum);
-			scoreEachList[3] = Math.round(((BigDecimal)totalScore.get("sum(os_ventilation)")).intValueExact()/(float)deptTotalNum);
-			scoreEachList[4] = Math.round(((BigDecimal)totalScore.get("sum(os_door)")).intValueExact()/(float)deptTotalNum);
-			
+			scoreEachList[0] = Math.round(((BigDecimal) totalScore
+					.get("sum(os_document)")).intValueExact()
+					/ (float) deptTotalNum);
+			scoreEachList[1] = Math.round(((BigDecimal) totalScore
+					.get("sum(os_clean)")).intValueExact()
+					/ (float) deptTotalNum);
+			scoreEachList[2] = Math.round(((BigDecimal) totalScore
+					.get("sum(os_lightout)")).intValueExact()
+					/ (float) deptTotalNum);
+			scoreEachList[3] = Math.round(((BigDecimal) totalScore
+					.get("sum(os_ventilation)")).intValueExact()
+					/ (float) deptTotalNum);
+			scoreEachList[4] = Math.round(((BigDecimal) totalScore
+					.get("sum(os_door)")).intValueExact()
+					/ (float) deptTotalNum);
+
 			// 자기 부서 데이터
-			HashMap<String, BigDecimal> ownScore = dao.selectScoreWithDeptDao(userInfo.getOs_deptcode());
-			scoreMyDeptEachList[0] = ((BigDecimal)ownScore.get("sum(os_document)")).intValueExact();
-			scoreMyDeptEachList[1] = ((BigDecimal)ownScore.get("sum(os_clean)")).intValueExact(); 
-			scoreMyDeptEachList[2] = ((BigDecimal)ownScore.get("sum(os_lightout)")).intValueExact(); 
-			scoreMyDeptEachList[3] = ((BigDecimal)ownScore.get("sum(os_ventilation)")).intValueExact();
-			scoreMyDeptEachList[4] = ((BigDecimal)ownScore.get("sum(os_door)")).intValueExact();
-			
+			HashMap<String, BigDecimal> ownScore = dao
+					.selectScoreWithDeptDao(userInfo.getOs_deptcode());
+			scoreMyDeptEachList[0] = ((BigDecimal) ownScore
+					.get("sum(os_document)")).intValueExact();
+			scoreMyDeptEachList[1] = ((BigDecimal) ownScore
+					.get("sum(os_clean)")).intValueExact();
+			scoreMyDeptEachList[2] = ((BigDecimal) ownScore
+					.get("sum(os_lightout)")).intValueExact();
+			scoreMyDeptEachList[3] = ((BigDecimal) ownScore
+					.get("sum(os_ventilation)")).intValueExact();
+			scoreMyDeptEachList[4] = ((BigDecimal) ownScore.get("sum(os_door)"))
+					.intValueExact();
+
 			float max2 = 0;
-			for(int i =0;i<scoreEachList.length;i++){
-				if(scoreEachList[i] > max2)
+			for (int i = 0; i < scoreEachList.length; i++) {
+				if (scoreEachList[i] > max2)
 					max2 = scoreEachList[i];
-				if(scoreMyDeptEachList[i] > max2)
+				if (scoreMyDeptEachList[i] > max2)
 					max2 = scoreMyDeptEachList[i];
 			}
-			int stepSize2=1;
-			if(max2<10)
+			int stepSize2 = 1;
+			if (max2 < 10)
 				stepSize2 = 1;
-			else if(max2<100)
+			else if (max2 < 100)
 				stepSize2 = 10;
-			else if(max2<1000)
+			else if (max2 < 1000)
 				stepSize2 = 100;
 			else
 				stepSize2 = 1000;
-			
+
 			model.addAttribute("month_date", month_date);
 			model.addAttribute("maxNumBar", maxNum);
 			model.addAttribute("nameDept", strDeptName);
@@ -1117,8 +1198,7 @@ public class HomeController {
 			model.addAttribute("scoreMyDeptEachList", scoreMyDeptEachList);
 			model.addAttribute("max2", max2);
 			model.addAttribute("stepSize2", stepSize2);
-			
-			
+
 		} catch (Exception exp) {
 			System.out.println("예외처리 메시지 : " + exp.getMessage());
 			System.out.println("예외처리 메시지 : " + exp.getCause());
@@ -1137,181 +1217,258 @@ public class HomeController {
 		try {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
-			
+
 			Date dt = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd (EEE)");
 			String now_month = sdf.format(dt).toString();
-			String today = sdf2.format(dt).toString();
-			
+			String today = sdf3.format(dt).toString();
+
 			model.addAttribute("emp_name", userInfo.getEmp_name());
 			model.addAttribute("deptName", userInfo.getDeptName());
 			model.addAttribute("auth", userInfo.getAuth());
-			
-			//int year = Integer.parseInt(request.getParameter("year"));
+
+			// int year = Integer.parseInt(request.getParameter("year"));
 			month = request.getParameter("month");
 
-			if(month == null)
+			if (month == null)
 				month = now_month;
-			//db에 넘겨주는 데이터 값 : yyyy-mm-% 
+			// db에 넘겨주는 데이터 값 : yyyy-mm-%
 			String value = month + "-%";
 			if ("1".equals(month))
-				model.addAttribute("list", dao.selectNightDutyOnlyMeDao(SecurityContextHolder.getContext().getAuthentication().getName()));
+				model.addAttribute(
+						"list",
+						dao.selectNightDutyOnlyMeDao(SecurityContextHolder
+								.getContext().getAuthentication().getName()));
 			else
-				model.addAttribute("list", dao.selectNightDutyWithMonthDao(value));
-			//model.addAttribute("list", dao.selectNightDutyDao());  //전체출력
-			//오늘 날짜 전달
+				model.addAttribute("list",
+						dao.selectNightDutyWithMonthDao(value));
+			// model.addAttribute("list", dao.selectNightDutyDao()); //전체출력
+			// 오늘 날짜 전달
 			model.addAttribute("today", today);
-			
+
 		} catch (Exception exp) {
 			System.out.println(exp.getMessage());
 		}
 		return resultPage;
 	}
-	
-	
-	// 당직테이블 삽입 폼
-		@RequestMapping("/insertNightDutyTable.do")
-		public String insertNightDutyTable(HttpServletResponse response, HttpServletRequest request, Model model) {
-			String resultPage = "manage/insertNightDutyTable";
-			String year = null;
-			String month = null;
-			ArrayList<String> date = new ArrayList<String>();
-			try {
-				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-				
-				model.addAttribute("emp_name", userInfo.getEmp_name());
-				model.addAttribute("deptName", userInfo.getDeptName());
-				model.addAttribute("auth", userInfo.getAuth());
-				
-				Date dt = new Date();
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM");
-				
-				String now_month = sdf2.format(dt).toString();
-				//int year = Integer.parseInt(request.getParameter("year"));
-				//month = request.getParameter("month");
-				month = (request.getParameter("month") == null) ? "" : request.getParameter("month");
-				if(month == null || "0-0".equals(month)){
-					date.add("날짜를 선택해주세요.");
-					model.addAttribute("date", date);
-					return resultPage;
-				}
-				//month를 date로 변경
-				Date d_month = sdf2.parse(month);
-				String check_month = sdf.format(d_month).toString();
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(d_month);
-				int endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-				String value = null;
-				//date(d_month)를 String으로 변환
-				String strMonth = sdf2.format(d_month).toString();
-				//month = (Integer.parseInt(month)<10) ? "0"+month : month; 
-				for (int i=1;i<=endDay;i++){
-					if(i<10)
-						value = strMonth + "-0" + i;
-					else
-						value = strMonth + "-" + i;
-					date.add(value);
-				}
-				model.addAttribute("date", date);
-				if (dao.checkNightDutyDao(check_month)>0){
-					//update처리를 해줬기 때문에 에러페이지 호출 안함
-					//resultPage = "cmmn/dataHasAlready";
-				}
-				
-			} catch (Exception exp) {
-				System.out.println(exp.getMessage());
-			}
-			return resultPage;
-		}
-		
-		
-			// 당직테이블 삽입하기
-			@RequestMapping("/insertNightDutyCheck.do")
-			public String insertNightDutyCheck(HttpServletResponse response, HttpServletRequest request, Model model) {
-				String resultPage = "cmmn/saveDataSuccessForTable";
-				String year = null;
-				String month = null;
-				try {
-					SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-					String[] arrDate = request.getParameterValues("nd_date");
-					String[] arrEmail = request.getParameterValues("nd_email");
-					
-					//데이터가 이미 있는지 확인
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
-					SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM");
-					Date d_month = sdf.parse(arrDate[0]);
-					String insert_month = sdf2.format(d_month).toString();
-					String value = insert_month + "-%";
-					System.out.println("ak : "+value);
-					
-					for (int i=0;i<arrDate.length;i++){
-						NightDutyDTO ndDto = new NightDutyDTO(arrDate[i], arrEmail[i]);
-						if(dao.checkNightDutyDao(arrDate[i])<=0)
-							dao.insertNightDutyDao(ndDto);
-						else
-							dao.updateNightDutyDao(ndDto);
-					}
 
-				} catch (Exception exp) {
-					System.out.println(exp.getMessage());
-				}
+	// 당직테이블 삽입 폼
+	@RequestMapping("/insertNightDutyTable.do")
+	public String insertNightDutyTable(HttpServletResponse response,
+			HttpServletRequest request, Model model) {
+		String resultPage = "manage/insertNightDutyTable";
+		String year = null;
+		String month = null;
+		ArrayList<String> date = new ArrayList<String>();
+		try {
+			SecurityOfficeDAO dao = sqlSession
+					.getMapper(SecurityOfficeDAO.class);
+
+			model.addAttribute("emp_name", userInfo.getEmp_name());
+			model.addAttribute("deptName", userInfo.getDeptName());
+			model.addAttribute("auth", userInfo.getAuth());
+
+			Date dt = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM");
+
+			String now_month = sdf2.format(dt).toString();
+			// int year = Integer.parseInt(request.getParameter("year"));
+			// month = request.getParameter("month");
+			month = (request.getParameter("month") == null) ? "" : request
+					.getParameter("month");
+			if (month == null || "0-0".equals(month)) {
+				date.add("날짜를 선택해주세요.");
+				model.addAttribute("date", date);
 				return resultPage;
-			}	
+			}
+			// month를 date로 변경
+			Date d_month = sdf2.parse(month);
+			String check_month = sdf.format(d_month).toString();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(d_month);
+			int endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+			String value = null;
+			// date(d_month)를 String으로 변환
+			String strMonth = sdf2.format(d_month).toString();
+			// month = (Integer.parseInt(month)<10) ? "0"+month : month;
+			for (int i = 1; i <= endDay; i++) {
+				if (i < 10)
+					value = strMonth + "-0" + i;
+				else
+					value = strMonth + "-" + i;
+				date.add(value);
+			}
+			model.addAttribute("date", date);
+			if (dao.checkNightDutyDao(check_month) > 0) {
+				// update처리를 해줬기 때문에 에러페이지 호출 안함
+				// resultPage = "cmmn/dataHasAlready";
+			}
+
+		} catch (Exception exp) {
+			System.out.println(exp.getMessage());
+		}
+		return resultPage;
+	}
+
+	// 당직테이블 삽입하기
+	@RequestMapping("/insertNightDutyCheck.do")
+	public String insertNightDutyCheck(HttpServletResponse response,
+			HttpServletRequest request, Model model) {
+		String resultPage = "cmmn/saveDataSuccessForTable";
+		String year = null;
+		String month = null;
+		try {
+			SecurityOfficeDAO dao = sqlSession
+					.getMapper(SecurityOfficeDAO.class);
+			String[] arrDate = request.getParameterValues("nd_date");
+			String[] arrEmail = request.getParameterValues("nd_email");
+
+			// 데이터가 이미 있는지 확인
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
+			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM");
+			Date d_month = sdf.parse(arrDate[0]);
+			String insert_month = sdf2.format(d_month).toString();
+			String value = insert_month + "-%";
+			System.out.println("ak : " + value);
+
+			for (int i = 0; i < arrDate.length; i++) {
+				NightDutyDTO ndDto = new NightDutyDTO(arrDate[i], arrEmail[i]);
+				if (dao.checkNightDutyDao(arrDate[i]) <= 0)
+					dao.insertNightDutyDao(ndDto);
+				else
+					dao.updateNightDutyDao(ndDto);
+			}
+
+		} catch (Exception exp) {
+			System.out.println(exp.getMessage());
+		}
+		return resultPage;
+	}
+
+	// 당직테이블 삽입폼 ver2
+	@RequestMapping("/insertSeveralNightDutyTable.do")
+	public String insertSeveralNightDutyTable(HttpServletResponse response,
+			HttpServletRequest request, Model model) {
+		String resultPage = "manage/insertSeveralNightDutyTable";
+		try {
+			SecurityOfficeDAO dao = sqlSession
+					.getMapper(SecurityOfficeDAO.class);
+			model.addAttribute("emp_name", userInfo.getEmp_name());
+			model.addAttribute("deptName", userInfo.getDeptName());
+			model.addAttribute("auth", userInfo.getAuth());
+
+		} catch (Exception exp) {
+			System.out.println(exp.getMessage());
+		}
+		return resultPage;
+	}
+
+	// 당직테이블 삽입하기 ver2
+	@RequestMapping("/insertSeveralNightDutyCheck.do")
+	public String insertSeveralNightDutyCheck(HttpServletResponse response,
+			HttpServletRequest request, Model model) {
+		String resultPage = "cmmn/saveDataSuccessForTable";
+		String year = null;
+		String month = null;
+		try {
+			SecurityOfficeDAO dao = sqlSession
+					.getMapper(SecurityOfficeDAO.class);
+			String[] arrDate = request.getParameterValues("nd_date");
+			String[] arrEmail = request.getParameterValues("nd_email");
+
+			/*
+			 * 1. 데이터를 받아서 2. for문을 돌리는데 3. if문으로 날짜 값이 이미 있으면 update로 수정 4. 없으면
+			 * insert로 삽입
+			 */
+			System.out.println("날짜 : " + arrDate[0]);
+			for (int i = 0; i < arrDate.length; i++) {
+				// 객체 instance
+				NightDutyDTO ndDto = new NightDutyDTO(arrDate[i], arrEmail[i]);
+				// 날짜 값이 이미 있는 경우
+				if (dao.checkNightDutyDao(arrDate[i]) > 0)
+					dao.updateNightDutyDao(ndDto);
+				// 날짜 값이 없는 경우
+				else
+					dao.insertNightDutyDao(ndDto);
+			}
+
+		} catch (Exception exp) {
+			System.out.println(exp.getMessage());
+		}
+		return resultPage;
+	}
+
+	// 당직근무 지시사항 추가
+	@RequestMapping("/indicateWatchKeeping.do")
+	public String indicateWatchKeeping(HttpServletResponse response,
+			HttpServletRequest request, Model model) {
+		String resultPage = "manage/indicateWatchKeeping";
+		Boolean SendEmail = false; 
+		try {
+			SecurityOfficeDAO dao = sqlSession
+					.getMapper(SecurityOfficeDAO.class);
+			model.addAttribute("emp_name", userInfo.getEmp_name());
+			model.addAttribute("deptName", userInfo.getDeptName());
+			model.addAttribute("auth", userInfo.getAuth());
+			// 오늘 날짜 얻기
+			Date dt = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 (EEE)", Locale.KOREA);
+			String nowDate = sdf.format(dt).toString();
+			// 당직근무자 이메일(fnUser)
+			String fnUser = dao.selectEmailNightDutyWithDateDao();
+			// 클라이언트에서 보내준 정보 받기
+			String strIndication = (request.getParameter("wk_indication") == null) ? ""
+					: request.getParameter("wk_indication");
+			String hasIndication = "";
+			if (dao.selectNumWatchKeepingDao() > 0) {
+				// 당직점검 데이터가 이미 있는 경우 -> update
+				hasIndication = dao.selectIndicationDao(); // 기존 지시사항 불러와서 저장
+				//값이 있는경우 update
+				if (!(strIndication == null || "".equals(strIndication))) { 
+					dao.updateIndicationDao(strIndication);
+					SendEmail = true;
+					resultPage = "cmmn/saveDataSuccess";
+				}
+			} else {
+				// 당직점검 데이터가 없는 경우 -> insert
+				hasIndication = ""; // 저장된 데이터가 없음
+				// 값이 있는경우 insert
+				if (!(strIndication == null || "".equals(strIndication))) 
+					dao.insertIndicationDao(strIndication);
+				SendEmail = true;
+			}
+
+			model.addAttribute("indication", hasIndication);
+			model.addAttribute("today", nowDate);
 			
-		
-			// 당직테이블 삽입폼 ver2
-						@RequestMapping("/insertSeveralNightDutyTable.do")
-						public String insertSeveralNightDutyTable(HttpServletResponse response, HttpServletRequest request, Model model) {
-							String resultPage = "manage/insertSeveralNightDutyTable";
-							try {
-								SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-								model.addAttribute("emp_name", userInfo.getEmp_name());
-								model.addAttribute("deptName", userInfo.getDeptName());
-								model.addAttribute("auth", userInfo.getAuth());
-								
-								
-								
-							} catch (Exception exp) {
-								System.out.println(exp.getMessage());
-							}
-							return resultPage;
-						}
-						
-						// 당직테이블 삽입하기 ver2
-						@RequestMapping("/insertSeveralNightDutyCheck.do")
-						public String insertSeveralNightDutyCheck(HttpServletResponse response, HttpServletRequest request, Model model) {
-							String resultPage = "cmmn/saveDataSuccessForTable";
-							String year = null;
-							String month = null;
-							try {
-								SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
-								String[] arrDate = request.getParameterValues("nd_date");
-								String[] arrEmail = request.getParameterValues("nd_email");
-								
-								/*
-								  1. 데이터를 받아서
-								  2. for문을 돌리는데
-								  3. if문으로 날짜 값이 이미 있으면 update로 수정
-								  4. 없으면 insert로 삽입
-								 */
-								System.out.println("날짜 : "+arrDate[0]);
-								for (int i=0;i<arrDate.length;i++){
-									//객체 instance
-									NightDutyDTO ndDto = new NightDutyDTO(arrDate[i], arrEmail[i]);
-									//날짜 값이 이미 있는 경우
-									if(dao.checkNightDutyDao(arrDate[i])>0)
-										dao.updateNightDutyDao(ndDto);
-									//날짜 값이 없는 경우
-									else
-										dao.insertNightDutyDao(ndDto);
-								}
-								
-							} catch (Exception exp) {
-								System.out.println(exp.getMessage());
-							}
-							return resultPage;
-						}	
-			
+			if (SendEmail) {
+				// 성공할 시 메일 보내기
+				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd(EEE)", Locale.KOREA);
+				String os_date = sdf2.format(dt).toString();
+				String setfrom = "limjihun204@gmail.com"; // 보내는 사람 이메일
+				String title = "[" + os_date.toString() + "] " + "당직점검 지시사항이 등록되었습니다."; // 제목
+				String content = "오늘의 당직점검 지시사항이 등록되었습니다.\n"+"["+os_date+"]당직점검 지시사항 : "+hasIndication+"\n\n자세한 내용은 홈페이지에서 확인바랍니다.";
+				String tomail = fnUser;// 받는 사람 이메일
+				try {
+					MimeMessage message = mailSender.createMimeMessage();
+					MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+					messageHelper.setFrom(setfrom); // 보내는사람
+					messageHelper.setTo(tomail); // 받는사람 이메일
+					messageHelper.setSubject(title); // 메일제목
+					messageHelper.setText(content); // 메일 내용
+					mailSender.send(message);
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			}
+
+		} catch (Exception exp) {
+			System.out.println(exp.getMessage());
+		}
+		return resultPage;
+	}
+
 }

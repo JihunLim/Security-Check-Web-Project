@@ -47,11 +47,12 @@ $(function() {
       <div class="btn-group">
          <div class="row">
             <div class="6u 6u(mobile)" style="float:left;font-size:0.8em">
-                           년월로 검색 : <input name="month" class="date-picker" style="font-size: 0.8em;height: 2em;width:10em;"/>
+                           조회기간 : <input name="month" class="date-picker" style="font-size: 0.8em;height: 2em;width:10em;"/>
             </div>
             
             <div class="6u 6u$(mobile)">
-               <input type="checkbox" value="nightDutyTable.do?month=1" onchange="if(this.value) location.href=(this.value);"><font size="4px";>나의 당직표 확인2</font>
+            <button type="button" onclick="location.href='nightDutyTable.do?month=1'" style="color:#fff; background-color:#5cb85c;border-color:#4cae4c;float:right">내 당직표 확인하기</button>
+            	
             </div>
             
             </div>
@@ -61,23 +62,23 @@ $(function() {
       <section class="white">
          <div class="container">
             <table width="800" cellpadding="0" cellspacing="0" border="1">
-            <tr>
-               <td>일시</td>
+            <tr style="background: #eee; border-bottom: 3px inset #ccc;">
+               <td width="170">일시</td>
                <td>당직자 부서</td>
                <td>당직자 이름</td>
             <tr>
                <c:forEach items="${list}" var="dto">           
-                  <tr <c:if test="${dto.nd_date eq today}"> bgcolor = "#C8FAC8" </c:if>>
-                     <td>${dto.nd_date}</td>
+                  <tr <c:if test="${dto.nd_date eq today}"> bgcolor = "#ADD8E6" </c:if>>
+                     <td <c:if test="${dto.nd_date eq today}"> bgcolor = "#ADD8E6" </c:if> bgcolor="#FFFAF0" style="border-right: 1px solid #ccc;border-left: 0px solid #ccc;">${dto.nd_date}</td>
                      <td>${dto.deptName}</td>
-                     <td>${dto.emp_name}</td>
+                     <td style="border-right: 0px solid #ccc;">${dto.emp_name}</td>
                   <tr>
                </c:forEach>
          </table>
         <s:authorize access="hasAuthority('ROLE_ADMIN')">
         	<div style="float:right">
-			<a href="insertNightDutyTable.do?month=0-0" class="button" style="font-size:0.85em; padding: 0.55em 1.5em 0.55em 1.5em;">월별 당직근무 생성하기</a>
-			<a href="insertSeveralNightDutyTable.do" class="button" style="font-size:0.85em; padding: 0.55em 1.5em 0.55em 1.5em;">당직근무 수정</a>
+			<a href="insertNightDutyTable.do?month=0-0" class="button" style="font-size:0.75em; padding: 0.45em 1.0em 0.45em 1.0em;">월 별 당직근무 생성하기</a>
+			<a href="insertSeveralNightDutyTable.do" class="button" style="font-size:0.75em; padding: 0.45em 1.0em 0.45em 1.0em;">당직근무 수정</a>
 			
 			</div>                  
         </s:authorize>

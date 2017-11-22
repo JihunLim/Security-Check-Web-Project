@@ -67,6 +67,11 @@ public interface SecurityOfficeDAO {
     public List<OfficeSecurityDTO> selectOfficeSecurityDao(long data);
     //사무실보안점검 해당부서만 출력하기
     public List<OfficeSecurityDTO> selectOfficeSecurityWithDeptDao(Map data);
+    //사무실보안점검 해당부서만 출력하기 (기간,부서 검색용)
+    public List<OfficeSecurityDTO> selectOfficeSecurityWithDeptAndDateDao(Map data);
+    //사무실보안점검 해당부서만 출력하기 (기간 검색용)
+    public List<OfficeSecurityDTO> selectOfficeSecurityWithDateDao(Map data);
+    
     //사무실보안점검 삽입하기
     public void insertOfficeSecurityDao(OfficeSecurityDTO data);
     //사무실보안점검 수정하기
@@ -76,7 +81,7 @@ public interface SecurityOfficeDAO {
     //부서 찾아주기
     public HashMap findDeptDao(String data);
     //해당 날짜에 데이터가 있는지 확인
-    public HashMap selectOfficeSecurityWithDateDao(int data);
+    public HashMap checkOfficeSecurityWithDateDao(int data);
     //사진 가져오기(id로)
     public OfficeSecurityDTO selectPicOfficeSecurityWithNoDao(int data);
     
@@ -85,6 +90,8 @@ public interface SecurityOfficeDAO {
      */
     //당직근무일지 출력하기
     public List<WatchKeepingDTO> selectWatchKeepingDao(long data);
+    //당직근무일지 출력하기 (기간검색용)
+    public List<WatchKeepingDTO> selectWatchKeepingWithDateDao(Map data);
     //id로 당직근무일지 출력하기
     public WatchKeepingDTO selectWatchKeepingWithIdDao(int data);
     //당직근무일지 작성 확인
@@ -133,12 +140,26 @@ public interface SecurityOfficeDAO {
      * 페이지 DB 
      */
     //사무실 보안점검 리스트 - 관리자용
-    public long selectNumTotalListOfOfficeDao();
+    public long selectNumTotalListOfMOfficeDao();
+    //사무실 보안점검 리스트 - 관리자용 (부서와 기간 검색용)
+    public long selectNumTotalListOfMOfficeWithDeptAndDateDao(Map data);
+    //사무실 보안점검 리스트 - 관리자용 (부서 검색용)
+    public long selectNumTotalListOfMOfficeWithDeptDao(Map data);
+    //사무실 보안점검 리스트 - 관리자용 (기간 검색용)
+    public long selectNumTotalListOfMOfficeWithDateDao(Map data);
+    
+    
+    
+    
+    
     //사무실 보안점검 리스트 - 일반사용자용
     public long selectNumTotalListOfOfficeWithDeptDao(int data);
+    //사무실 보안점검 리스트 (기간 검색용) - 일반사용자용
+    public long selectNumTotalListOfOfficeWithDeptAndDateDao(Map data);
     //당직점검일지 리스트 - 관리자용
     public long selectNumTotalListOfNightDutyDao();
-    
+    //당직점검일지 리스트 (기간 검색용) - 관리자용
+    public long selectNumTotalListOfNightDutyWithDateDao();
     /*
      * smart 보안점검 처리 DB
      */
@@ -163,7 +184,10 @@ public interface SecurityOfficeDAO {
     public int selectScoreDoorWithDeptDao(int data);
     public HashMap selectScoreWithDeptDao(int data);
 	
-    
+    //당직근무 지시사항 
+    public String selectIndicationDao();
+    public void updateIndicationDao(String data);
+    public void insertIndicationDao(String data);
     
     
     
