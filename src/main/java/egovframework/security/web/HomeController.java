@@ -362,56 +362,37 @@ public class HomeController {
 			// 정보 가지고 오기
 			request.setCharacterEncoding("EUC-KR");
 			String os_empemail = request.getParameter("os_empemail"); // 직원번호
-			int os_document = Integer.parseInt(request
-					.getParameter("os_document"));
-			int os_deptcode = Integer.parseInt(request
-					.getParameter("os_deptcode"));
+			int os_document = Integer.parseInt(request.getParameter("os_document"));
+			int os_deptcode = Integer.parseInt(request.getParameter("os_deptcode"));
 			int os_clean = Integer.parseInt(request.getParameter("os_clean"));
-			int os_lightout = Integer.parseInt(request
-					.getParameter("os_lightout"));
-			int os_ventilation = Integer.parseInt(request
-					.getParameter("os_ventilation"));
+			int os_lightout = Integer.parseInt(request.getParameter("os_lightout"));
+			int os_ventilation = Integer.parseInt(request.getParameter("os_ventilation"));
 			int os_door = Integer.parseInt(request.getParameter("os_door"));
 			String os_etc = request.getParameter("os_etc");
-
+			
+			//이미지가 있을 시 이미지를 바이트로 변환하여 저장
 			if (!imageData.isEmpty()) {
 				os_image = imageData.getBytes();
-
 			}
+			
+			//결과를 객체에 저장시킴
 			officeDTO = new OfficeSecurityDTO(os_empemail, os_deptcode,
 					os_document, os_clean, os_lightout, os_ventilation,
 					os_door, os_etc, os_image);
 
 			// 실행하는 날짜의 데이터가 있는지 확인
-			HashMap OSMap = (HashMap) dao
-					.checkOfficeSecurityWithDateDao(os_deptcode);
+			HashMap OSMap = (HashMap) dao.checkOfficeSecurityWithDateDao(os_deptcode);
 			if (OSMap == null) {
-				// 데이터가 없을 시
-				System.out.println("기존 데이터가 없음");
+				// 데이터가 없을 시 저장시킨 객체를 db에 저장
 				dao.insertOfficeSecurityDao(officeDTO);
 			} else {
-				// 데이터가 있을 시
-				// 기존 입력한 유저가 당직근무자면 에러발생, 최종퇴실자면 정상진행(os_empemail은 수정금지)
-				System.out.println("기존 데이터가 있음");
-				System.out.println(OSMap);
-				// if 당직근무자 이메일과 여기 db의 이메일이 동일하면 에러발생, 그렇지 않으면 수정가능(단,
-				// os_empemail은 수정금지)
-				// 당직근무자 이메일(fnUser)
-				String fnUser = dao.selectEmailNightDutyWithDateDao();
-				System.out.println("당직자 : " + fnUser);
-				if (fnUser.equals((String) OSMap.get("os_empemail"))) {
-					// 당직근무자가 이미 사무실보안점검을 한 경우
-					resultPage = "cmmn/dataHasAlready";
-					throw new Exception("당직근무자 중복실시 방지");
-				} else {
-					// 최종퇴실자가 이미 사무실보안점검을 한 경우
-					officeDTO = new OfficeSecurityDTO(
-							(Integer) OSMap.get("os_id"),
-							(String) OSMap.get("os_empemail"), os_deptcode,
-							os_document, os_clean, os_lightout, os_ventilation,
-							os_door, os_etc, os_image);
-					dao.updateOfficeSecurityDao(officeDTO);
-				}
+				// 데이터가 있을 시 update 시킴 		
+				officeDTO = new OfficeSecurityDTO(
+						(Integer) OSMap.get("os_id"),
+						(String) OSMap.get("os_empemail"), os_deptcode,
+						os_document, os_clean, os_lightout, os_ventilation,
+						os_door, os_etc, os_image);
+				dao.updateOfficeSecurityDao(officeDTO);
 			}
 			resultPage = "cmmn/saveDataSuccess";
 		} catch (Exception exp) {
@@ -748,22 +729,25 @@ public class HomeController {
 			String wk_empemail = request.getParameter("wk_empemail");
 			String wk_indication = request.getParameter("wk_indication");
 			String wk_measure = request.getParameter("wk_measure");
-			int wk_mpd = Integer.parseInt(request.getParameter("wk_mpd"));
-			int wk_vmd = Integer.parseInt(request.getParameter("wk_vmd"));
-			int wk_hmd = Integer.parseInt(request.getParameter("wk_hmd"));
-			int wk_csd = Integer.parseInt(request.getParameter("wk_csd"));
-			int wk_itd = Integer.parseInt(request.getParameter("wk_itd"));
-			int wk_wio = Integer.parseInt(request.getParameter("wk_wio"));
-			int wk_wim = Integer.parseInt(request.getParameter("wk_wim"));
-			int wk_hwd = Integer.parseInt(request.getParameter("wk_hwd"));
-			int wk_sii = Integer.parseInt(request.getParameter("wk_sii"));
+			
+			//wk_dp뒤에 있는 숫자는 dept(부서)db에 있는 deptNo와 일치
+			int wk_dp1 = Integer.parseInt(request.getParameter("wk_dp1"));
+			int wk_dp2 = Integer.parseInt(request.getParameter("wk_dp2"));
+			int wk_dp3 = Integer.parseInt(request.getParameter("wk_dp3"));
+			int wk_dp4 = Integer.parseInt(request.getParameter("wk_dp4"));
+			int wk_dp5 = Integer.parseInt(request.getParameter("wk_dp5"));
+			int wk_dp6 = Integer.parseInt(request.getParameter("wk_dp6"));
+			int wk_dp7 = Integer.parseInt(request.getParameter("wk_dp7"));
+			int wk_dp8 = Integer.parseInt(request.getParameter("wk_dp8"));
+			int wk_dp9 = Integer.parseInt(request.getParameter("wk_dp9"));
+			int wk_dp10 = Integer.parseInt(request.getParameter("wk_dp10"));
 			String wk_specificity = request.getParameter("wk_specificity");
 			String wk_report = request.getParameter("wk_report");
 			String wk_delivery = request.getParameter("wk_delivery");
 			// 정보를 가지고 와서 db에 입력
 			wkDTO = new WatchKeepingDTO(wk_empemail, wk_indication, wk_measure,
-					wk_mpd, wk_vmd, wk_hmd, wk_csd, wk_itd, wk_wio, wk_wim,
-					wk_hwd, wk_sii, wk_specificity, wk_report, wk_delivery);
+					wk_dp1, wk_dp2, wk_dp3, wk_dp4, wk_dp5, wk_dp6, wk_dp7,
+					wk_dp8, wk_dp9,wk_dp10, wk_specificity, wk_report, wk_delivery);
 
 			// 지시사항으로 이미 데이터가 있을 경우 수정, 없을 경우 삽입
 			if (dao.selectNumWatchKeepingDao() > 0) {

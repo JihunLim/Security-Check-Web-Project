@@ -98,15 +98,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <!-- 당직근무일지DB DAO_Mapper-->
     <select id="selectWatchKeepingDao" parameterType="long" resultType="egovframework.security.dto.WatchKeepingDTO">
-        SELECT wk_id,wk_datetime,wk_empemail,wk_indication,wk_measure,wk_mpd,wk_hmd,wk_csd,wk_itd,wk_idd,wk_wid,wk_vmd,wk_vid,wk_sii,wk_specificity,wk_report,wk_delivery,deptName,emp_name FROM watchkeeping, employee, dept where wk_empemail=emp_email and deptNo=emp_deptcode ORDER BY wk_datetime DESC limit 15 offset #{param1}	
+        SELECT wk_id,wk_datetime,wk_empemail,wk_indication,wk_measure,wk_dp1,wk_dp2,wk_dp3,wk_dp4,wk_dp5,wk_dp6,wk_dp7,wk_dp8,wk_dp9,wk_dp10,wk_specificity,wk_report,wk_delivery,deptName,emp_name FROM watchkeeping, employee, dept where wk_empemail=emp_email and deptNo=emp_deptcode ORDER BY wk_datetime DESC limit 15 offset #{param1}	
     </select>
     
     <select id="selectWatchKeepingWithDateDao" parameterType="hashmap" resultType="egovframework.security.dto.WatchKeepingDTO">
-        SELECT wk_id,wk_datetime,wk_empemail,wk_indication,wk_measure,wk_mpd,wk_hmd,wk_csd,wk_itd,wk_idd,wk_wid,wk_vmd,wk_vid,wk_sii,wk_specificity,wk_report,wk_delivery,deptName,emp_name FROM watchkeeping, employee, dept where wk_empemail=emp_email and deptNo=emp_deptcode and DATE_FORMAT(wk_datetime, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate} ORDER BY wk_datetime DESC limit 15 offset #{data}	
+        SELECT wk_id,wk_datetime,wk_empemail,wk_indication,wk_measure,wk_dp1,wk_dp2,wk_dp3,wk_dp4,wk_dp5,wk_dp6,wk_dp7,wk_dp8,wk_dp9,wk_dp10,wk_specificity,wk_report,wk_delivery,deptName,emp_name FROM watchkeeping, employee, dept where wk_empemail=emp_email and deptNo=emp_deptcode and DATE_FORMAT(wk_datetime, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate} ORDER BY wk_datetime DESC limit 15 offset #{data}	
     </select>
     
  	<select id="selectWatchKeepingWithIdDao" parameterType="int" resultType="egovframework.security.dto.WatchKeepingDTO">
-        SELECT wk_id,wk_datetime,wk_empemail,wk_indication,wk_measure,wk_mpd,wk_hmd,wk_csd,wk_itd,wk_idd,wk_wid,wk_vmd,wk_vid,wk_sii,wk_specificity,wk_report,wk_delivery,deptName,emp_name,emp_rank FROM watchkeeping, employee, dept where wk_empemail=emp_email and deptNo=emp_deptcode and wk_id = #{param1};	
+        SELECT wk_id,wk_datetime,wk_empemail,wk_indication,wk_measure,wk_dp1,wk_dp2,wk_dp3,wk_dp4,wk_dp5,wk_dp6,wk_dp7,wk_dp8,wk_dp9,wk_dp10,wk_specificity,wk_report,wk_delivery,deptName,emp_name,emp_rank FROM watchkeeping, employee, dept where wk_empemail=emp_email and deptNo=emp_deptcode and wk_id = #{param1};	
     </select>
     
     <select id="selectNumWatchKeepingDao" resultType="int">
@@ -114,11 +114,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
  
     <insert id="insertWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
-        INSERT into watchkeeping values(default,default,#{wk_empemail},#{wk_indication},#{wk_measure},#{wk_mpd},#{wk_hmd},#{wk_csd},#{wk_itd},#{wk_idd},#{wk_wid},#{wk_vmd},#{wk_vid},#{wk_sii},#{wk_specificity}, #{wk_report}, #{wk_delivery})
+        INSERT into watchkeeping values(default,default,#{wk_empemail},#{wk_indication},#{wk_measure},#{wk_dp1},#{wk_dp2},#{wk_dp3},#{wk_dp4},#{wk_dp5},#{wk_dp6},#{wk_dp7},#{wk_dp8},#{wk_dp9},#{wk_dp10},#{wk_specificity}, #{wk_report}, #{wk_delivery})
     </insert>
     
     <update id="updateWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">
-    	UPDATE watchkeeping set wk_empemail=#{wk_empemail},wk_measure=#{wk_measure},wk_mpd=#{wk_mpd},wk_hmd=#{wk_hmd},wk_csd=#{wk_csd},wk_itd=#{wk_itd},wk_idd=#{wk_idd},wk_wid=#{wk_wid},wk_vmd=#{wk_vmd},wk_vid=#{wk_vid},wk_sii=#{wk_sii},wk_specificity=#{wk_specificity},wk_report=#{wk_report},wk_delivery=#{wk_delivery} where date(wk_datetime) = date(now());
+    	UPDATE watchkeeping set wk_empemail=#{wk_empemail},wk_measure=#{wk_measure},wk_dp1=#{wk_dp1},wk_dp2=#{wk_dp2},wk_dp3=#{wk_dp3},wk_dp4=#{wk_dp4},wk_dp5=#{wk_dp5},wk_dp6=#{wk_dp6},wk_dp7=#{wk_dp7},wk_dp8=#{wk_dp8},wk_dp9=#{wk_dp9},wk_dp10=#{wk_dp10},wk_specificity=#{wk_specificity},wk_report=#{wk_report},wk_delivery=#{wk_delivery} where date(wk_datetime) = date(now());
     </update>
     
     <delete id="deleteWatchKeepingDao" parameterType="egovframework.security.dto.WatchKeepingDTO">

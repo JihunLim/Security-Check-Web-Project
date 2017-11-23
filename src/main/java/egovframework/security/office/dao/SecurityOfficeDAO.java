@@ -76,6 +76,7 @@ public interface SecurityOfficeDAO {
     public void insertOfficeSecurityDao(OfficeSecurityDTO data);
     //사무실보안점검 수정하기
     public void updateOfficeSecurityDao(OfficeSecurityDTO data);
+           
     //사무실보안점검 삭제하기
     public void deleteOfficeSecurityDao(OfficeSecurityDTO data);
     //부서 찾아주기

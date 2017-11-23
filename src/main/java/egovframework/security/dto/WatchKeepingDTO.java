@@ -9,15 +9,16 @@ public class WatchKeepingDTO {
 	private String wk_empemail;
 	private String wk_indication;
 	private String wk_measure;
-	private int wk_mpd;
-	private int wk_hmd;
-	private int wk_csd;
-	private int wk_itd;
-	private int wk_idd;
-	private int wk_wid;
-	private int wk_vmd;
-	private int wk_vid;
-	private int wk_sii;
+	private int wk_dp1;
+	private int wk_dp2;
+	private int wk_dp3;
+	private int wk_dp4;
+	private int wk_dp5;
+	private int wk_dp6;
+	private int wk_dp7;
+	private int wk_dp8;
+	private int wk_dp9;
+	private int wk_dp10;
 	private String wk_specificity;
 	private String wk_report;
 	private String wk_delivery;
@@ -36,42 +37,43 @@ public class WatchKeepingDTO {
 	 * @param wk_empemail
 	 * @param wk_indication
 	 * @param wk_measure
-	 * @param wk_mpd
-	 * @param wk_hmd
-	 * @param wk_csd
-	 * @param wk_itd
-	 * @param wk_idd
-	 * @param wk_wid
-	 * @param wk_vmd
-	 * @param wk_vid
-	 * @param wk_sii
+	 * @param wk_dp1
+	 * @param wk_dp2
+	 * @param wk_dp3
+	 * @param wk_dp4
+	 * @param wk_dp5
+	 * @param wk_dp6
+	 * @param wk_dp7
+	 * @param wk_dp8
+	 * @param wk_dp9
+	 * @param wk_dp10
 	 * @param wk_specificity
 	 * @param wk_report
 	 * @param wk_delivery
 	 */
 	public WatchKeepingDTO(String wk_empemail, String wk_indication,
-			String wk_measure, int wk_mpd, int wk_hmd, int wk_csd, int wk_itd,
-			int wk_idd, int wk_wid, int wk_vmd, int wk_vid, int wk_sii,
-			String wk_specificity, String wk_report, String wk_delivery) {
+			String wk_measure, int wk_dp1, int wk_dp2, int wk_dp3, int wk_dp4,
+			int wk_dp5, int wk_dp6, int wk_dp7, int wk_dp8, int wk_dp9,
+			int wk_dp10, String wk_specificity, String wk_report,
+			String wk_delivery) {
 		super();
 		this.wk_empemail = wk_empemail;
 		this.wk_indication = wk_indication;
 		this.wk_measure = wk_measure;
-		this.wk_mpd = wk_mpd;
-		this.wk_hmd = wk_hmd;
-		this.wk_csd = wk_csd;
-		this.wk_itd = wk_itd;
-		this.wk_idd = wk_idd;
-		this.wk_wid = wk_wid;
-		this.wk_vmd = wk_vmd;
-		this.wk_vid = wk_vid;
-		this.wk_sii = wk_sii;
+		this.wk_dp1 = wk_dp1;
+		this.wk_dp2 = wk_dp2;
+		this.wk_dp3 = wk_dp3;
+		this.wk_dp4 = wk_dp4;
+		this.wk_dp5 = wk_dp5;
+		this.wk_dp6 = wk_dp6;
+		this.wk_dp7 = wk_dp7;
+		this.wk_dp8 = wk_dp8;
+		this.wk_dp9 = wk_dp9;
+		this.wk_dp10 = wk_dp10;
 		this.wk_specificity = wk_specificity;
 		this.wk_report = wk_report;
 		this.wk_delivery = wk_delivery;
 	}
-
-
 
 	public int getWk_id() {
 		return wk_id;
@@ -118,76 +120,84 @@ public class WatchKeepingDTO {
 		this.wk_measure = wk_measure;
 	}
 
-	public int getWk_mpd() {
-		return wk_mpd;
+	public int getwk_dp1() {
+		return wk_dp1;
 	}
 
-	public void setWk_mpd(int wk_mpd) {
-		this.wk_mpd = wk_mpd;
+	public void setwk_dp1(int wk_dp1) {
+		this.wk_dp1 = wk_dp1;
 	}
 
-	public int getWk_hmd() {
-		return wk_hmd;
+	public int getwk_dp2() {
+		return wk_dp2;
 	}
 
-	public void setWk_hmd(int wk_hmd) {
-		this.wk_hmd = wk_hmd;
+	public void setwk_dp2(int wk_dp2) {
+		this.wk_dp2 = wk_dp2;
 	}
 
-	public int getWk_csd() {
-		return wk_csd;
+	public int getwk_dp3() {
+		return wk_dp3;
 	}
 
-	public void setWk_csd(int wk_csd) {
-		this.wk_csd = wk_csd;
+	public void setwk_dp3(int wk_dp3) {
+		this.wk_dp3 = wk_dp3;
 	}
 
-	public int getWk_itd() {
-		return wk_itd;
+	public int getwk_dp4() {
+		return wk_dp4;
 	}
 
-	public void setWk_itd(int wk_itd) {
-		this.wk_itd = wk_itd;
+	public void setwk_dp4(int wk_dp4) {
+		this.wk_dp4 = wk_dp4;
 	}
 
-	public int getWk_idd() {
-		return wk_idd;
+	public int getwk_dp5() {
+		return wk_dp5;
 	}
 
-	public void setWk_idd(int wk_idd) {
-		this.wk_idd = wk_idd;
+	public void setwk_dp5(int wk_dp5) {
+		this.wk_dp5 = wk_dp5;
 	}
 
-	public int getWk_wid() {
-		return wk_wid;
+	public int getwk_dp6() {
+		return wk_dp6;
 	}
 
-	public void setWk_wid(int wk_wid) {
-		this.wk_wid = wk_wid;
+	public void setwk_dp6(int wk_dp6) {
+		this.wk_dp6 = wk_dp6;
 	}
 
-	public int getWk_vmd() {
-		return wk_vmd;
+	public int getwk_dp7() {
+		return wk_dp7;
 	}
 
-	public void setWk_vmd(int wk_vmd) {
-		this.wk_vmd = wk_vmd;
+	public void setwk_dp7(int wk_dp7) {
+		this.wk_dp7 = wk_dp7;
 	}
 
-	public int getWk_vid() {
-		return wk_vid;
+	public int getwk_dp8() {
+		return wk_dp8;
 	}
 
-	public void setWk_vid(int wk_vid) {
-		this.wk_vid = wk_vid;
+	public void setwk_dp8(int wk_dp8) {
+		this.wk_dp8 = wk_dp8;
 	}
 
-	public int getWk_sii() {
-		return wk_sii;
+	public int getwk_dp9() {
+		return wk_dp9;
 	}
 
-	public void setWk_sii(int wk_sii) {
-		this.wk_sii = wk_sii;
+	public void setwk_dp9(int wk_dp9) {
+		this.wk_dp9 = wk_dp9;
+	}
+	
+	public int getWk_dp10() {
+		return wk_dp10;
+	}
+
+	public void setWk_dp10(int wk_dp10) {
+		this.wk_dp10 = wk_dp10;
 	}
 
 	public String getWk_specificity() {
@@ -231,7 +241,7 @@ public class WatchKeepingDTO {
 	}
 
 	public int getAvg_score() {
-		return (wk_mpd+wk_hmd+wk_csd+wk_itd+wk_idd+wk_wid+wk_vmd+wk_vid+wk_sii)/9;
+		return (wk_dp1+wk_dp2+wk_dp3+wk_dp4+wk_dp5+wk_dp6+wk_dp7+wk_dp8+wk_dp9)/9;
 	}
 
 	public String getEmp_rank() {

@@ -21,9 +21,9 @@
 
 	<section class="white">
 		<div class="container">
-			<form name="officeSecurityFNForm" method="post"
+			<form name="osff" method="post"
 				action="<%=context%>/officeSecurityFNCheck.do"
-				onsubmit="return checkOfficeForm()" enctype="multipart/form-data">
+				onsubmit="return checkOSFForm()" enctype="multipart/form-data">
 
 				<div class="row">
 					<div class="2u 12u$(mobile)">
@@ -33,16 +33,18 @@
 						<input type="hidden" name="os_empemail"
 							value=<s:authentication property="name"/> />
 						<div class="controls">
-							<select name="os_deptcode" class="dropdown">
-								<option value="1">경영지원본부</option>
-								<option value="2">바우처본부</option>
-								<option value="3">보건의료본부</option>
-								<option value="4">고객지원본부</option>
-								<option value="5">정보기술본부</option>
-								<option value="6">복지정보운영본부</option>
-								<option value="7">복지정보관리본부</option>
-								<option value="8">희망복지본부</option>
-								<option value="9">사회보장정보연구소</option>
+							<select name="os_deptcode" class="dropdown" onchange="changeValue(this.value)">
+								<option value="0">부서를 선택하세요.</option>
+								<option value="1">경영기획본부</option>
+								<option value="2">정보기술본부</option>
+								<option value="3">고객지원본부</option>
+								<option value="4">정보개발본부</option>
+								<option value="5">복지정보본부</option>
+								<option value="6">보건의료본부</option>
+								<option value="7">희망복지중앙지원단</option>
+								<option value="8">바우처관리본부</option>
+								<option value="9">바우처정보본부</option>
+								<option value="10">사회보장연구소</option>
 							</select>
 						</div>
 					</div>
@@ -126,5 +128,17 @@
 	</section>
 </div>
 <!-- 끝 -->
+<script>
+function changeValue(val) {
+    //값 변경시 
+}
+
+function checkOSFForm(){
+	if(osff.os_deptcode.value == "0"){
+		alert("부서를 선택해주세요.");
+		return false;
+	}
+}
+</script>
 <%@ include
 	file="/WEB-INF/jsp/egovframework/example/menu/bottomMenu.jsp"%>
