@@ -6,6 +6,10 @@
 
 <!-- Main -->
 <div id="main">
+	<div class = "main_page"		style="margin:0;">
+		<a href="mainmenu.do"><img src= "images/home_logo.PNG" style="float:left; margin:10px 10px -15px 10px; padding-left:20px;"></a>
+		<img src= "images/line.png" style="width:100%; height:5px; margin:0px;">
+	</div>
 	<!-- Intro -->
 	<section id="top" class="one dark">
 		<div class="container">
@@ -67,10 +71,12 @@
 						</div>
 						<BR>
 						<!-- 폼을 삽입할 DIV -->
-
-						<input type="Button" value="추가" style="font-size:0.75em; padding: 0.55em 1.0em 0.55em 1.0em;" onclick="addForm()"> 
-						<input type="Button" value="삭제" style="font-size:0.75em; padding: 0.55em 1.0em 0.55em 1.0em;" onclick="delForm()"> 
-						<input type="Submit" value="제출하기" style="font-size:0.75em; padding: 0.55em 1.0em 0.55em 1.0em;">
+						
+ 
+  
+						<input type="Button" value="추가" style="font-size:0.75em; padding: 0.55em 1.0em 0.55em 1.0em;background-color:#5cb85c;border-color:#4cae4c;" onclick="addForm()"> 
+						<input type="Button" value="삭제" style="font-size:0.75em; padding: 0.55em 1.0em 0.55em 1.0em;color: #fff; background-color: #d9534f;border-color: #d43f3a;" onclick="delForm()"> 
+						<input type="Submit" value="제출하기" style="font-size:0.75em; padding: 0.55em 1.0em 0.55em 1.0em;color: #fff;background-color: #337ab7;border-color: #2e6da4;">
 
 					</form>
 				</center>

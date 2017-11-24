@@ -15,6 +15,10 @@
 
 <!-- Main -->
 <div id="main">
+	<div class = "main_page"		style="margin:0;">
+		<a href="mainmenu.do"><img src= "images/home_logo.PNG" style="float:left; margin:10px 10px -15px 10px; padding-left:20px;"></a>
+		<img src= "images/line.png" style="width:100%; height:5px; margin:0px;">
+	</div>
 	<!-- Intro -->
 	<section class="one dark">
 		<div class="container">
@@ -24,14 +28,14 @@
 		</div>
 	</section>
 
-	<!-- Single button -->
+	<!-- Search Menu -->
 	<div class="container">
 		<div class="btn-group">
 			<form method="post" action="<%=cp%>/listOfficeSecurity.do?page=1">
 			 <s:authorize access="hasAuthority('ROLE_ADMIN')">
 				<div class="row">
 					<div class="5u 12u$(mobile)" style="float:left;font-size: 0.8em;">
-						<select name="changeDept" style="font-size: 0.9em;height: 2.5em;width:12em;">
+						<select name="changeDept" style="font-size: 0.9em;height: 2.7em;width:12em;">
 							<option value="0">부서를 선택하세요.</option>
 							<option value="1">경영지원본부</option>
 							<option value="2">바우처본부</option>

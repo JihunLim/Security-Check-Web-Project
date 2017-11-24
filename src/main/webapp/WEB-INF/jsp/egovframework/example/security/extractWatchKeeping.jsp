@@ -377,7 +377,7 @@ div.HStyle16
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>경영지원본부</SPAN></P>
 	</TD>
 	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[0]}  외    ${data.wk_mpd}명</SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[0]}  외    ${data.wk_dp1}명</SPAN></P>
 	</TD>
 </TR>
 <TR>
@@ -385,7 +385,7 @@ div.HStyle16
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>바우처본부</SPAN></P>
 	</TD>
 	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[1]}  외    ${data.wk_hmd}명</SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[1]}  외    ${data.wk_dp2}명</SPAN></P>
 	</TD>
 </TR>
 <TR>
@@ -393,7 +393,7 @@ div.HStyle16
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>보건의료본부</SPAN></P>
 	</TD>
 	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[2]}  외    ${data.wk_csd}명</SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[2]}  외    ${data.wk_dp3}명</SPAN></P>
 	</TD>
 </TR>
 <TR>
@@ -401,7 +401,7 @@ div.HStyle16
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>고객지원본부</SPAN></P>
 	</TD>
 	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[3]}  외    ${data.wk_itd}명</SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[3]}  외    ${data.wk_dp4}명</SPAN></P>
 	</TD>
 </TR>
 <TR>
@@ -427,7 +427,7 @@ div.HStyle16
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>정보기술본부</SPAN></P>
 	</TD>
 	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[4]}  외    ${data.wk_idd}명</SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[4]}  외    ${data.wk_dp5}명</SPAN></P>
 	</TD>
 </TR>
 <TR>
@@ -435,7 +435,7 @@ div.HStyle16
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>복지정보운영본부</SPAN></P>
 	</TD>
 	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[5]}  외    ${data.wk_wid}명</SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[5]}  외    ${data.wk_dp6}명</SPAN></P>
 	</TD>
 </TR>
 <TR>
@@ -443,7 +443,7 @@ div.HStyle16
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>복지정보관리본부</SPAN></P>
 	</TD>
 	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[6]}  외    ${data.wk_vmd}명</SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[6]}  외    ${data.wk_dp7}명</SPAN></P>
 	</TD>
 </TR>
 <TR>
@@ -451,7 +451,7 @@ div.HStyle16
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>희망복지본부</SPAN></P>
 	</TD>
 	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[7]}  외    ${data.wk_vid}명</SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[7]}  외    ${data.wk_dp8}명</SPAN></P>
 	</TD>
 </TR>
 <TR>
@@ -459,7 +459,10 @@ div.HStyle16
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>사회보장정보연구소</SPAN></P>
 	</TD>
 	<TD colspan="5" valign="middle" style='width:190;height:32;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[8]}  외    ${data.wk_sii}명</SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[8]}  외    ${data.wk_dp9}명</SPAN></P>
+	</TD>
+	<TD colspan="5" valign="middle" style='width:190;height:32;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[9]}  외    ${data.wk_dp10}명</SPAN></P>
 	</TD>
 </TR>
 </TABLE></P>

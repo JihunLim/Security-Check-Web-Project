@@ -9,6 +9,10 @@
 
 <!-- Main -->
 <div id="main">
+	<div class = "main_page"		style="margin:0;">
+		<a href="mainmenu.do"><img src= "images/home_logo.PNG" style="float:left; margin:10px 10px -15px 10px; padding-left:20px;"></a>
+		<img src= "images/line.png" style="width:100%; height:5px; margin:0px;">
+	</div>
 	<!-- Intro -->
 	<section id="top" class="one dark">
 		<div class="container">
@@ -37,33 +41,35 @@
 				<label style="float:left;">3. 각 부서 근무자 현황 수</label>
 				<div class="row">
 					<div class="6u$ 12u$(mobile)">
-						<input type="text" name="wk_mpd" style="color:#000;" value="경영지원본부  :  ${data.wk_mpd}명 " readonly></input>
+						<input type="text" name="wk_dp1" style="color:#000;" value="경영지원본부  :  ${data.wk_dp1}명 " readonly></input>
 					</div>
 					<div class="6u$ 12u$(mobile)">
-						<input type="text" name="wk_vmd" style="color:#000;" value="바우처본부  :  ${data.wk_vmd}명 " readonly></input>
+						<input type="text" name="wk_dp2" style="color:#000;" value="바우처본부  :  ${data.wk_dp2}명 " readonly></input>
 					</div>
 					<div class="6u$ 12u$(mobile)">
-						<input type="text" name="wk_hmd" style="color:#000;" value="보건의료본부  :  ${data.wk_hmd}명 " readonly></input>
+						<input type="text" name="wk_dp3" style="color:#000;" value="보건의료본부  :  ${data.wk_dp3}명 " readonly></input>
 					</div>
 					<div class="6u$ 12u$(mobile)">
-						<input type="text" name="wk_csd" style="color:#000;" value="고객지원본부  :  ${data.wk_csd}명 " readonly></input>
+						<input type="text" name="wk_dp4" style="color:#000;" value="고객지원본부  :  ${data.wk_dp4}명 " readonly></input>
 					</div>
 					<div class="6u$ 12u$(mobile)">
-						<input type="text" name="wk_itd" style="color:#000;" value="정보기술본부  :  ${data.wk_itd}명 " readonly></input>
+						<input type="text" name="wk_dp5" style="color:#000;" value="정보기술본부  :  ${data.wk_dp5}명 " readonly></input>
 					</div>
 					<div class="6u$ 12u$(mobile)">
-						<input type="text" name="wk_wio" style="color:#000;" value="복지정보운영본부  :  ${data.wk_wio}명 " readonly></input>
+						<input type="text" name="wk_dp6" style="color:#000;" value="복지정보운영본부  :  ${data.wk_dp6}명 " readonly></input>
 					</div>
 					<div class="6u$ 12u$(mobile)">
-						<input type="text" name="wk_wim" style="color:#000;" value="복지정보관리본부  :  ${data.wk_wim}명 " readonly></input>
+						<input type="text" name="wk_dp7" style="color:#000;" value="복지정보관리본부  :  ${data.wk_dp7}명 " readonly></input>
 					</div>
 					<div class="6u$ 12u$(mobile)">
-						<input type="text" name="wk_hwd" style="color:#000;" value="희망복지본부  :  ${data.wk_hwd}명 " readonly></input>
+						<input type="text" name="wk_dp8" style="color:#000;" value="희망복지본부  :  ${data.wk_dp8}명 " readonly></input>
 					</div>
 					<div class="6u$ 12u$(mobile)">
-						<input type="text" name="wk_sii" style="color:#000;" value="사회보장정보연구소  :  ${data.wk_sii}명 " readonly></input>
+						<input type="text" name="wk_dp9" style="color:#000;" value="사회보장정보연구소  :  ${data.wk_dp9}명 " readonly></input>
 					</div>
-
+					<div class="6u$ 12u$(mobile)">
+						<input type="text" name="wk_dp10" style="color:#000;" value="사회보장정보연구소  :  ${data.wk_dp10}명 " readonly></input>
+					</div>
 				</div><br /> 
 
 
@@ -75,7 +81,6 @@
 				<label style="float:left;">5. 당직근무 간 인계사항</label>
 				<textarea name="wk_report" style="color:#000;" readonly>${data.wk_report}</textarea>
 				<br /> 
-				<input type="button" value="출력" onClick="print(document.getElementById('printarea').innerHTML);" style="float:right;">
 				<input type="button" value="목록보기" onClick="history.back();" style="float:right;"> 
 			</form>
 			</div>		

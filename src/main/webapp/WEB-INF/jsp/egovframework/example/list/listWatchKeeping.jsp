@@ -9,6 +9,10 @@
 </script>
 <!-- Main -->
 <div id="main">
+ 	<div class = "main_page"		style="margin:0;">
+		<a href="mainmenu.do"><img src= "images/home_logo.PNG" style="float:left; margin:10px 10px -15px 10px; padding-left:20px;"></a>
+		<img src= "images/line.png" style="width:100%; height:5px; margin:0px;">
+	</div>
 	<!-- Intro -->
 	<section  class="one dark">
 		<div class="container">

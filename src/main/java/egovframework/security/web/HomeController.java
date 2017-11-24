@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,9 +56,11 @@ public class HomeController {
 	UserInfo userInfo;
 
 	// 서비스 시작 일자
-	String startDate = "2017-11-20"; // 시작 날짜
+	String startDate = "2017-10-30"; // 시작 날짜
 	// 메일 서비스 보내는 사람 이메일
 	String setfrom = "limjihun204@gmail.com";
+	// 사무실보안점검 위치 표 색상 결정 배열
+	int[] status = new int[]{1,1,1,1,1,1,1,1,1,1};
 
 	public void getUserInfo(Model model) throws Exception{
 		// userInfo 구하기
@@ -341,6 +344,7 @@ public class HomeController {
 	public String officeSecurityFNForm(Model model) throws Exception {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 		getUserInfo(model);//사용자 정보를 가져옴
+		model.addAttribute("status", status);
 		return "security/officeSecurityFNForm";
 	}
 
@@ -354,6 +358,9 @@ public class HomeController {
 
 		String resultPage = "";
 		byte[] os_image = null;
+		//부서 위치 표의 색상을 결정
+		
+		
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 
 		getUserInfo(model);//사용자 정보를 가져옴
@@ -379,12 +386,15 @@ public class HomeController {
 			officeDTO = new OfficeSecurityDTO(os_empemail, os_deptcode,
 					os_document, os_clean, os_lightout, os_ventilation,
 					os_door, os_etc, os_image);
-
+			System.out.println("ak1: " + os_deptcode);
+			int temp = os_deptcode - 1;
 			// 실행하는 날짜의 데이터가 있는지 확인
+			System.out.println("ak2: " + os_deptcode);
 			HashMap OSMap = (HashMap) dao.checkOfficeSecurityWithDateDao(os_deptcode);
 			if (OSMap == null) {
 				// 데이터가 없을 시 저장시킨 객체를 db에 저장
 				dao.insertOfficeSecurityDao(officeDTO);
+				status[temp] *= -1; 
 			} else {
 				// 데이터가 있을 시 update 시킴 		
 				officeDTO = new OfficeSecurityDTO(
@@ -393,8 +403,10 @@ public class HomeController {
 						os_document, os_clean, os_lightout, os_ventilation,
 						os_door, os_etc, os_image);
 				dao.updateOfficeSecurityDao(officeDTO);
+				status[temp] *= -1; 
 			}
-			resultPage = "cmmn/saveDataSuccess";
+			
+			resultPage = "cmmn/saveDataSuccessForOffFn";
 		} catch (Exception exp) {
 			System.out.println("예외처리 메시지 : " + exp.getMessage());
 			if ("".equals(resultPage))
@@ -443,6 +455,105 @@ public class HomeController {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 		Boolean SendEmail = false;
 		getUserInfo(model);//사용자 정보를 가져옴
+		// 그래프 관련 코드
+		// 부서 총 수
+		int deptTotalNum = 10;//dao.selectNDeptDao();
+		// 부서 이름
+		String[] strDeptName = new String[]{"경영기획본부","정보기술본부","고객지원본부","정보개발본부","복지정보본부","보건의료본부","희망복지중앙지원단","바우처관리본부","바우처정보본부","사회보장연구소"};
+		// 부서 별 보안점수 (월 단위)
+		int[] scoreDeptList = new int[deptTotalNum];
+		// 항목 별 보안점수 (db 전체)
+		float[] scoreEachList = new float[5];
+		// 항목 별 자신 부서 보안점수
+		int[] scoreMyDeptEachList = new int[5];
+		
+		Date dt = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf2 = new SimpleDateFormat("MM");
+		String now_date = sdf.format(dt).toString();
+		String month_date = sdf2.format(dt).toString();
+
+		// String startDate = "2017-10-23"; //시작 날짜
+		String endDate = now_date; // 오늘 날짜
+		// String Type을 Date Type으로 캐스팅하면서 생기는 예외로 인해 여기서 예외처리 해주지 않으면
+		// 컴파일러에서 에러가 발생해서 컴파일을 할 수 없다.
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		// date1, date2 두 날짜를 parse()를 통해 Date형으로 변환.
+		Date FirstDate = format.parse(startDate);
+		Date SecondDate = format.parse(endDate);
+		long calDate = SecondDate.getTime() - FirstDate.getTime();
+
+		int temp = 0;
+		int max = 0;
+		for (int i = 1; i <= deptTotalNum; i++) {
+			temp = i - 1;
+			//strDeptName[temp] = dao.selectTotalDeptDao(i); // 부서 이름 넣기
+			if (dao.selectCheckScoreDeptOfficeDao(i) != 0)
+				// 부서 별 보안점수 넣기(당월 데이터만 해당)
+				scoreDeptList[temp] = dao.selectScoreDeptOfficeDao(i);
+			else
+				scoreDeptList[temp] = 0; // 부서 별 보안점수 넣기(당월 데이터만 해당)
+		}
+		int maxNum = ((max / 10) + 1) * 10;
+
+		// 평균 데이터
+		HashMap<String, BigDecimal> totalScore = dao.selectScoreDao();
+		scoreEachList[0] = Math.round(((BigDecimal) totalScore
+				.get("sum(os_document)")).intValueExact()
+				/ (float) deptTotalNum);
+		scoreEachList[1] = Math.round(((BigDecimal) totalScore
+				.get("sum(os_clean)")).intValueExact()
+				/ (float) deptTotalNum);
+		scoreEachList[2] = Math.round(((BigDecimal) totalScore
+				.get("sum(os_lightout)")).intValueExact()
+				/ (float) deptTotalNum);
+		scoreEachList[3] = Math.round(((BigDecimal) totalScore
+				.get("sum(os_ventilation)")).intValueExact()
+				/ (float) deptTotalNum);
+		scoreEachList[4] = Math.round(((BigDecimal) totalScore
+				.get("sum(os_door)")).intValueExact()
+				/ (float) deptTotalNum);
+
+		// 자기 부서 데이터
+		HashMap<String, BigDecimal> ownScore = dao
+				.selectScoreWithDeptDao(userInfo.getOs_deptcode());
+		scoreMyDeptEachList[0] = ((BigDecimal) ownScore
+				.get("sum(os_document)")).intValueExact();
+		scoreMyDeptEachList[1] = ((BigDecimal) ownScore
+				.get("sum(os_clean)")).intValueExact();
+		scoreMyDeptEachList[2] = ((BigDecimal) ownScore
+				.get("sum(os_lightout)")).intValueExact();
+		scoreMyDeptEachList[3] = ((BigDecimal) ownScore
+				.get("sum(os_ventilation)")).intValueExact();
+		scoreMyDeptEachList[4] = ((BigDecimal) ownScore.get("sum(os_door)"))
+				.intValueExact();
+
+		float max2 = 0;
+		for (int i = 0; i < scoreEachList.length; i++) {
+			if (scoreEachList[i] > max2)
+				max2 = scoreEachList[i];
+			if (scoreMyDeptEachList[i] > max2)
+				max2 = scoreMyDeptEachList[i];
+		}
+		int stepSize2 = 1;
+		if (max2 < 10)
+			stepSize2 = 1;
+		else if (max2 < 100)
+			stepSize2 = 10;
+		else if (max2 < 1000)
+			stepSize2 = 100;
+		else
+			stepSize2 = 1000;
+
+		model.addAttribute("month_date", month_date);
+		model.addAttribute("maxNumBar", maxNum);
+		model.addAttribute("nameDept", strDeptName);
+		model.addAttribute("scoreDeptList", scoreDeptList);
+		model.addAttribute("scoreEachList", scoreEachList);
+		model.addAttribute("scoreMyDeptEachList", scoreMyDeptEachList);
+		model.addAttribute("max2", max2);
+		model.addAttribute("stepSize2", stepSize2);
+		
 		
 //		if (SendEmail) {
 //			// 성공할 시 메일 보내기
@@ -701,7 +812,7 @@ public class HomeController {
 				// 당직근무자와 접속자가 다른 경우 경고 후 뒤로 돌아가기
 				resultPage = "cmmn/dataAccessFailure";
 			}
-			hasIndication = "Today's 지시사항 : \n" + ((dao.selectIndicationDao() == null) ? " " : dao.selectIndicationDao());  
+			hasIndication = "Today's 지시사항 : " + ((dao.selectIndicationDao() == null) ? " " : dao.selectIndicationDao());  
 					
 			model.addAttribute("indication", hasIndication);
 		} catch (Exception exp) {
@@ -1020,9 +1131,9 @@ public class HomeController {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 		String resultPage = "security/smartSecuritySolution";
 		// 부서 총 수
-		int deptTotalNum = 9;//dao.selectNDeptDao();
+		int deptTotalNum = 10;//dao.selectNDeptDao();
 		// 부서 이름
-		String[] strDeptName = new String[deptTotalNum];
+		String[] strDeptName = new String[]{"경영기획본부","정보기술본부","고객지원본부","정보개발본부","복지정보본부","보건의료본부","희망복지중앙지원단","바우처관리본부","바우처정보본부","사회보장연구소"};
 		// 부서 별 미실시 횟수
 		int[] numNonImplement = new int[deptTotalNum];
 		// 부서 별 보안점수 (월 단위)
@@ -1060,7 +1171,7 @@ public class HomeController {
 			int max = 0;
 			for (int i = 1; i <= deptTotalNum; i++) {
 				temp = i - 1;
-				strDeptName[temp] = dao.selectTotalDeptDao(i); // 부서 이름 넣기
+				//strDeptName[temp] = dao.selectTotalDeptDao(i); // 부서 이름 넣기
 				if (dao.selectCheckScoreDeptOfficeDao(i) != 0)
 					// 부서 별 보안점수 넣기(당월 데이터만 해당)
 					scoreDeptList[temp] = dao.selectScoreDeptOfficeDao(i);
@@ -1361,9 +1472,10 @@ public class HomeController {
 				// 당직점검 데이터가 없는 경우 -> insert
 				hasIndication = ""; // 저장된 데이터가 없음
 				// 값이 있는경우 insert
-				if (!(strIndication == null || "".equals(strIndication))) 
+				if (!(strIndication == null || "".equals(strIndication))) {
 					dao.insertIndicationDao(strIndication);
-				SendEmail = true;
+					SendEmail = true;
+				}
 			}
 
 			model.addAttribute("indication", hasIndication);
