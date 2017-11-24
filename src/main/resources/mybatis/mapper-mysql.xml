@@ -77,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
     
     <update id="updateOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
-    	UPDATE officesecurity set os_empemail=#{os_empemail},os_document=#{os_document},os_clean=#{os_clean},os_lightout=#{os_lightout},os_ventilation=#{os_ventilation},os_door=#{os_door},os_etc=#{os_etc},os_datetime=#{os_datetime} where os_id = #{os_id}
+    	UPDATE officesecurity set os_empemail=#{os_empemail},os_document=#{os_document},os_clean=#{os_clean},os_lightout=#{os_lightout},os_ventilation=#{os_ventilation},os_door=#{os_door},os_etc=#{os_etc},os_datetime=#{os_datetime},os_image=#{os_image} where os_id = #{os_id}
     </update>
     
     <delete id="deleteOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">

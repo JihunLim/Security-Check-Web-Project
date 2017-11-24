@@ -1,14 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+<!-- 엑셀 -->
+<%--  <%@ page language="java" contentType="application/vnd.ms-excel;charset=UTF-8" pageEncoding="UTF-8"%> --%> 
+
+<!-- 워드 -->
+<%-- <%@ page language="java" contentType="application/vnd.word;charset=UTF-8" pageEncoding="UTF-8"%> --%>
+
+<!-- 한글 -->
+<%@ page language="java" contentType="application/hwp;charset=UTF-8" pageEncoding="UTF-8"%> 
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="s"%>
 <%String cp= request.getContextPath(); %>
 <!DOCTYPE HTML>
 <HTML>
 <HEAD>
-<META NAME="Generator" CONTENT="Hancom HWP 9.1.1.3464">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<TITLE></TITLE>
 <%
 String fileName = request.getAttribute("fileName").toString(); 
 
@@ -34,7 +39,8 @@ String fileName = request.getAttribute("fileName").toString();
 //  response.setContentType("application/hwp");
 //*********************************************************************
 %>
- 
+
+
 <STYLE type="text/css">
 <!--
 p.HStyle0
@@ -144,7 +150,6 @@ div.HStyle16
 </HEAD>
 
 <BODY>
-
 <P CLASS=HStyle0 STYLE='margin-left:11.1pt;text-align:center;text-indent:-11.1pt;'>
 <TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
 <TR>
@@ -154,12 +159,12 @@ div.HStyle16
 </TR>
 <TR>
 	<TD colspan="12" valign="middle" style='width:644;height:106;border-left:none;border-right:none;border-top:none;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 2.8pt 1.4pt'>
-	<P CLASS=HStyle16 STYLE='margin-left:180.8pt;text-indent:-26.8pt;line-height:180%;'><SPAN STYLE='font-size:20.0pt;font-family:"휴먼명조";font-weight:bold;line-height:180%'>당직근무 일지</SPAN><SPAN STYLE='font-size:15.0pt;font-family:"휴먼명조";font-weight:bold;line-height:180%'>(제8조 관련)</SPAN></P>
+	<P CLASS=HStyle16 STYLE='margin-left:26.8pt;text-indent:-26.8pt;line-height:180%;'><SPAN STYLE='font-size:20.0pt;font-family:"휴먼명조";text-align:center;font-weight:bold;line-height:180%'>당직근무 일지</SPAN><SPAN STYLE='font-size:15.0pt;font-family:"휴먼명조";font-weight:bold;line-height:180%'>(제8조 관련)</SPAN></P>
 	</TD>
 </TR>
 <TR>
 	<TD rowspan="2" colspan="4" valign="middle" style='width:293;height:75;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 2.8pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='margin-top:10.0pt;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'> ${today}</SPAN></P>
+	<P CLASS=HStyle0 STYLE='margin-top:10.0pt;text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${today}</SPAN></P>
 	</TD>
 	<TD rowspan="2" valign="middle" style='width:30;height:75;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>결</SPAN></P>
@@ -238,22 +243,22 @@ div.HStyle16
 </TR>
 <TR>
 	<TD colspan="2" valign="middle" style='width:58;height:37;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:10.8pt;line-height:100%'></SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:10.8pt;line-height:100%'>&nbsp;</SPAN></P>
 	</TD>
 	<TD valign="middle" style='width:104;height:37;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:10.8pt;line-height:100%'></SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:10.8pt;line-height:100%'>&nbsp;</SPAN></P>
 	</TD>
 	<TD colspan="2" valign="middle" style='width:65;height:37;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:10.8pt;line-height:100%'></SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:10.8pt;line-height:100%'>&nbsp;</SPAN></P>
 	</TD>
 	<TD valign="middle" style='width:42;height:37;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:10.8pt;line-height:100%'></SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:10.8pt;line-height:100%'>&nbsp;</SPAN></P>
 	</TD>
 	<TD valign="middle" style='width:42;height:37;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:10.8pt;line-height:100%'></SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:10.8pt;line-height:100%'>&nbsp;</SPAN></P>
 	</TD>
 	<TD valign="middle" style='width:42;height:37;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:10.8pt;line-height:100%'></SPAN></P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:10.8pt;line-height:100%'>&nbsp;</SPAN></P>
 	</TD>
 </TR>
 <TR>
@@ -362,7 +367,7 @@ div.HStyle16
 	</TD>
 </TR>
 <TR>
-	<TD rowspan="5" colspan="4" valign="middle" style='width:293;height:164;border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD rowspan="6" colspan="4" valign="middle" style='width:293;height:164;border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${data.wk_specificity}</SPAN></P>
 	</TD>
 	<TD colspan="3" valign="middle" style='width:161;height:33;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
@@ -373,102 +378,104 @@ div.HStyle16
 	</TD>
 </TR>
 <TR>
-	<TD colspan="3" valign="middle" style='width:161;height:33;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>경영지원본부</SPAN></P>
+	<TD colspan="3" valign="middle" style='width:161;height:29;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>경영기획본부</SPAN></P>
 	</TD>
-	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[0]}  외    ${data.wk_dp1}명</SPAN></P>
-	</TD>
-</TR>
-<TR>
-	<TD colspan="3" valign="middle" style='width:161;height:33;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>바우처본부</SPAN></P>
-	</TD>
-	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[1]}  외    ${data.wk_dp2}명</SPAN></P>
+	<TD colspan="5" valign="middle" style='width:190;height:29;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[0]} 외&nbsp;  ${data.wk_dp1} 명</SPAN></P>
 	</TD>
 </TR>
 <TR>
-	<TD colspan="3" valign="middle" style='width:161;height:33;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>보건의료본부</SPAN></P>
+	<TD colspan="3" valign="middle" style='width:161;height:29;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>정보기술본부</SPAN></P>
 	</TD>
-	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[2]}  외    ${data.wk_dp3}명</SPAN></P>
+	<TD colspan="5" valign="middle" style='width:190;height:29;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[1]} 외&nbsp;  ${data.wk_dp2} 명</SPAN></P>
 	</TD>
 </TR>
 <TR>
-	<TD colspan="3" valign="middle" style='width:161;height:33;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD colspan="3" valign="middle" style='width:161;height:29;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>고객지원본부</SPAN></P>
 	</TD>
-	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[3]}  외    ${data.wk_dp4}명</SPAN></P>
+	<TD colspan="5" valign="middle" style='width:190;height:29;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[2]} 외&nbsp;  ${data.wk_dp3} 명</SPAN></P>
 	</TD>
 </TR>
 <TR>
-	<TD rowspan="5" valign="middle" style='width:35;height:164;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD colspan="3" valign="middle" style='width:161;height:29;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>정보개발본부</SPAN></P>
+	</TD>
+	<TD colspan="5" valign="middle" style='width:190;height:29;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[3]} 외&nbsp;  ${data.wk_dp4} 명</SPAN></P>
+	</TD>
+</TR>
+<TR>
+	<TD rowspan="2" colspan="3" valign="middle" style='width:161;height:29;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>복지정보본부</SPAN></P>
+	</TD>
+	<TD rowspan="2" colspan="5" valign="middle" style='width:190;height:29;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[4]} 외&nbsp;  ${data.wk_dp5} 명</SPAN></P>
+	</TD>
+</TR>
+<TR>
+	<TD rowspan="6" valign="middle" style='width:35;height:164;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;line-height:160%'>보</SPAN></P>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;line-height:160%'>고</SPAN></P>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;line-height:160%'>사</SPAN></P>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;line-height:160%'>항</SPAN></P>
 	</TD>
-	<TD rowspan="5" valign="middle" style='width:101;height:164;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD rowspan="6" valign="middle" style='width:101;height:164;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;line-height:160%'>${data.wk_report}</SPAN></P>
 	</TD>
-	<TD rowspan="5" valign="middle" style='width:57;height:164;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD rowspan="6" valign="middle" style='width:57;height:164;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;line-height:160%'>인</SPAN></P>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;line-height:160%'>계</SPAN></P>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;line-height:160%'>사</SPAN></P>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;line-height:160%'>항</SPAN></P>
 	</TD>
-	<TD rowspan="5" valign="middle" style='width:101;height:164;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD rowspan="6" valign="middle" style='width:101;height:164;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;line-height:160%'>${data.wk_delivery}</SPAN></P>
 	</TD>
-	<TD colspan="3" valign="middle" style='width:161;height:33;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>정보기술본부</SPAN></P>
+</TR>
+<TR>
+	<TD colspan="3" valign="middle" style='width:161;height:29;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>보건의료본부</SPAN></P>
 	</TD>
-	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[4]}  외    ${data.wk_dp5}명</SPAN></P>
+	<TD colspan="5" valign="middle" style='width:190;height:29;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[5]} 외&nbsp;  ${data.wk_dp6} 명</SPAN></P>
 	</TD>
 </TR>
 <TR>
-	<TD colspan="3" valign="middle" style='width:161;height:33;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>복지정보운영본부</SPAN></P>
+	<TD colspan="3" valign="middle" style='width:161;height:29;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>희망복지중앙지원단</SPAN></P>
 	</TD>
-	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[5]}  외    ${data.wk_dp6}명</SPAN></P>
-	</TD>
-</TR>
-<TR>
-	<TD colspan="3" valign="middle" style='width:161;height:33;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>복지정보관리본부</SPAN></P>
-	</TD>
-	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[6]}  외    ${data.wk_dp7}명</SPAN></P>
+	<TD colspan="5" valign="middle" style='width:190;height:29;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[6]} 외&nbsp;  ${data.wk_dp7} 명</SPAN></P>
 	</TD>
 </TR>
 <TR>
-	<TD colspan="3" valign="middle" style='width:161;height:33;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>희망복지본부</SPAN></P>
+	<TD colspan="3" valign="middle" style='width:161;height:29;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>바우처관리본부</SPAN></P>
 	</TD>
-	<TD colspan="5" valign="middle" style='width:190;height:33;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[7]}  외    ${data.wk_dp8}명</SPAN></P>
+	<TD colspan="5" valign="middle" style='width:190;height:29;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[7]} 외&nbsp;  ${data.wk_dp8} 명</SPAN></P>
 	</TD>
 </TR>
 <TR>
-	<TD colspan="3" valign="middle" style='width:161;height:32;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>사회보장정보연구소</SPAN></P>
+	<TD colspan="3" valign="middle" style='width:161;height:29;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>바우처정보본부</SPAN></P>
 	</TD>
-	<TD colspan="5" valign="middle" style='width:190;height:32;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[8]}  외    ${data.wk_dp9}명</SPAN></P>
+	<TD colspan="5" valign="middle" style='width:190;height:29;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[8]} 외&nbsp;  ${data.wk_dp9} 명</SPAN></P>
 	</TD>
-	<TD colspan="5" valign="middle" style='width:190;height:32;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[9]}  외    ${data.wk_dp10}명</SPAN></P>
+</TR>
+<TR>
+	<TD colspan="3" valign="middle" style='width:161;height:29;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>사회보장연구소</SPAN></P>
+	</TD>
+	<TD colspan="5" valign="middle" style='width:190;height:29;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='font-size:12.0pt;line-height:100%'>${listDeptNum[9]} 외&nbsp;  ${data.wk_dp10} 명</SPAN></P>
 	</TD>
 </TR>
 </TABLE></P>
 <P CLASS=HStyle0 STYLE='margin-left:11.1pt;text-align:center;text-indent:-11.1pt;'></P>
-
-</BODY>
-
-</HTML>
-

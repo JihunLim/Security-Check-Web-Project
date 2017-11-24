@@ -26,11 +26,11 @@
 	<!-- Search Menu -->
 	<div class="container">
 		<div class="btn-group">
-		 	<table width="800" cellpadding="0" cellspacing="0" border="1" style="text-align:center;">
-		            <tr style="background: #eee; border-bottom: 3px inset #ccc;">
-		               <td colspan="2" style="border-right: 1px solid #ccc;border-left: 1px solid #ccc;">21층</td>
-		               <td style="border-right: 1px solid #ccc;border-left: 1px solid #ccc;">20층</td>
-		               <td colspan="2" style="border-right: 1px solid #ccc;border-left: 1px solid #ccc;">18층</td>
+		 	<table width="800" cellpadding="0" cellspacing="0" border="1" style="text-align:center;margin-top:10px;">
+		            <tr style="background: #eee; border-bottom: 3px inset #ccc;border-top: 2px solid #ccc;">
+		               <td colspan="2" style="border-right: 1px solid #ccc;border-left: 2px solid #ccc;">21층</td>
+		               <td style="border-right: 1px solid #ccc;border-left: 2px solid #ccc;">20층</td>
+		               <td colspan="2" style="border-right: 1px solid #ccc;border-left: 2px solid #ccc;">18층</td>
 		            </tr>
 		            <tr>
 		            	<td <c:if test="${status[0] < 0}"> bgcolor = "#ff9eb7" </c:if> bgcolor="#d1f794" style="border-right: 2px solid #ccc;border-left: 2px solid #ccc;">경영기획본부</td>
@@ -42,7 +42,7 @@
 		            <tr style="background: #eee; border-bottom: 3px inset #ccc;">
 		               <td colspan="2" style="border-right: 2px solid #ccc;border-left: 2px solid #ccc;">17층</td>
 		               <td colspan="2" style="border-right: 2px solid #ccc;border-left: 2px solid #ccc;">15층</td>
-		               <td style="border-right: 1px solid #ccc;border-left: 1px solid #ccc;">14층</td>
+		               <td style="border-right: 1px solid #ccc;border-left: 2px solid #ccc;">14층</td>
 		            </tr>
 		            <tr>
 		            	<td <c:if test="${status[5] < 0}"> bgcolor = "#ff9eb7" </c:if> bgcolor="#d1f794" style="border-right: 2px solid #ccc;border-left: 2px solid #ccc;">보건의료본부</td>

@@ -34,12 +34,10 @@
 					<label class="control-label col-sm-2" for="os_document">1. 서류보관상태
 					</label>
 					<div class="col-sm-10">
-						<label class="control-label col-sm-2"><input type="radio"
-							name="os_document" value="0">미흡</label> <label
-							class="control-label col-sm-2"><input type="radio"
-							name="os_document" value="1">보통</label> <label
-							class="control-label col-sm-2"><input type="radio"
-							name="os_document" value="2">양호</label><br />
+						<label class="control-label col-sm-2">
+						<input type="radio" name="os_document" value="0" <c:if test="${checkData[0] == 0}"> checked </c:if>>미흡</label> <label class="control-label col-sm-2">
+						<input type="radio" name="os_document" value="1" <c:if test="${checkData[0] == 1}"> checked </c:if>>보통</label> <label class="control-label col-sm-2">
+						<input type="radio" name="os_document" value="2" <c:if test="${checkData[0] == 2}"> checked </c:if>>양호</label><br />
 						<br />
 					</div>
 				</div>
@@ -48,11 +46,11 @@
 					</label>
 					<div class="col-sm-10">
 						<label class="control-label col-sm-2"><input type="radio"
-							name="os_clean" value="0">미흡</label> <label
+							name="os_clean" value="0" <c:if test="${checkData[1] == 0}"> checked </c:if>>미흡</label> <label
 							class="control-label col-sm-2"><input type="radio"
-							name="os_clean" value="1">보통</label> <label
+							name="os_clean" value="1" <c:if test="${checkData[1] == 1}"> checked </c:if>>보통</label> <label
 							class="control-label col-sm-2"><input type="radio"
-							name="os_clean" value="2">양호</label><br />
+							name="os_clean" value="2" <c:if test="${checkData[1] == 2}"> checked </c:if>>양호</label><br />
 						<br />
 					</div>
 				</div>
@@ -61,11 +59,11 @@
 					</label>
 					<div class="col-sm-10">
 						<label class="control-label col-sm-2"><input type="radio"
-							name="os_lightout" value="0">미흡</label> <label
+							name="os_lightout" value="0" <c:if test="${checkData[2] == 0}"> checked </c:if>>미흡</label> <label
 							class="control-label col-sm-2"><input type="radio"
-							name="os_lightout" value="1">보통</label> <label
+							name="os_lightout" value="1" <c:if test="${checkData[2] == 1}"> checked </c:if>>보통</label> <label
 							class="control-label col-sm-2"><input type="radio"
-							name="os_lightout" value="2">양호</label><br />
+							name="os_lightout" value="2" <c:if test="${checkData[2] == 2}"> checked </c:if>>양호</label><br />
 						<br />
 					</div>
 				</div>
@@ -74,11 +72,11 @@
 					</label>
 					<div class="col-sm-10">
 						<label class="control-label col-sm-2"><input type="radio"
-							name="os_ventilation" value="0">미흡</label> <label
+							name="os_ventilation" value="0" <c:if test="${checkData[3] == 0}"> checked </c:if>>미흡</label> <label
 							class="control-label col-sm-2"><input type="radio"
-							name="os_ventilation" value="1">보통</label> <label
+							name="os_ventilation" value="1" <c:if test="${checkData[3] == 1}"> checked </c:if>>보통</label> <label
 							class="control-label col-sm-2"><input type="radio"
-							name="os_ventilation" value="2">양호</label><br />
+							name="os_ventilation" value="2" <c:if test="${checkData[3] == 2}"> checked </c:if>>양호</label><br />
 						<br />
 					</div>
 				</div>
@@ -86,18 +84,18 @@
 					<label class="control-label col-sm-2" for="os_door">5. 문단속 </label>
 					<div class="col-sm-10">
 						<label class="control-label col-sm-2"><input type="radio"
-							name="os_door" value="0">미흡</label> <label
+							name="os_door" value="0" <c:if test="${checkData[4] == 0}"> checked </c:if>>미흡</label> <label
 							class="control-label col-sm-2"><input type="radio"
-							name="os_door" value="1">보통</label> <label
+							name="os_door" value="1" <c:if test="${checkData[4] == 1}"> checked </c:if>>보통</label> <label
 							class="control-label col-sm-2"><input type="radio"
-							name="os_door" value="2">양호</label><br />
+							name="os_door" value="2" <c:if test="${checkData[4] == 2}"> checked </c:if>>양호</label><br />
 						<br />
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="comment">6. 기타사항</label>
 					<div class="col-sm-5">
-						<textarea class="form-control" rows="5" name="os_etc" placeholder="기타사항을 입력하세요."></textarea>
+						<textarea class="form-control" rows="5" name="os_etc" placeholder="기타사항을 입력하세요.">${etc}</textarea>
 						<br />
 						<br />
 					</div>

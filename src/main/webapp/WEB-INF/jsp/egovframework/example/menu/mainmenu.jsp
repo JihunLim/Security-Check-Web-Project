@@ -28,7 +28,6 @@
 		<div class="container">
 			<!-- 월별 부서 보안점수 (꺽은선그래프) -->
 			<label for="myChart3">
-			<label style="float:left;font-size:0.7em;">SMART 보안 솔루션</label>
 			<h3>
 				<span class="icon fa-area-chart">&nbsp;<font color="#f25252"><c:out value="${month_date}"/>월</font>&nbsp;부서 보안점수</span>
 			</h3>

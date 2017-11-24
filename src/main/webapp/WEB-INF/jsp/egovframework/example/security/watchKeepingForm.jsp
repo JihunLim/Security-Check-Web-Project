@@ -86,15 +86,8 @@
 
 				<textarea placeholder="인계사항을 적어주세요(최대200자)" cols="40" rows="3" name="wk_report"></textarea>
 				<br />
-				<div class="controls">
-				<div class="row">
-				<div class="12u$ 12u$(mobile)">
-					<span class="icon fa-camera" style="float:left"> 사진 첨부(파일선택을 눌러 사진을 찍어주세요)</span><br /></div>
-					<div class="12u$ 12u$(mobile)">
-					<input type="file" accept="image/*" capture="camera" name="" style="float:left;"> </div>
-				</div>
-				</div>
-				<br /> <br /> <br /> <br /> 
+			
+				<br /> <br /> 
 				<input type="submit" value="제출하기" />
 			</form>
 		</div>

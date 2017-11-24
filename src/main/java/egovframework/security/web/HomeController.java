@@ -108,7 +108,7 @@ public class HomeController {
 
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
-			String content_type = "image/png";
+			String content_type = "image/jpg";
 			response.setContentType(content_type); // Content Type Set
 			InputStream is = null;
 			/* DB의 BLOB 타입의 내용을 가져와서 bytes 변수에 담아보자. */
@@ -219,6 +219,30 @@ public class HomeController {
 	public String officeSecurityForm(Model model) throws Exception {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 		getUserInfo(model);//사용자 정보를 가져옴
+		/*
+		 * 1. 오늘 날짜(now())와 부서번호를 조건으로 사무실 점검 데이터가 있는 지 확인
+		 * 2. 있으면 -> 리스트로 가져옴 (dept 총원 가져오는 것 참고)
+		 * 3. 없으면 -> -1 (int 형)으로 채움 array.fill 함수 사용
+		 * 4. view 로 넘겨줌
+		 */
+		int[] checkData = new int[]{-1,-1,-1,-1,-1};
+		String etc = "";
+		HashMap OSMap = (HashMap) dao.checkOfficeSecurityWithDateDao(userInfo.getOs_deptcode());
+		// 지금 실시하고자 하는 최종퇴실자의 부서번호와 이미 db에 입력되어있는 부서번호를 비교하여 -> 있으면 : update
+		// 및 alert() 발생 / 없으면 : insert
+		if (OSMap == null) {
+			// 데이터가 없을 시
+		} else {
+			// 데이터가 있을 시
+			checkData[0] = (Integer) OSMap.get("os_document");  
+			checkData[1] = (Integer) OSMap.get("os_clean");
+			checkData[2] = (Integer) OSMap.get("os_lightout");
+			checkData[3] = (Integer) OSMap.get("os_ventilation");
+			checkData[4] = (Integer) OSMap.get("os_door");
+			etc = (String) OSMap.get("os_etc");
+		}
+		model.addAttribute("checkData",checkData);
+		model.addAttribute("etc", etc);
 		return "security/officeSecurityForm";
 	}
 
@@ -357,6 +381,7 @@ public class HomeController {
 			throws Exception {
 
 		String resultPage = "";
+	
 		byte[] os_image = null;
 		//부서 위치 표의 색상을 결정
 		
@@ -380,16 +405,15 @@ public class HomeController {
 			//이미지가 있을 시 이미지를 바이트로 변환하여 저장
 			if (!imageData.isEmpty()) {
 				os_image = imageData.getBytes();
+				
 			}
 			
 			//결과를 객체에 저장시킴
 			officeDTO = new OfficeSecurityDTO(os_empemail, os_deptcode,
 					os_document, os_clean, os_lightout, os_ventilation,
 					os_door, os_etc, os_image);
-			System.out.println("ak1: " + os_deptcode);
 			int temp = os_deptcode - 1;
 			// 실행하는 날짜의 데이터가 있는지 확인
-			System.out.println("ak2: " + os_deptcode);
 			HashMap OSMap = (HashMap) dao.checkOfficeSecurityWithDateDao(os_deptcode);
 			if (OSMap == null) {
 				// 데이터가 없을 시 저장시킨 객체를 db에 저장
