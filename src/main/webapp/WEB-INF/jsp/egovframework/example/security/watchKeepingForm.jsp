@@ -82,11 +82,13 @@
 			
 				<div class="controls">
 					<textarea
-						placeholder="보고사항을 적어주세요(최대200자)" name="wk_specificity"
+						placeholder="당직 중 특이사항 및 처리결과를 적어주세요(최대200자)" name="wk_specificity"
 						 cols="40" rows="3"></textarea>
 				</div>
 				<br />
 
+				<textarea placeholder="보고사항을 적어주세요(최대200자)" cols="40" rows="3" name="wk_report"></textarea>
+				<br />
 				<textarea placeholder="인계사항을 적어주세요(최대200자)" cols="40" rows="3" name="wk_report"></textarea>
 				<br />
 			

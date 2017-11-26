@@ -838,9 +838,9 @@ public class HomeController {
 				}
 			} else {
 				// 당직근무자와 접속자가 다른 경우 경고 후 뒤로 돌아가기
-				resultPage = "cmmn/dataAccessFailure";
+				resultPage = "cmmn/notNightWorker";
 			}
-			hasIndication = "Today's 지시사항 : " + ((dao.selectIndicationDao() == null) ? " " : dao.selectIndicationDao());  
+			hasIndication = "Today's 지시사항 : " + ((dao.selectIndicationDao() == null) ? "(지시사항이 아직 등록되지 않았습니다.)" : dao.selectIndicationDao());  
 					
 			model.addAttribute("indication", hasIndication);
 		} catch (Exception exp) {
