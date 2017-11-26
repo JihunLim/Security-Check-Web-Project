@@ -64,7 +64,7 @@ public class HomeController {
 		// userInfo 구하기
 				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 				//User 객체가 null이면 실행, null이 아니면 실행하지 않음
-				if(userInfo == null){
+				
 					HashMap empMap = dao.selectEmpWithIdDao(SecurityContextHolder.getContext().getAuthentication().getName());
 					String emp_name = (String) empMap.get("emp_name");
 					int os_deptcode = (Integer) empMap.get("emp_deptcode");
@@ -80,7 +80,7 @@ public class HomeController {
 					else
 						auth = "관리자";
 
-				}
+				
 				
 				model.addAttribute("emp_name", userInfo.getEmp_name());
 				model.addAttribute("deptName", userInfo.getDeptName());
@@ -1311,8 +1311,7 @@ public class HomeController {
 						dao.selectNightDutyOnlyMeDao(SecurityContextHolder
 								.getContext().getAuthentication().getName()));
 			else
-				model.addAttribute("list",
-						dao.selectNightDutyWithMonthDao(value));
+				model.addAttribute("list", dao.selectNightDutyWithMonthDao(value));
 			// model.addAttribute("list", dao.selectNightDutyDao()); //전체출력
 			// 오늘 날짜 전달
 			model.addAttribute("today", today);

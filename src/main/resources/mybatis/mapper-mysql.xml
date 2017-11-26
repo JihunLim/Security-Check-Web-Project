@@ -196,8 +196,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 <select id="selectNightDutyWithMonthDao" parameterType="string" resultType="egovframework.security.dto.NightDutyDTO">
-    	select nd_date,nd_empemail,deptName,emp_rank,emp_name from nightduty,employee,dept where emp_email=nd_empemail and emp_deptcode=deptNo and nd_date LIKE #{param1} order by nd_date ASC
+	<![CDATA[ 
+    	select nd_date,nd_empemail,deptName,emp_rank,emp_name from dept,employee right outer join nightduty on nd_empemail=emp_email where emp_deptcode=deptNo and nd_date LIKE #{param1} order by nd_date ASC
+    ]]>
     </select>
+    
 
 	<select id="selectNightDutyOnlyMeDao" parameterType="string" resultType="egovframework.security.dto.NightDutyDTO">
     	select nd_date,nd_empemail,deptName,emp_rank,emp_name from nightduty,employee,dept where emp_email=nd_empemail and emp_deptcode=deptNo and nd_empemail= #{param1} order by nd_date DESC

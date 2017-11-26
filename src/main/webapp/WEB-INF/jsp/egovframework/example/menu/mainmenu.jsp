@@ -16,7 +16,7 @@
 	
 	<!--<div class = "box"		style="margin-top:-15px; padding:15px 0px 30px 0px; text-align:center; background:pink;">
 	-->
-	<div class = "box" style="margin-top:-10px;">
+	<div class = "box"   style="margin-top:60px; ">
 		<div class="cycle-slideshow" data-cycle-timeout=3000 >
 			<img class="mySlides" src="images/cover1.png" style="width:100%">
 			<img class="mySlides" src="images/cover2.png" style="width:100%">

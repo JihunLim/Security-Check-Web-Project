@@ -47,6 +47,8 @@
 							<option value="8">바우처관리본부</option>
 							<option value="9">바우처정보본부</option>
 							<option value="10">사회보장연구소</option>
+							<option value="0">전체보기</option>
+							
 						</select>
 					</div>
 					

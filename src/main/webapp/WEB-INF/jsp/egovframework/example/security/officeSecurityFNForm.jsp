@@ -145,7 +145,7 @@
 				<div class="control-group">
 					<label class="control-label" for="textarea2">7. 기타사항</label>
 					<div class="controls">
-						<textarea class="input-xlarge textarea" name="os_etc" placeholder="기타사항을 입력하세요." ></textarea>
+						<textarea class="input-xlarge textarea" name="os_etc" placeholder="기타사항을 입력하세요.(최대 200자)" ></textarea>
 					</div>
 				</div>
 				<br />

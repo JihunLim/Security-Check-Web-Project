@@ -220,6 +220,8 @@
 
 /* Grid */
 
+
+
 	.row {
 		border-bottom: solid 1px transparent;
 		-moz-box-sizing: border-box;
@@ -2240,7 +2242,11 @@
 			#main > section.white {
 				background-color: #fff;
 			}
-
+			#main div.box
+			{
+			ms-margin-top:70px;
+			-webkit-margin-top:15px;
+			}
 /* Wide */
 
 	@media screen and (min-width: 961px) and (max-width: 1880px) {

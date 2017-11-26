@@ -95,7 +95,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="comment">6. 기타사항</label>
 					<div class="col-sm-5">
-						<textarea class="form-control" rows="5" name="os_etc" placeholder="기타사항을 입력하세요.">${etc}</textarea>
+						<textarea class="form-control" rows="5" name="os_etc" placeholder="기타사항을 입력하세요.(최대 200자)">${etc}</textarea>
 						<br />
 						<br />
 					</div>
