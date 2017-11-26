@@ -17,13 +17,14 @@ public class WatchKeepingDTO {
 	private int wk_dp6;
 	private int wk_dp7;
 	private int wk_dp8;
-	private int wk_dp9;
+	private int wk_dp9; 
 	private int wk_dp10;
 	private String wk_specificity;
 	private String wk_report;
 	private String wk_delivery;
 	//부서이름을 가져오기 위한 추가속성
 	private String deptName;
+	private int deptNo;
 	private String emp_name;
 	private String emp_rank;
 	//평균 보안점수
@@ -247,6 +248,11 @@ public class WatchKeepingDTO {
 	public String getEmp_rank() {
 		return emp_rank;
 	}
+
+	public int getDeptNo() {
+		return deptNo;
+	}
+	
 	
 	
 }

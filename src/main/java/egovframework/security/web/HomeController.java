@@ -3,12 +3,10 @@ package egovframework.security.web;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,7 +26,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +36,7 @@ import egovframework.security.dto.DeptDTO;
 import egovframework.security.dto.NightDutyDTO;
 import egovframework.security.dto.OfficeSecurityDTO;
 import egovframework.security.dto.PagingDTO;
+import egovframework.security.dto.PrintOfficeDTO;
 import egovframework.security.dto.WatchKeepingDTO;
 import egovframework.security.office.dao.SecurityOfficeDAO;
 import egovframework.security.service.UserInfo;
@@ -780,25 +778,31 @@ public class HomeController {
 			SecurityOfficeDAO dao = sqlSession
 					.getMapper(SecurityOfficeDAO.class);
 			PagingDTO pageInfo;
-
-			Date dt = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd");
-			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
-			String today = sdf.format(dt).toString();
-			String filename = "(" + sdf2.format(dt).toString() + ")";
-
+			Map map = new HashMap();
 			getUserInfo(model);//사용자 정보를 가져옴
-
 			// id 가져옴
-			String id = request.getParameter("id");
-			if (id == null)
+			String param_date = request.getParameter("date");
+			String param_dept = request.getParameter("dept");
+			if (param_date == null || param_dept == null)
 				return "cmmn/dataAccessFailure";
-			model.addAttribute("data",
-					dao.selectWatchKeepingWithIdDao(Integer.parseInt(id)));
-			// 밑에 각 부서의 총 인원 수 가져올 수 있도록 수정
-			model.addAttribute("listDeptNum", dao.selectDeptNumDao());
-			model.addAttribute("today", today);
-			model.addAttribute("filename", filename);
+			
+			map.put("param_date", param_date);
+			
+			// 일반사용자일 경우 자신 부서로, 관리자일 경우 검색이 0(선택안함)이면 자신부서, 0이 아니면 검색한 부서로 출력***
+			map.put("param_dept", Integer.parseInt(param_dept));
+			model.addAttribute("deptName", dao.selectDeptNameDao(Integer.parseInt(param_dept)));
+			
+			List<PrintOfficeDTO> listOSDto = dao.printOfficeSecurityWithDateDao(map);
+			model.addAttribute("list", listOSDto);
+			model.addAttribute("ndData", dao.printOfficeSecurityWithDateForNDDao(map));
+			// 파일 이름
+			//Date dt = new SimpleDateFormat("yyyy-MM-dd(EEE) hh:mm:ss",Locale.KOREA).parse(listOSDto.get(0).getOs_datetime());
+			//SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+			//String tempName = "사무실점검(" + sdf2.format(dt).toString() + ").hwp";
+			//String fileName = new String(tempName.getBytes("UTF-8"));
+			String fileName = "OfficeSecurityReport.hwp";
+			model.addAttribute("fileName", fileName);
+
 
 		} catch (Exception exp) {
 			System.out.println(exp.getMessage());
@@ -1039,8 +1043,7 @@ public class HomeController {
 			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
 			String date = sdf.format(dt).toString();
 			String tempName = "당직근무일지(" + sdf2.format(dt).toString() + ").hwp";
-			String fileName = new String(tempName.getBytes("UTF-8"),
-					"ISO-8859-1");
+			String fileName = new String(tempName.getBytes("UTF-8"));
 			model.addAttribute("emp_name", userInfo.getEmp_name());
 			model.addAttribute("deptName", userInfo.getDeptName());
 			model.addAttribute("auth", userInfo.getAuth());

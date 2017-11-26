@@ -44,24 +44,22 @@
 		<section class="white">
 			<div class="container">
 			<div class="block-content collapse in">	
-			<table class="table table-hover">
+			<table class="table table-hover" width="800" cellpadding="0" cellspacing="0" border="1">
 				<thead>
-					<tr>
+					<tr style="background: #eee; border-bottom: 3px inset #ccc;">
 						<th>일시</th>
 						<th>당직자</th>
 						<th>평균 근무자현황</th>
 						<th>당직점검일지</th>
-						<th>사무실점검일지</th>
 					</tr>
 				</thead>
 				<c:forEach items="${list}" var="dto">
 					<tbody>
 						<tr style = "cursor:pointer;" onClick="location.href='contentWatchKeeping.do?id=${dto.wk_id}'" >
-							<td>${dto.wk_datetime}</td>
+							<td bgcolor="#FFFAF0" style="border-right: 1px solid #ccc;border-left: 0px solid #ccc;">${dto.wk_datetime}</td>
 							<td>${dto.deptName}&nbsp;${dto.emp_name}</td>
 							<td>${dto.avg_score}</td>
 							<td><a href="extractWatchKeeping.do?id=${dto.wk_id}" class="skel-layers-ignoreHref"><span class="icon fa-file-text-o"></span></a></td>
-							<td><span class="icon fa-file-text"></span></td>
 						</tr>
 					</tbody>
 				</c:forEach>

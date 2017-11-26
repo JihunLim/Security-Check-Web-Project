@@ -5,12 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mysql.jdbc.Blob;
-
 import egovframework.security.dto.DeptDTO;
 import egovframework.security.dto.EmployeeDTO;
 import egovframework.security.dto.NightDutyDTO;
 import egovframework.security.dto.OfficeSecurityDTO;
+import egovframework.security.dto.PrintOfficeDTO;
 import egovframework.security.dto.WatchKeepingDTO;
 
 public interface SecurityOfficeDAO {
@@ -71,7 +70,10 @@ public interface SecurityOfficeDAO {
     public List<OfficeSecurityDTO> selectOfficeSecurityWithDeptAndDateDao(Map data);
     //사무실보안점검 해당부서만 출력하기 (기간 검색용)
     public List<OfficeSecurityDTO> selectOfficeSecurityWithDateDao(Map data);
-    
+    //사무실보안점검 출력하기 (출력용) 
+    public List<PrintOfficeDTO> printOfficeSecurityWithDateDao(Map data);
+  //사무실보안점검 출력하기 (출력용, 이름이 당직자) 
+    public List<PrintOfficeDTO> printOfficeSecurityWithDateForNDDao(Map data);
     //사무실보안점검 삽입하기
     public void insertOfficeSecurityDao(OfficeSecurityDTO data);
     //사무실보안점검 수정하기

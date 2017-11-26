@@ -37,15 +37,16 @@
 					<div class="5u 12u$(mobile)" style="float:left;font-size: 0.8em;">
 						<select name="changeDept" style="font-size: 0.9em;height: 2.7em;width:12em;">
 							<option value="0">부서를 선택하세요.</option>
-							<option value="1">경영지원본부</option>
-							<option value="2">바우처본부</option>
-							<option value="3">보건의료본부</option>
-							<option value="4">고객지원본부</option>
-							<option value="5">정보기술본부</option>
-							<option value="6">복지정보운영본부</option>
-							<option value="7">복지정보관리본부</option>
-							<option value="8">희망복지본부</option>
-							<option value="9">사회보장정보연구소</option>
+							<option value="1">경영기획본부</option>
+							<option value="2">정보기술본부</option>
+							<option value="3">고객지원본부</option>
+							<option value="4">정보개발본부</option>
+							<option value="5">복지정보본부</option>
+							<option value="6">보건의료본부</option>
+							<option value="7">희망복지중앙지원단</option>
+							<option value="8">바우처관리본부</option>
+							<option value="9">바우처정보본부</option>
+							<option value="10">사회보장연구소</option>
 						</select>
 					</div>
 					
@@ -79,10 +80,10 @@
 			<div
 				style="border: 0px solid black; overflow-y: hidden; overflow-x: scroll;">
 
-				<table>
+				<table width="800" cellpadding="0" cellspacing="0" border="1">
 					<thead>
-						<tr>
-							<th>일시</th>
+						<tr style="background: #eee; border-bottom: 3px inset #ccc;">
+							<th width="110">일시</th>
 							<th>부서</th>
 							<th>점검자</th>
 							<th>문서</th>
@@ -92,12 +93,13 @@
 							<th>문단속</th>
 							<th>비고</th>
 							<th>사진</th>
+							<th>점검일지</th>
 						</tr>
 					</thead>
 					<c:forEach items="${list}" var="dto">
 						<tbody>
 							<tr>
-								<td>${dto.os_datetime}</td>
+								<td bgcolor="#FFFAF0" style="border-right: 1px solid #ccc;border-left: 0px solid #ccc;">${dto.os_datetime}</td>
 								<td>${dto.deptName}</td>
 								<td>${dto.emp_name}</td>
 								<td>${dto.str_document}</td>
@@ -111,6 +113,7 @@
 											class="skel-layers-ignoreHref"><span
 											class="icon fa-picture-o"></span></a>
 									</c:if></td>
+								<td><a href="extractOfficeSecurity.do?date=${dto.os_datetime}&dept=${dto.os_deptcode}" class="skel-layers-ignoreHref"><span class="icon fa-file-text"></span></a></td>
 							</tr>
 						</tbody>
 					</c:forEach>
@@ -148,3 +151,5 @@
 <!-- 끝 -->
 <%@ include
 	file="/WEB-INF/jsp/egovframework/example/menu/bottomMenu.jsp"%>
+
+	

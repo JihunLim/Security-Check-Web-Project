@@ -65,7 +65,7 @@ $(function() {
       
       <section class="white">
          <div class="container">
-            <table width="800" cellpadding="0" cellspacing="0" border="1">
+             <table width="800" cellpadding="0" cellspacing="0" border="1"> 
             <tr style="background: #eee; border-bottom: 3px inset #ccc;">
                <td width="170">일시</td>
                <td>당직자 부서</td>
