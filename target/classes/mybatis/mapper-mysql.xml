@@ -62,14 +62,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- emp_name은 최종퇴실자 이름 -->
     <select id="printOfficeSecurityWithDateDao" parameterType="hashmap" resultType="egovframework.security.dto.PrintOfficeDTO">
         <![CDATA[ 
-        	SELECT os_document,os_clean,os_lightout,os_ventilation,os_door,os_etc,os_datetime,deptName,emp_name,wk_datetime  FROM employee, dept, watchkeeping right outer join officesecurity on date(os_datetime)=date(wk_datetime) where employee.emp_email=officesecurity.os_empemail and dept.deptNo=officesecurity.os_deptcode and DATE_FORMAT(os_datetime, '%Y-%m-%d') BETWEEN '2017-01-01' AND #{param_date} and os_deptcode=#{param_dept} ORDER BY os_id DESC limit 15;
+        	SELECT os_document,os_clean,os_lightout,os_ventilation,os_door,os_etc,os_datetime,deptName,emp_name,wk_datetime  FROM employee, dept, watchkeeping right outer join officesecurity on date(os_datetime)=date(wk_datetime) where employee.emp_email=officesecurity.os_empemail and dept.deptNo=officesecurity.os_deptcode and DATE_FORMAT(os_datetime, '%Y-%m-%d') BETWEEN '2017-01-01' AND #{param_date} and os_deptcode=#{param_dept} ORDER BY os_id ASC limit 15;
         ]]> 
     </select>
     
     <!-- emp_name은 당직자 이름 -->
     <select id="printOfficeSecurityWithDateForNDDao" parameterType="hashmap" resultType="egovframework.security.dto.PrintOfficeDTO">
         <![CDATA[ 
-        	SELECT os_document,os_clean,os_lightout,os_ventilation,os_door,os_etc,os_datetime,deptName,emp_name,wk_datetime  FROM officesecurity, employee, dept, watchkeeping where employee.emp_email=wk_empemail and dept.deptNo=employee.emp_deptcode and date(os_datetime)=date(wk_datetime) and DATE_FORMAT(os_datetime, '%Y-%m-%d') BETWEEN '2017-01-01' AND #{param_date} and os_deptcode=#{param_dept} ORDER BY os_id DESC limit 15;
+        	SELECT os_document,os_clean,os_lightout,os_ventilation,os_door,os_etc,os_datetime,deptName,emp_name,wk_datetime  FROM officesecurity, employee, dept, watchkeeping where employee.emp_email=wk_empemail and dept.deptNo=employee.emp_deptcode and date(os_datetime)=date(wk_datetime) and DATE_FORMAT(os_datetime, '%Y-%m-%d') BETWEEN '2017-01-01' AND #{param_date} and os_deptcode=#{param_dept} ORDER BY os_id ASC limit 15;
         ]]> 
     </select>
     

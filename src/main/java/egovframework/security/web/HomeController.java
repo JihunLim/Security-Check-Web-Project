@@ -800,7 +800,7 @@ public class HomeController {
 			//SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
 			//String tempName = "사무실점검(" + sdf2.format(dt).toString() + ").hwp";
 			//String fileName = new String(tempName.getBytes("UTF-8"));
-			String fileName = "OfficeSecurityReport.hwp";
+			String fileName = "OfficeSecurityReport.xls";
 			model.addAttribute("fileName", fileName);
 
 
@@ -1042,7 +1042,7 @@ public class HomeController {
 					Locale.KOREA);
 			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
 			String date = sdf.format(dt).toString();
-			String tempName = "당직근무일지(" + sdf2.format(dt).toString() + ").hwp";
+			String tempName = "당직근무일지(" + sdf2.format(dt).toString() + ").xls";
 			String fileName = new String(tempName.getBytes("UTF-8"));
 			model.addAttribute("emp_name", userInfo.getEmp_name());
 			model.addAttribute("deptName", userInfo.getDeptName());

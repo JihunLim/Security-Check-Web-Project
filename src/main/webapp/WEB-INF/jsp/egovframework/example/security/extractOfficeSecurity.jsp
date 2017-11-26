@@ -1,11 +1,11 @@
 <!-- 엑셀 -->
-<%--  <%@ page language="java" contentType="application/vnd.ms-excel;charset=UTF-8" pageEncoding="UTF-8"%> --%> 
+ <%@ page language="java" contentType="application/vnd.ms-excel;charset=UTF-8" pageEncoding="UTF-8"%> 
 
 <!-- 워드 -->
 <%-- <%@ page language="java" contentType="application/vnd.word;charset=UTF-8" pageEncoding="UTF-8"%> --%>
 
 <!-- 한글 -->
-<%@ page language="java" contentType="application/hwp;charset=UTF-8" pageEncoding="UTF-8"%> 
+<%-- <%@ page language="java" contentType="application/hwp;charset=UTF-8" pageEncoding="UTF-8"%> --%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="s"%>
@@ -13,14 +13,14 @@
 <!DOCTYPE HTML>
 <HTML>
 <HEAD>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <%
 String fileName = request.getAttribute("fileName").toString(); 
 
 //******************************MS excel*****************************
-    // MS excel로 다운로드/실행, filename에 저장될 파일명을 적어준다.
-   // response.setHeader("Content-Disposition","attachment;filename=member.xls");
-  //  response.setHeader("Content-Description", "JSP Generated Data");
+ // MS excel로 다운로드/실행, filename에 저장될 파일명을 적어준다.
+    response.setHeader("Content-Disposition","attachment;filename=\""+fileName+"\"");
+    response.setHeader("Content-Description", "JSP Generated Data");
     // ↓ 이걸 풀어주면 열기/저장 선택창이 뜨는 게 아니라 그냥 바로 저장된다.
 //  response.setContentType("application/vnd.ms-excel");
  
@@ -33,8 +33,8 @@ String fileName = request.getAttribute("fileName").toString();
 
 //******************************한글(hwp)********************************
     // 한글(hwp)로 다운로드/실행, filename에 저장될 파일명을 적어준다.
-  response.setHeader("Content-Disposition", "attachment;filename=\""+fileName+"\"");
-  response.setHeader("Content-Description", "JSP Generated Data");
+  //response.setHeader("Content-Disposition", "attachment;filename=\""+fileName+"\"");
+  //response.setHeader("Content-Description", "JSP Generated Data");
     // ↓ 이걸 풀어주면 열기/저장 선택창이 뜨는 게 아니라 그냥 바로 저장된다.
 //  response.setContentType("application/hwp");
 //*********************************************************************

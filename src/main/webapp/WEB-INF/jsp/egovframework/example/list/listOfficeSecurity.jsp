@@ -93,7 +93,7 @@
 							<th>소등</th>
 							<th>환기</th>
 							<th>문단속</th>
-							<th>비고</th>
+							<th width="140">비고</th>
 							<th>사진</th>
 							<th>점검일지</th>
 						</tr>
@@ -109,7 +109,7 @@
 								<td>${dto.str_lightout}</td>
 								<td>${dto.str_ventilation}</td>
 								<td>${dto.str_door}</td>
-								<td>${dto.os_etc}</td>
+								<td width="140">${dto.os_etc}</td>
 								<td><c:if test="${fn:length(dto.os_image)>0}">
 										<a href="ShowImageFunc.do?imgIdx=${dto.os_id}"
 											class="skel-layers-ignoreHref"><span
