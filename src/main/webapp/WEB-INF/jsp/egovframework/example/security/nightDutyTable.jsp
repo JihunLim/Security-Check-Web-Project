@@ -78,7 +78,8 @@ $(function() {
                      <td style="border-right: 0px solid #ccc;">${dto.emp_name}</td>
                   <tr>
                </c:forEach>
-         </table>
+         </table>     
+         
         <s:authorize access="hasAuthority('ROLE_ADMIN')">
         	<div style="float:right">
 			<a href="insertNightDutyTable.do?month=0-0" class="button" style="font-size:0.75em; padding: 0.45em 1.0em 0.45em 1.0em;">월 별 당직근무 생성하기</a>
@@ -86,6 +87,7 @@ $(function() {
 			
 			</div>                  
         </s:authorize>
+ 
       </div>
    </section>
 </div>

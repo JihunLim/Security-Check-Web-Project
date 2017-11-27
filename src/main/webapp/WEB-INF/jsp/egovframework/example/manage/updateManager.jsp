@@ -26,6 +26,7 @@
 					<td>이름</td>
 					<td>부서</td>
 					<td>전화번호</td>
+					<td>이메일 수신</td>
 					<td>권한 삭제</td>
 				<tr>
 					<!-- c: 사용하려면 꼭 taglib 써줘야 함 -->
@@ -35,14 +36,14 @@
 							<td>${dto.emp_name}</td>
 							<td>${dto.deptName}</td>
 							<td>${dto.emp_phone}</td>
-							<td><a
-								href="deleteManagerCheck.do?emp_email=${dto.emp_email}">X</a></td>
+							<td><a href="changeManagerEmailCheck.do?emp_email=${dto.emp_email}&check=${dto.emp_checkemail}" title="이메일 수신 변경하기">${dto.emp_checkemail}</a></td>
+							<td><a href="deleteManagerCheck.do?emp_email=${dto.emp_email}" title="권한 삭제하기">X</a></td>
 						<tr>
 					</c:forEach>
 			</table>
 
 			<footer>
-				<a href="addManagerForm.do" class="button scrolly">관리자 추가</a>
+				<a href="addManagerForm.do?page=1" class="button scrolly">관리자 추가</a>
 			</footer>
 
 

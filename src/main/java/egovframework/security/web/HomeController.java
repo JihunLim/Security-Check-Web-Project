@@ -59,6 +59,8 @@ public class HomeController {
 	String setfrom = "limjihun204@gmail.com";
 	// 사무실보안점검 위치 표 색상 결정 배열
 	int[] status = new int[]{1,1,1,1,1,1,1,1,1,1};
+	// 당직자 3일 전 이메일 알람 서비스 
+	boolean statusForND = false;
 
 	public void getUserInfo(Model model) throws Exception{
 		// userInfo 구하기
@@ -258,6 +260,7 @@ public class HomeController {
 		byte[] os_image = null;
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 		getUserInfo(model);//사용자 정보를 가져옴
+		boolean hasImage = true;
 
 		OfficeSecurityDTO officeDTO;
 		try {
@@ -278,6 +281,9 @@ public class HomeController {
 			if (!imageFile.isEmpty()) {
 				os_image = imageFile.getBytes();
 				imgMap.put("img", imageFile.getBytes());
+			}else{
+				//이미지가 없는 경우
+				hasImage = false;
 			}
 
 			HashMap map = dao.findDeptDao(os_empemail);
@@ -305,23 +311,33 @@ public class HomeController {
 				// if 당직근무자 이메일과 여기 db의 이메일이 동일하면 에러발생, 그렇지 않으면 수정가능(단,
 				// os_empemail은 수정금지)
 				// 당직근무자 이메일(fnUser)
-
+				
 				officeDTO = new OfficeSecurityDTO((Integer) OSMap.get("os_id"),
 						os_empemail, os_deptcode, os_document, os_clean,
 						os_lightout, os_ventilation, os_door, os_etc, os_image);
+				
+				
+				//이미지가 있을 경우
+				if(hasImage == true){
+					dao.updateOfficeSecurityDao(officeDTO);
+				}else{
+					//이미지가 없을 경우
+					dao.updateOfficeSecurityNoImageDao(officeDTO);
+				}
+				SendEmail = true;
+				
 				if (fnUser.equals((String) OSMap.get("os_empemail"))) {
 					// 당직근무자가 이미 사무실보안점검을 한 경우
-					dao.updateOfficeSecurityDao(officeDTO);
-					SendEmail = true;
+					
 				} else {
 					// 다른 최종퇴실자가 처리를 한 경우
-					dao.updateOfficeSecurityDao(officeDTO);
 					// 중복실시할 경우 이메일을 보내지 않게 할 경우 하단을 false로 변경할 것
 					strReSend = "(재실시)";
-					SendEmail = true;
 				}
+				
+				
 			}
-			System.out.println("확인 : "+SendEmail);
+			
 			if (SendEmail) {
 				// 성공할 시 메일 보내기
 				Date dt = new Date();
@@ -382,13 +398,27 @@ public class HomeController {
 	
 		byte[] os_image = null;
 		//부서 위치 표의 색상을 결정
-		
+		boolean hasImage = true;
 		
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 
 		getUserInfo(model);//사용자 정보를 가져옴
 		OfficeSecurityDTO officeDTO;
 		try {
+			//status 값이 모두 -1(실행)이면 1로 초기화
+			boolean bool_temp = true;
+			for(int n : status){
+				if(n == 1)
+					bool_temp = false;
+			}
+			if(bool_temp == true) {
+				//초기화
+				for(int i=0;i<status.length;i++){
+					status[i] = 1;
+				}
+					
+			}
+			
 			// 정보 가지고 오기
 			request.setCharacterEncoding("EUC-KR");
 			String os_empemail = request.getParameter("os_empemail"); // 직원번호
@@ -403,7 +433,9 @@ public class HomeController {
 			//이미지가 있을 시 이미지를 바이트로 변환하여 저장
 			if (!imageData.isEmpty()) {
 				os_image = imageData.getBytes();
-				
+			}else{
+				//이미지가 없을 경우
+				hasImage = false;
 			}
 			
 			//결과를 객체에 저장시킴
@@ -418,14 +450,22 @@ public class HomeController {
 				dao.insertOfficeSecurityDao(officeDTO);
 				status[temp] *= -1; 
 			} else {
-				// 데이터가 있을 시 update 시킴 		
+				// 데이터가 있을 시 update 시킴 	
 				officeDTO = new OfficeSecurityDTO(
 						(Integer) OSMap.get("os_id"),
 						(String) OSMap.get("os_empemail"), os_deptcode,
 						os_document, os_clean, os_lightout, os_ventilation,
 						os_door, os_etc, os_image);
-				dao.updateOfficeSecurityDao(officeDTO);
-				status[temp] *= -1; 
+				// 이미지가 있을 경우
+				if(hasImage == true){
+					dao.updateOfficeSecurityDao(officeDTO);
+					status[temp] *= -1; 
+				}else{
+					// 이미지가 없을 경우
+					dao.updateOfficeSecurityNoImageDao(officeDTO);
+					status[temp] *= -1;
+				}
+				
 			}
 			
 			resultPage = "cmmn/saveDataSuccessForOffFn";
@@ -576,27 +616,58 @@ public class HomeController {
 		model.addAttribute("max2", max2);
 		model.addAttribute("stepSize2", stepSize2);
 		
+		/*
+		 * 당직자 메일 알림 서비스 (3일 전) 
+		 * status <- false
+		 * 1. if 4일전 && status가 true면 (초기화)
+		         status <- false
+		 *    else if 3일전 && status가 false면
+		 *       당직자에게 메일보내기
+		 *       status <- true
+		 */
 		
-//		if (SendEmail) {
-//			// 성공할 시 메일 보내기
-//			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd(EEE)", Locale.KOREA);
-//			String os_date = sdf2.format(dt).toString();
-//			String setfrom = "limjihun204@gmail.com"; // 보내는 사람 이메일
-//			String title = "[" + os_date.toString() + "] " + "당직점검 지시사항이 등록되었습니다."; // 제목
-//			String content = "오늘의 당직점검 지시사항이 등록되었습니다.\n"+"["+os_date+"]당직점검 지시사항 : "+hasIndication+"\n\n자세한 내용은 홈페이지에서 확인바랍니다.";
-//			String tomail = fnUser;// 받는 사람 이메일
-//			try {
-//				MimeMessage message = mailSender.createMimeMessage();
-//				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-//				messageHelper.setFrom(setfrom); // 보내는사람
-//				messageHelper.setTo(tomail); // 받는사람 이메일
-//				messageHelper.setSubject(title); // 메일제목
-//				messageHelper.setText(content); // 메일 내용
-//				mailSender.send(message);
-//			} catch (Exception e) {
-//				System.out.println(e);
-//			}
-//		}
+		//3일 후의 당직자 정보를 가져온다.
+		NightDutyDTO ndt = null;
+		if(dao.checkNightDutyEmailAfter3DayDao(3)>0){
+			ndt = dao.selectNightDutyEmailAfter3DayDao(3);
+		}
+		SimpleDateFormat format2 = new SimpleDateFormat("yyyy-mm-dd");
+		String date1 = "2000-01-01";
+		String nowDate = format2.format(dt).toString();
+	    
+	    Date FirstDate2 = format2.parse(date1);
+        Date SecondDate2 = format2.parse(nowDate);
+        long calDate2 = FirstDate2.getTime() - SecondDate2.getTime();
+        long calDateDays = calDate2 / ( 24*60*60*1000);
+        calDateDays = Math.abs(calDateDays);
+        int todayNum = (int) (calDateDays % 2);
+        int temp_num = todayNum;
+        if(temp_num != todayNum){
+        	//하루가 바뀐 것임
+        	statusForND = false;
+        }
+        //당직자에게 메일 보내기
+        if(!statusForND && ndt != null){
+        	//매일 1번씩 3일 후에 있는 당직자에게 메일 보내기
+        	// 성공할 시 메일 보내기
+        				String setfrom = "limjihun204@gmail.com"; // 보내는 사람 이메일
+        				String title = "[사회보장정보원] ** 당직알림 서비스 **"; // 제목
+        				String content = "귀하는 ["+ndt.getNd_date()+"]에 당직임을 3일 전에 알려드립니다. \n\n자세한 내용은 홈페이지에서 확인바랍니다.";
+        				String tomail = ndt.getNd_empemail();// 받는 사람 이메일
+        				try {
+        					MimeMessage message = mailSender.createMimeMessage();
+        					MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+        					messageHelper.setFrom(setfrom); // 보내는사람
+        					messageHelper.setTo(tomail); // 받는사람 이메일
+        					messageHelper.setSubject(title); // 메일제목
+        					messageHelper.setText(content); // 메일 내용
+        					mailSender.send(message);
+        				} catch (Exception e) {
+        					System.out.println(e);
+        				}
+        				//메일 보냈으면 true로 하루 내 이메일 재 발송 방지
+        				statusForND = true;
+        }
 
 		return "menu/mainmenu";
 	}
@@ -638,7 +709,7 @@ public class HomeController {
 	/**
 	 * 사무실보안점검 리스트 조회
 	 */
-	@RequestMapping("/listOfficeSecurity.do")
+	@RequestMapping("/listOfficeSecurity.do") 
 	public String listOfficeSecurity(HttpServletRequest request, Model model)
 			throws Exception {
 		try {
@@ -651,16 +722,13 @@ public class HomeController {
 					.getAuthentication();
 			System.out.println("로그인 정보 : " + auth.getDetails());
 			// 클라이언트에서 보낸 정보 받아오기
-			long pageNum = (long) Integer
-					.parseInt(request.getParameter("page"));
+			long pageNum = (long) Integer.parseInt(request.getParameter("page"));
 			int selectedDept = (request.getParameter("changeDept") == null ? 0
 					: Integer.parseInt(request.getParameter("changeDept")));
 			String startDate = request.getParameter("startDate");
 			String endDate = request.getParameter("endDate");
 			if (pageNum <= 0)
 				pageNum = 1;
-
-			System.out.println("캬하하: " + selectedDept);
 
 			// 관리자 정보 가져오기
 			ArrayList managerList = dao.selectManagerDao();
@@ -796,11 +864,11 @@ public class HomeController {
 			model.addAttribute("list", listOSDto);
 			model.addAttribute("ndData", dao.printOfficeSecurityWithDateForNDDao(map));
 			// 파일 이름
-			//Date dt = new SimpleDateFormat("yyyy-MM-dd(EEE) hh:mm:ss",Locale.KOREA).parse(listOSDto.get(0).getOs_datetime());
-			//SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
-			//String tempName = "사무실점검(" + sdf2.format(dt).toString() + ").hwp";
-			//String fileName = new String(tempName.getBytes("UTF-8"));
-			String fileName = "OfficeSecurityReport.xls";
+			Date dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss",Locale.KOREA).parse(listOSDto.get(0).getOs_datetime());
+			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+			String tempName = "사무실점검(" + sdf2.format(dt).toString() + ").xls";
+			String fileName = new String(tempName.getBytes("UTF-8"), "ISO-8859-1");
+			//String fileName = "OfficeSecurityReport.xls";
 			model.addAttribute("fileName", fileName);
 
 
@@ -1043,7 +1111,7 @@ public class HomeController {
 			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
 			String date = sdf.format(dt).toString();
 			String tempName = "당직근무일지(" + sdf2.format(dt).toString() + ").xls";
-			String fileName = new String(tempName.getBytes("UTF-8"));
+			String fileName = new String(tempName.getBytes("UTF-8"), "ISO-8859-1");
 			model.addAttribute("emp_name", userInfo.getEmp_name());
 			model.addAttribute("deptName", userInfo.getDeptName());
 			model.addAttribute("auth", userInfo.getAuth());
@@ -1081,8 +1149,7 @@ public class HomeController {
 	public String updateManager(HttpServletRequest request, Model model)
 			throws Exception {
 		try {
-			SecurityOfficeDAO dao = sqlSession
-					.getMapper(SecurityOfficeDAO.class);
+			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 			getUserInfo(model);//사용자 정보를 가져옴
 			model.addAttribute("list", dao.selectAllManagerDao());
 		} catch (Exception exp) {
@@ -1116,13 +1183,56 @@ public class HomeController {
 		}
 		return resultPage;
 	}
+	
+	
+	// 관리자 이메일 수신 변경
+		@RequestMapping("/changeManagerEmailCheck.do")
+		public String changeManagerEmailCheck(HttpServletRequest request, Model model)
+				throws Exception {
+			String resultPage = "forward:/updateManager.do";
+
+			try {
+				Map map = new HashMap();
+				SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
+				getUserInfo(model);//사용자 정보를 가져옴
+				// 정보 가지고 오기
+				String emp_email = request.getParameter("emp_email"); // 부서이름
+				String emailCheck = request.getParameter("check"); // 현재 이메일 수신 여부
+				map.put("emp_email", emp_email);
+				//수신동의를 수신거부로 변경할 경우
+				if ("Y".equals(emailCheck)) {
+					map.put("emailCheck", "N");
+					dao.changeCheckEmailDao(map);
+				}else{
+					//수신거부를 수신동의로 변경할 경우
+					map.put("emailCheck", "Y");
+					dao.changeCheckEmailDao(map);
+				}
+				
+
+			} catch (Exception exp) {
+				System.out.println(exp.getMessage());
+				resultPage = "cmmn/dataAccessFailure";
+			}
+			return resultPage;
+		}
+	
+	
 
 	// 관리자 권한 추가 양식
 	@RequestMapping("/addManagerForm.do")
-	public String addManagerForm(Locale locale, Model model) throws Exception {
+	public String addManagerForm(HttpServletRequest request, Locale locale, Model model) throws Exception {
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 		getUserInfo(model);//사용자 정보를 가져옴
-		model.addAttribute("list", dao.selectEmployeeNotManagerDao());
+		PagingDTO pageInfo;
+		long pageNum = (long) Integer.parseInt(request.getParameter("page"));
+		if (pageNum <= 0) pageNum = 1;
+		
+		// 페이지에 대한 정보 입력 및 전달, 파라미터 -> 총 페이지 수, 클릭한 페이지 넘버 전달
+		pageInfo = new PagingDTO( dao.selectNumEmployeeNotManagerDao(), pageNum);
+		model.addAttribute("paging", pageInfo);
+		// 파라미터 -> (클릭한 페이지 넘버 -1) * rows
+		model.addAttribute("list", dao.selectEmployeeNotManagerDao( (long) ((pageNum - 1) * pageInfo.getRows())));
 		return "manage/addManagerForm";
 	}
 
@@ -1286,8 +1396,7 @@ public class HomeController {
 		String resultPage = "security/nightDutyTable";
 		String month = null;
 		try {
-			SecurityOfficeDAO dao = sqlSession
-					.getMapper(SecurityOfficeDAO.class);
+			SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 
 			Date dt = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");

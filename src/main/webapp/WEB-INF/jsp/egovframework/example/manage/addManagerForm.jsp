@@ -44,8 +44,37 @@
 							<tr>
 						</c:forEach>
 				</table>
+				
+				<!-- 페이지 번호 구현  -->
+
+			<ul class="pagination">
+				<c:if test="${paging.pageGroup > 1}">
+					<span><a
+						href="javascript:fnGoPaging(<c:out value='${paging.prePage}'/>)">&laquo;&nbsp;
+					</a></span>
+				</c:if>
+				<c:forEach var="i" begin="${paging.startPage}"
+					end="${paging.endPage > paging.totalPage ? paging.totalPage : paging.endPage}"
+					varStatus="status">
+					<c:choose>
+						<c:when test="${paging.page eq i}">
+							<span class="active" style="color:#e8cc74;"><a href="javascript:fnGoPaging(${i});">${i}&nbsp;</a></span>
+						</c:when>
+						<c:otherwise>
+							<span><a href="javascript:fnGoPaging(${i});">${i}&nbsp;</a></span>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				<c:if test="${paging.nextPage <= paging.totalPage}">
+					<span><a
+						href="javascript:fnGoPaging(<c:out value='${paging.nextPage}'/>)">&raquo;&nbsp;</a></span>
+				</c:if>
+			</ul>
+				
+				
 				<input type="submit" value="권한 추가하기" />
 			</form>
+			
 		</div>
 	</section>
 </div>

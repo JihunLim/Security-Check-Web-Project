@@ -73,11 +73,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ]]> 
     </select>
     
-    
-    
-    
-    
- 
     <insert id="insertOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
         INSERT into officesecurity values(default, #{os_empemail}, #{os_deptcode}, #{os_document}, #{os_clean}, #{os_lightout}, #{os_ventilation}, #{os_door}, #{os_etc}, default, #{os_image})
     </insert>
@@ -85,6 +80,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
     	UPDATE officesecurity set os_empemail=#{os_empemail},os_document=#{os_document},os_clean=#{os_clean},os_lightout=#{os_lightout},os_ventilation=#{os_ventilation},os_door=#{os_door},os_etc=#{os_etc},os_datetime=#{os_datetime},os_image=#{os_image} where os_id = #{os_id}
     </update>
+    
+    <update id="updateOfficeSecurityNoImageDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
+    	UPDATE officesecurity set os_empemail=#{os_empemail},os_document=#{os_document},os_clean=#{os_clean},os_lightout=#{os_lightout},os_ventilation=#{os_ventilation},os_door=#{os_door},os_etc=#{os_etc},os_datetime=#{os_datetime} where os_id = #{os_id}
+    </update>
+    
+    
     
     <delete id="deleteOfficeSecurityDao" parameterType="egovframework.security.dto.OfficeSecurityDTO">
     	DELETE FROM officesecurity WHERE os_id = #{os_id}
@@ -137,8 +138,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_rank, deptName from employee, dept where dept.deptNo = employee.emp_deptcode order by emp_deptcode ASC
     </select>
     
-    <select id="selectEmployeeNotManagerDao" resultType="egovframework.security.dto.EmployeeDTO">
-    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_rank, deptName from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role="ROLE_USER" order by emp_deptcode ASC
+    <select id="selectEmployeeNotManagerDao" parameterType="long" resultType="egovframework.security.dto.EmployeeDTO">
+    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_rank, deptName from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role="ROLE_USER" order by emp_deptcode ASC, emp_name ASC  limit 15 offset #{param};
+    </select>
+    
+ 
+    <select id="selectNumEmployeeNotManagerDao" resultType="int">
+    	select count(*) from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role="ROLE_USER" 
     </select>
     
     <select id="selectManagerDao" resultType="String">
@@ -154,12 +160,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectAllManagerDao" resultType="egovframework.security.dto.EmployeeDTO">
-    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_rank, deptName from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role = "ROLE_ADMIN"  ORDER BY emp_deptcode ASC
+    	select emp_email, emp_name, emp_phone, emp_deptcode, emp_role, emp_rank, deptName, emp_checkemail from employee, dept where dept.deptNo = employee.emp_deptcode and emp_role = "ROLE_ADMIN"  ORDER BY emp_deptcode ASC
     </select>
     
     <select id="selectManagerCheckEmailDao" resultType="hashmap">
-    	select emp_email from employee where emp_checkemail = 'Y'  
+    	select emp_email from employee where emp_checkemail = 'Y' and emp_role="ROLE_ADMIN"; 
     </select>
+    
+    <update id="changeCheckEmailDao" parameterType="hashmap">
+    	update employee set emp_checkemail = #{emailCheck} where emp_email = #{emp_email};
+    </update>    
     
     <select id="selectManagerCheckEmailNumDao" resultType="int">
     	select count(*) from employee where emp_checkemail = 'Y'  
@@ -217,6 +227,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectNumNightDutyWithDateDao" resultType="int">
     	select count(*) from nightduty where date(nd_date) = date(now())
     </select>
+    
+    <select id="selectNightDutyEmailAfter3DayDao" parameterType="int" resultType="egovframework.security.dto.NightDutyDTO">
+    	select * from nightduty WHERE nd_date = date(CURDATE() + INTERVAL #{param1} DAY);
+    </select>    
+    
+    <select id="checkNightDutyEmailAfter3DayDao" parameterType="int" resultType="int">
+    	select count(*) from nightduty WHERE nd_date = date(CURDATE() + INTERVAL #{param1} DAY);
+    </select>   
     
     <!-- 페이징 처리 DB -->
     <select id="selectNumTotalListOfMOfficeDao" resultType="long">

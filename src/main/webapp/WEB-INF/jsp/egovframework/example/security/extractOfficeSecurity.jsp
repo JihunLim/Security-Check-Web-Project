@@ -152,17 +152,17 @@ div.HStyle16
 <P CLASS=HStyle0>
 <TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
 <TR>
-	<TD colspan="13" valign="middle" style='width:640;height:21;border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD colspan="13" valign="middle" style='width:693;height:21;border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0><SPAN STYLE='font-family:"휴먼명조";letter-spacing:-5%'>[별지 제3호서식]</SPAN></P>
 	</TD>
 </TR>
 <TR>
-	<TD colspan="13" valign="middle" style='width:640;height:72;border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:none;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle16 STYLE='margin-left:26.8pt;text-indent:-26.8pt;line-height:200%;'><SPAN STYLE='text-align:center;font-size:20.0pt;font-family:"휴먼명조";font-weight:bold;line-height:200%'>보 안 점 검 표</SPAN><SPAN STYLE='font-size:15.0pt;font-family:"휴먼명조";font-weight:bold;line-height:200%'>(제8조 관련)</SPAN></P>
+	<TD colspan="13" valign="middle" style='width:693;height:72;border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:none;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle16 STYLE='margin-left:26.8pt;text-indent:-26.8pt;line-height:200%;'><SPAN STYLE='font-size:20.0pt;font-family:"휴먼명조";font-weight:bold;line-height:200%'>보 안 점 검 표</SPAN><SPAN STYLE='font-size:15.0pt;font-family:"휴먼명조";font-weight:bold;line-height:200%'>(제8조 관련)</SPAN></P>
 	</TD>
 </TR>
 <TR>
-	<TD colspan="9" valign="middle" style='width:441;height:30;border-left:solid #000000 1.1pt;border-right:none;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD colspan="9" valign="middle" style='width:494;height:30;border-left:solid #000000 1.1pt;border-right:none;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle16 STYLE='margin-left:26.8pt;text-align:right;text-indent:-26.8pt;line-height:180%;'><SPAN STYLE='font-size:14.0pt;font-family:"휴먼명조";line-height:180%'>본부명 : </SPAN></P>
 	</TD>
 	<TD colspan="4" valign="middle" style='width:199;height:30;border-left:none;border-right:solid #000000 1.1pt;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
@@ -170,117 +170,149 @@ div.HStyle16
 	</TD>
 </TR>
 <TR>
-	<TD rowspan="3" valign="middle" style='width:36;height:184;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:right;line-height:100%;'>구</P>
-	<P CLASS=HStyle0 STYLE='text-align:right;line-height:100%;'>분</P>
-	<P CLASS=HStyle0 STYLE='line-height:100%;'>&nbsp;</P>
-	<P CLASS=HStyle0 STYLE='line-height:100%;'>&nbsp;</P>
-	<P CLASS=HStyle0 STYLE='line-height:100%;'>&nbsp;</P>
-	<P CLASS=HStyle0 STYLE='line-height:100%;'>&nbsp;</P>
-	<P CLASS=HStyle0 STYLE='line-height:100%;'>&nbsp;</P>
-	<P CLASS=HStyle0 STYLE='line-height:100%;'>&nbsp;</P>
-	<P CLASS=HStyle0 STYLE='line-height:100%;'>&nbsp;</P>
-	<P CLASS=HStyle0 STYLE='text-align:left;line-height:100%;'>&nbsp;</P>
-	<P CLASS=HStyle0 STYLE='text-align:left;line-height:100%;'>점</P>
-	<P CLASS=HStyle0 STYLE='text-align:left;line-height:100%;'>검</P>
-	<P CLASS=HStyle0 STYLE='text-align:left;line-height:100%;'>일</P>
+	<TD valign="middle" style='width:89;height:34;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>&nbsp;</P>
 	</TD>
-	<TD rowspan="3" valign="middle" style='width:44;height:184;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>①</P>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='letter-spacing:50%'>서류보관상태</SPAN></P>
+	<TD valign="middle" style='width:44;height:34;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='letter-spacing:50%'>&nbsp;</SPAN></P>
 	</TD>
-	<TD rowspan="3" valign="middle" style='width:44;height:184;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>②</P>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>청소</P>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>상태</P>
+	<TD valign="middle" style='width:44;height:34;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>&nbsp;</P>
 	</TD>
-	<TD rowspan="3" valign="middle" style='width:44;height:184;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>③</P>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>소등</P>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>상태</P>
+	<TD valign="middle" style='width:44;height:34;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>&nbsp;</P>
 	</TD>
-	<TD rowspan="3" valign="middle" style='width:44;height:184;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>④</P>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='letter-spacing:50%'>화기단속상태</SPAN></P>
+	<TD valign="middle" style='width:44;height:34;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='letter-spacing:50%'>&nbsp;</SPAN></P>
 	</TD>
-	<TD rowspan="3" valign="middle" style='width:44;height:184;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>⑤</P>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>문단속상태</P>
+	<TD valign="middle" style='width:44;height:34;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>&nbsp;</P>
 	</TD>
-	<TD rowspan="3" valign="middle" style='width:97;height:184;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>⑥</P>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='letter-spacing:50%'>비고</SPAN></P>
+	<TD valign="middle" style='width:97;height:34;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'><SPAN STYLE='letter-spacing:50%'>&nbsp;</SPAN></P>
 	</TD>
-	<TD colspan="5" valign="middle" style='width:229;height:38;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD colspan="5" valign="middle" style='width:229;height:34;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>점검시각 및 점검자</P>
 	</TD>
-	<TD rowspan="3" valign="middle" style='width:56;height:184;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>결재</P>
+	<TD valign="middle" style='width:56;height:34;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>&nbsp;</P>
 	</TD>
 </TR>
 <TR>
+	<TD valign="middle" style='width:89;height:55;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>점검일</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:55;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>① 서류보관상태</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:55;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>②</P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>청소상태</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:55;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>③</P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>소등상태</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:55;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>④</P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>화기단속상태</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:55;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>⑤</P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>문단속상태</P>
+	</TD>
+	<TD valign="middle" style='width:97;height:55;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>⑥</P>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>비고</P>
+	</TD>
 	<TD colspan="3" valign="middle" style='width:109;height:55;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>최종퇴청자</P>
 	</TD>
 	<TD colspan="2" valign="middle" style='width:120;height:55;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>당직근무자</P>
 	</TD>
+	<TD valign="middle" style='width:56;height:55;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:none;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>결재</P>
+	</TD>
 </TR>
 <TR>
-	<TD valign="middle" style='width:62;height:91;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD valign="middle" style='width:89;height:35;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>&nbsp;</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:35;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>&nbsp;</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:35;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>&nbsp;</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:35;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>&nbsp;</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:35;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>&nbsp;</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:35;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>&nbsp;</P>
+	</TD>
+	<TD valign="middle" style='width:97;height:35;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>&nbsp;</P>
+	</TD>
+	<TD valign="middle" style='width:62;height:35;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>점검시각</P>
 	</TD>
-	<TD colspan="2" valign="middle" style='width:47;height:91;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD colspan="2" valign="middle" style='width:47;height:35;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>성명</P>
 	</TD>
-	<TD valign="middle" style='width:73;height:91;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD valign="middle" style='width:73;height:35;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>점검시각</P>
 	</TD>
-	<TD valign="middle" style='width:47;height:91;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD valign="middle" style='width:47;height:35;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>성명</P>
+	</TD>
+	<TD valign="middle" style='width:56;height:35;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>&nbsp;</P>
 	</TD>
 </TR>
 
 <c:forEach items="${list}" var="dto" varStatus="status">
-	<tr>
-	
-		<TD valign="middle" style='width:36;height:36;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-		<P CLASS=HStyle0 STYLE='line-height:100%;'>${dto.str_date_off}</P>
-		</TD>
-		<TD valign="middle" style='width:44;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-		<P CLASS=HStyle0 STYLE='line-height:100%;'>${dto.str_document}</P>
-		</TD>
-		<TD valign="middle" style='width:44;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-		<P CLASS=HStyle0 STYLE='line-height:100%;'>${dto.str_clean}</P>
-		</TD>
-		<TD valign="middle" style='width:44;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-		<P CLASS=HStyle0 STYLE='line-height:100%;'>${dto.str_lightout}</P>
-		</TD>
-		<TD valign="middle" style='width:44;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-		<P CLASS=HStyle0 STYLE='line-height:100%;'>${dto.str_ventilation}</P>
-		</TD>
-		<TD valign="middle" style='width:44;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-		<P CLASS=HStyle0 STYLE='line-height:100%;'>${dto.str_door}</P>
-		</TD>
-		<TD valign="middle" style='width:97;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-		<P CLASS=HStyle0 STYLE='line-height:100%;'>${dto.os_etc}</P>
-		</TD>
-		<TD valign="middle" style='width:62;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-		<P CLASS=HStyle0 STYLE='line-height:100%;'>${dto.str_time_off}</P>
-		</TD>
-		<TD colspan="2" valign="middle" style='width:47;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-		<P CLASS=HStyle0 STYLE='line-height:100%;'>${dto.emp_name}</P>
-		</TD>
-		<TD valign="middle" style='width:73;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-		<P CLASS=HStyle0 STYLE='line-height:100%;'>${ndData[status.index].str_time_nd}</P>
-		</TD>
-		<TD valign="middle" style='width:47;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-		<P CLASS=HStyle0 STYLE='line-height:100%;'>${ndData[status.index].emp_name}</P>
-		</TD>
-		<TD valign="middle" style='width:56;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-		<P CLASS=HStyle0 STYLE='line-height:100%;'>${ndDate[status.index].deptName}</P>
-		</TD>
-	</tr>
+	<TR>
+	<TD valign="middle" style='width:89;height:36;border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>${dto.str_date_off}</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>${dto.str_document}</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>${dto.str_clean}</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>${dto.str_lightout}</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>${dto.str_ventilation}</P>
+	</TD>
+	<TD valign="middle" style='width:44;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>${dto.str_door}</P>
+	</TD>
+	<TD valign="middle" style='width:97;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>${dto.os_etc}</P>
+	</TD>
+	<TD valign="middle" style='width:62;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>${dto.str_time_off}</P>
+	</TD>
+	<TD colspan="2" valign="middle" style='width:47;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>${dto.emp_name}</P>
+	</TD>
+	<TD valign="middle" style='width:73;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>${ndData[status.index].str_time_nd}</P>
+	</TD>
+	<TD valign="middle" style='width:47;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>${ndData[status.index].emp_name}</P>
+	</TD>
+	<TD valign="middle" style='width:56;height:36;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;line-height:100%;'>${ndDate[status.index].deptName}</P>
+	</TD>
+</TR>
 </c:forEach>
 
 

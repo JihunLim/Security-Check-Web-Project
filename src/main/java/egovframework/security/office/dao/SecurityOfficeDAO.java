@@ -52,13 +52,20 @@ public interface SecurityOfficeDAO {
     //회원 권한 추가하기(수정)
     public void addManagerDao(String data);
     //관리자 아닌 회원 출력하기
-    public List<EmployeeDTO> selectEmployeeNotManagerDao();
+    public List<EmployeeDTO> selectEmployeeNotManagerDao(long data);
+  //관리자 아닌 회원 수 출력하기
+    public int selectNumEmployeeNotManagerDao();
+    
+    
+    
     //관리자 수 출력
     public int countManagerDao();
     //이메일 수신 동의자 수 출력
     public int selectManagerCheckEmailNumDao();
     //이메일 수신 이메일 출력
     public List<HashMap> selectManagerCheckEmailDao();
+    //이메일 수신 변경하기
+    public void changeCheckEmailDao(Map data);
     /*
      * 사무실보안점검DB
      */
@@ -78,7 +85,11 @@ public interface SecurityOfficeDAO {
     public void insertOfficeSecurityDao(OfficeSecurityDTO data);
     //사무실보안점검 수정하기
     public void updateOfficeSecurityDao(OfficeSecurityDTO data);
-           
+    
+    //사무실보안점검 수정하기(이미지가 없을 경우)
+    public void updateOfficeSecurityNoImageDao(OfficeSecurityDTO data);
+    
+    
     //사무실보안점검 삭제하기
     public void deleteOfficeSecurityDao(OfficeSecurityDTO data);
     //부서 찾아주기
@@ -138,6 +149,10 @@ public interface SecurityOfficeDAO {
     public String selectEmailNightDutyWithDateDao();
     //오늘 당직근무표에 인원이 할당되어있는지 숫자 리턴
     public int selectNumNightDutyWithDateDao();
+    //3일 후 당직근무자 이메일 출력
+    public NightDutyDTO selectNightDutyEmailAfter3DayDao(int data);
+  //3일 후 당직근무자 이메일 유무 확인
+    public int checkNightDutyEmailAfter3DayDao(int data);
     
     /*
      * 페이지 DB 
