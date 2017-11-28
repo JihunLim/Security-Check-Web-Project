@@ -63,7 +63,7 @@
 
 				<div class="row">
 					<div class="2u 12u$(mobile)">
-						<label class="control-label" for="select01">1. 점검부서</label>
+						<label class="control-label" for="select01">점검부서</label>
 					</div>
 					<div class="4u$ 12u$(mobile)">
 						<input type="hidden" name="os_empemail"
@@ -88,7 +88,7 @@
 
 				<br /><br />
 				<!-- 보안점검 체크 부분 -->
-				<label class="control-label">2. 서류보관 상태</label>
+				<label class="control-label">1.. 서류보관 상태</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
 						name="os_document" id="option1" value="0" required> 미흡
@@ -98,7 +98,7 @@
 						name="os_document" id="option3" value="2" required> 양호
 					</label>
 				</div>
-				</br> </br> <label class="control-label">3. 청소 상태</label>
+				</br> </br> <label class="control-label">2. 청소 상태</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
 						name="os_clean" id="option1" value="0" required> 미흡
@@ -108,7 +108,7 @@
 						name="os_clean" id="option3" value="2" required> 양호
 					</label>
 				</div>
-				<br /> </br> <label class="control-label">4. 소등상태</label>
+				<br /> </br> <label class="control-label">3. 소등상태</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
 						name="os_lightout" id="option1" value="0" required> 미흡
@@ -118,7 +118,7 @@
 						name="os_lightout" id="option3" value="2" required> 양호
 					</label>
 				</div>
-				</br> </br> <label class="control-label">5. 환기상태</label>
+				</br> </br> <label class="control-label">4. 환기상태</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
 						name="os_ventilation" id="option1" value="0" required> 미흡
@@ -128,7 +128,7 @@
 						name="os_ventilation" id="option3" value="2" required> 양호
 					</label>
 				</div>
-				</br> </br> <label class="control-label">6. 문단속</label>
+				</br> </br> <label class="control-label">5. 문단속</label>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-primary"> <input type="radio"
 						name="os_door" id="option1" value="0" required> 미흡
@@ -143,7 +143,7 @@
 				<br />
 
 				<div class="control-group">
-					<label class="control-label" for="textarea2">7. 기타사항</label>
+					<label class="control-label" for="textarea2">6. 기타사항</label>
 					<div class="controls">
 						<textarea class="input-xlarge textarea" name="os_etc" placeholder="기타사항을 입력하세요.(최대 200자)" ></textarea>
 					</div>

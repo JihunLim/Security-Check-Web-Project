@@ -195,8 +195,8 @@ public class HomeController {
 	@RequestMapping("/deleteDeptCheck.do")
 	public String deleteDeptCheck(HttpServletRequest request, Model model) throws Exception {
 		// 추가한 부서 insert 처리
-		String resultPage = "forward:/updateDept.do";
-
+		//String resultPage = "forward:/updateDept.do";
+		String resultPage = "cmmn/blockFunction";
 		SecurityOfficeDAO dao = sqlSession.getMapper(SecurityOfficeDAO.class);
 		getUserInfo(model);//사용자 정보를 가져옴
 		DeptDTO deptDto;
@@ -204,7 +204,7 @@ public class HomeController {
 			// 정보 가지고 오기
 			int deptId = Integer.parseInt(request.getParameter("deptId")); // 부서이름
 			deptDto = new DeptDTO(deptId);
-			dao.deleteDeptDao(deptDto);
+			//dao.deleteDeptDao(deptDto);
 		} catch (Exception exp) {
 			System.out.println("예외처리 메시지 : " + exp.getMessage());
 			resultPage = "cmmn/dataAccessFailure";
