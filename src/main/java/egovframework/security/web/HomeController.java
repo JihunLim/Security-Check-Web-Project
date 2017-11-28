@@ -651,7 +651,7 @@ public class HomeController {
         	//매일 1번씩 3일 후에 있는 당직자에게 메일 보내기
         	// 성공할 시 메일 보내기
         				String setfrom = "limjihun204@gmail.com"; // 보내는 사람 이메일
-        				String title = "[사회보장정보원] ** 당직알림 서비스 **"; // 제목
+        				String title = "[사회보장정보원] ** 3일 전 당직알림 서비스 **"; // 제목
         				String content = "귀하는 ["+ndt.getNd_date()+"]에 당직임을 3일 전에 알려드립니다. \n\n자세한 내용은 홈페이지에서 확인바랍니다.";
         				String tomail = ndt.getNd_empemail();// 받는 사람 이메일
         				try {
@@ -1622,7 +1622,7 @@ public class HomeController {
 				String os_date = sdf2.format(dt).toString();
 				String setfrom = "limjihun204@gmail.com"; // 보내는 사람 이메일
 				String title = "[" + os_date.toString() + "] " + "당직점검 지시사항이 등록되었습니다."; // 제목
-				String content = "오늘의 당직점검 지시사항이 등록되었습니다.\n"+"["+os_date+"]당직점검 지시사항 : "+hasIndication+"\n\n자세한 내용은 홈페이지에서 확인바랍니다.";
+				String content = "오늘의 당직점검 지시사항이 등록되었습니다.\n"+"["+os_date+"]당직점검 지시사항 : "+strIndication+"\n\n자세한 내용은 홈페이지에서 확인바랍니다.";
 				String tomail = fnUser;// 받는 사람 이메일
 				try {
 					MimeMessage message = mailSender.createMimeMessage();
