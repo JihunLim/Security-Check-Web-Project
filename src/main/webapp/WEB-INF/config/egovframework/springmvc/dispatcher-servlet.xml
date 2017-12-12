@@ -52,7 +52,7 @@
     	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
     	<property name="url" value="jdbc:mysql://mlm.lgnas.com:3306/sejongdb"/>
     	<property name="username" value="user"/>
-    	<property name="password" value="1234"/>
+    	<property name="password" value="****"/>
     </bean>
     
     <bean id="homeController" class="egovframework.security.web.HomeController"></bean>
@@ -92,7 +92,7 @@
       <property name="port" value="587" />
       <property name="defaultEncoding" value="utf-8" />
       <property name="username" value="jihunlim204@gmail.com" />
-      <property name="password" value="wlgns795135!!@" />
+      <property name="password" value="****" />
       <property name="javaMailProperties">
          <props>
                <prop key="mail.transport.protocol">smtp</prop>
